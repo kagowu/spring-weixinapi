@@ -78,5 +78,10 @@ public class WeixinFeignclientTestApplicationTests {
         System.err.println(JSON.toJSONString(cgibinClient.componentApiComponentToken(apiComponentTokenRequest)));
     }
 
+    @Test
+    public void getAuthorizeUrl() {
+
+    }
+
 }
 
