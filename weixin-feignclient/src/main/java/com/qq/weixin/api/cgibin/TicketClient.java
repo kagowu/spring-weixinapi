@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "jssdk", url = "https://api.weixin.qq.com/cgi-bin/")
-public interface JSSDKClient {
+public interface TicketClient {
     /**
      * JS-SDK使用权限签名算法
      *

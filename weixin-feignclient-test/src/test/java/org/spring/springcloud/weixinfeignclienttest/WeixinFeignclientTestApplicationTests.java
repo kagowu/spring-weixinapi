@@ -29,7 +29,7 @@ public class WeixinFeignclientTestApplicationTests {
     @Autowired
     private QrcodeClient qrcodeClient;
     @Autowired
-    private JSSDKClient jssdkClient;
+    private TicketClient jssdkClient;
 
     @Autowired
     private ComponentClient componentClient;
