@@ -20,7 +20,7 @@ public interface SnsClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
     @RequestMapping(value = "/oauth2/access_token?grant_type=authorization_code", method = RequestMethod.GET)
-    SnsTokenResponse getSnsToken(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code);
+    SnsTokenResponse oauth2Access_token(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code);
 
 
     /**
@@ -32,7 +32,7 @@ public interface SnsClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
     @RequestMapping(value = "/oauth2/refresh_token?grant_type=refresh_token", method = RequestMethod.GET)
-    SnsTokenResponse refreshSnsToken(@RequestParam("appid") String appid, @RequestParam("refresh_token") String refreshToken);
+    SnsTokenResponse oauth2Refresh_token(@RequestParam("appid") String appid, @RequestParam("refresh_token") String refreshToken);
 
 
 
@@ -44,8 +44,8 @@ public interface SnsClient {
      * @return
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
-    @RequestMapping(value = "/oauth2/refresh_token?grant_type=refresh_token", method = RequestMethod.GET)
-    BaseResponse checkSnsToken(@RequestParam("openid") String openid, @RequestParam("access_token") String access_token);
+    @RequestMapping(value = "/oauth2/check_token?grant_type=refresh_token", method = RequestMethod.GET)
+    BaseResponse oauth2Check_token(@RequestParam("openid") String openid, @RequestParam("access_token") String access_token);
 
 
     /**

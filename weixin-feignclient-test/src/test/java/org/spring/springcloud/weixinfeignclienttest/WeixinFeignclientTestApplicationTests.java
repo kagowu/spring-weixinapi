@@ -23,22 +23,13 @@ public class WeixinFeignclientTestApplicationTests {
 
 
     @Autowired
-    private TokenClient tokenClient;
-    @Autowired
-    private MenuClient menuClient;
-    @Autowired
-    private QrcodeClient qrcodeClient;
-    @Autowired
-    private TicketClient jssdkClient;
-
-    @Autowired
-    private ComponentClient componentClient;
+    private CgibinClient cgibinClient;
 
     private GlobalTokenResponse token;
 
     @Before
     public void getToken() {
-        token = tokenClient.token("wx553d4b09800ee9e9", "f7b889c5fad3599a6d88ad06d70fbd36");
+        token = cgibinClient.token("wx553d4b09800ee9e9", "f7b889c5fad3599a6d88ad06d70fbd36");
         System.err.println(JSON.toJSONString(token, true));
 
     }
@@ -51,18 +42,18 @@ public class WeixinFeignclientTestApplicationTests {
         viewButton.setName("test");
         menuButtons.setButton(new MenuButtonsRequest.Button[]{viewButton, viewButton, viewButton});
         System.err.println(JSON.toJSONString(menuButtons, true));
-        menuClient.create(token.getAccess_token(), menuButtons);
+        cgibinClient.menuCreate(token.getAccess_token(), menuButtons);
     }
 
 
     @Test
     public void getMenu() {
-        System.err.println(JSON.toJSONString(menuClient.get(token.getAccess_token())));
+        System.err.println(JSON.toJSONString(cgibinClient.menuGet(token.getAccess_token())));
     }
 
     @Test
     public void getJsapiTicket() {
-        System.err.println(JSON.toJSONString(jssdkClient.getJsapiTicket(token.getAccess_token()), true));
+        System.err.println(JSON.toJSONString(cgibinClient.ticketGetticket(token.getAccess_token()), true));
     }
 
     @Test
@@ -75,7 +66,7 @@ public class WeixinFeignclientTestApplicationTests {
         qrcodeCreateRequest.setAction_info(actionInfo);
         qrcodeCreateRequest.setAction_name("QR_SCENE");
         qrcodeCreateRequest.setExpire_seconds(864000);
-        System.err.println(JSON.toJSONString(qrcodeClient.create(token.getAccess_token(), qrcodeCreateRequest), true));
+        System.err.println(JSON.toJSONString(cgibinClient.qrcodeCreate(token.getAccess_token(), qrcodeCreateRequest), true));
     }
 
     @Test
@@ -84,7 +75,7 @@ public class WeixinFeignclientTestApplicationTests {
         apiComponentTokenRequest.setComponent_appid("");
         apiComponentTokenRequest.setComponent_appsecret("");
         apiComponentTokenRequest.setComponent_verify_ticket("");
-        System.err.println(JSON.toJSONString(componentClient.apiComponentToken(apiComponentTokenRequest)));
+        System.err.println(JSON.toJSONString(cgibinClient.componentApiComponentToken(apiComponentTokenRequest)));
     }
 
 }

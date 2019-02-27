@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author gong.hua
  */
 @FeignClient(name = "domain", url = "https://api.weixin.qq.com/wxa/")
-public interface DomainClient {
+public interface WxaClient {
     /**
      * 设置小程序服务器域名
      *
@@ -25,7 +25,7 @@ public interface DomainClient {
     @RequestMapping(value = "/modify_domain", method = RequestMethod.GET)
     ModifyDomainResopnse modifyDomain(@RequestParam("access_token") String accessToken, @RequestBody ModifyDomainRequest modifyDomainRequest);
     /**
-     * 设置小程序服务器域名
+     * 设置小程序业务域名（仅供第三方代小程序调用）
      *
      * @param accessToken
      * @return
