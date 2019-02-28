@@ -5,6 +5,6 @@ import com.qq.weixin.api.cgibin.request.MenuCreateRequest;
 import lombok.Data;
 
 @Data
-public class MenuResponse extends BaseResponse {
+public class MenuGetResponse extends BaseResponse {
     private MenuCreateRequest menu;
 }

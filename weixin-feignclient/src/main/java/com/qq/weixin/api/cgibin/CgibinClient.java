@@ -159,18 +159,18 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/menu/get", method = RequestMethod.GET)
-    MenuResponse menuGet(@RequestParam("access_token") String accessToken);
+    MenuGetResponse menuGet(@RequestParam("access_token") String accessToken);
 
 
     /**
      * 个性化菜单接口
      *
      * @param accessToken
-     * @param menu
+     * @param menuAddconditionalRequest
      * @return
      */
     @RequestMapping(value = "/menu/addconditional", method = RequestMethod.POST)
-    BaseResponse menuAddconditional(@RequestParam("access_token") String accessToken, @RequestBody MenuResponse menu);
+    BaseResponse menuAddconditional(@RequestParam("access_token") String accessToken, @RequestBody MenuAddconditionalRequest menuAddconditionalRequest);
 
     /**
      * 生成带参数的二维码
