@@ -2,13 +2,10 @@ package org.spring.springcloud.weixinfeignclienttest;
 
 import com.alibaba.fastjson.JSON;
 import com.qq.weixin.api.BaseRequest;
-import com.qq.weixin.api.cgibin.*;
-import com.qq.weixin.api.cgibin.request.ComponentTokenRequest;
-import com.qq.weixin.api.cgibin.request.ComponentFastregisterweappRequest;
-import com.qq.weixin.api.cgibin.request.MenuCreateRequest;
-import com.qq.weixin.api.cgibin.request.QrcodeCreateRequest;
+import com.qq.weixin.api.cgibin.CgibinClient;
+import com.qq.weixin.api.cgibin.request.*;
+import com.qq.weixin.api.cgibin.response.ComponentApi_get_authorizer_infoResponse;
 import com.qq.weixin.api.cgibin.response.ComponentTokenResponse;
-import com.qq.weixin.api.cgibin.response.TokenResponse;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,26 +28,17 @@ public class WeixinFeignclientTestApplicationTests {
     private CgibinClient cgibinClient;
 
     private String token = "19_g62tFf2xqOG1gDR1MZZhguyMxtXNYp1iUe8hNq-lKT6pcvAFiPTp6oDYZunRaG2ke45pNiuxHv26b3OjkR62MF8hqELSL7TkRIcvZZb3MKJ4ygbuSUnxDaKdoMIZVAgAIASOT";
-    private String componentToken = "19_IwSfev_TWhbQj6mlkrfZgkVjgqwZsEaB3xD741d7R7oU6htm7RZqRdB8cPcv3kMUM3j1W9omWnfiar_lgoDajAKkLqfvpEtI_M7kTLponx8CSBNKbz66FurC1afO1I2gRrklGHKYnmnAqisHBIPdACASZG";
+    private String componentToken = "19_VHEwZ6q1TtcR9zJqBU7h0YsF5ovIuyOVRJOoSUG2RO9ca9pH86m1LJ-1CFXmIqow2NCxp1910KLdrNl9sYJKM6X8ZNOUh8I3T6DjZ3v-A1PnH9veXyYd_eebCRmIRGI0l_qS575caGemcFdeQVOhAHADIB";
+
     private String pre_auth_code = "preauthcode@@@eymeq_YOZcqZWlRtriL0gLnLDgsz4yRoOFtXZg1PTFI3vPtU-bARS_NJah77pPNH";
 
     @Test
     public void getToken() {
-        TokenResponse token = cgibinClient.token("wxe57e8b54cbe75bd0", "22642be432f7849be45956de461333c8");
+        val token = cgibinClient.token("wxe57e8b54cbe75bd0", "22642be432f7849be45956de461333c8");
         System.err.println(JSON.toJSONString(token, true));
 
     }
 
-    @Test
-    public void getToken2() {
-        ComponentTokenRequest componentTokenRequest = new ComponentTokenRequest();
-        componentTokenRequest.setComponent_appid("wxe3987587f06091cf");
-        componentTokenRequest.setComponent_appsecret("10c1bde9468906b5a981302136cacf37");
-        componentTokenRequest.setComponent_verify_ticket("ticket@@@9-kjd9KQumTVIg4oSmXQcyZO85IEl8HoWEs_eThLUkWBMsabMq8-GucGUAmiwi6ljNjyccczyURYHWqcflIefg");
-        ComponentTokenResponse token = cgibinClient.componentApiComponentToken(componentTokenRequest);
-        System.err.println(JSON.toJSONString(token, true));
-
-    }
 
     @Test
     public void componentFastregisterweappSearch() {
@@ -62,8 +50,8 @@ public class WeixinFeignclientTestApplicationTests {
 
     @Test
     public void componentApi_create_preauthcode() {
-        val baseRequest = new BaseRequest();
-        baseRequest.put("component_appid","wxe3987587f06091cf");
+        val baseRequest = new ComponentApi_create_preauthcodeRequest();
+        baseRequest.setComponent_appid("wxe3987587f06091cf");
         val val = cgibinClient.componentApi_create_preauthcode(componentToken, baseRequest);
         System.err.println(JSON.toJSONString(val, true));
 
@@ -72,14 +60,14 @@ public class WeixinFeignclientTestApplicationTests {
 
     @Test
     public void getComonentloginpage() throws UnsupportedEncodingException {
-        val val = cgibinClient.getComonentloginpage("wxe3987587f06091cf", pre_auth_code,"http://wmd.dev.zhongjieyun.cn/wxopen/api/auth/jump");
+        val val = cgibinClient.getComonentloginpage("wxe3987587f06091cf", pre_auth_code, "http://wmd.dev.zhongjieyun.cn/wxopen/api/auth/jump");
         System.err.println(JSON.toJSONString(val, true));
 
     }
 
     @Test
     public void createMuenu() {
-        MenuCreateRequest menuButtons = new MenuCreateRequest();
+        val menuButtons = new MenuCreateRequest();
         MenuCreateRequest.ViewButton viewButton = new MenuCreateRequest.ViewButton();
         viewButton.setUrl("http://www.baidu.com");
         viewButton.setName("test");
@@ -101,7 +89,7 @@ public class WeixinFeignclientTestApplicationTests {
 
     @Test
     public void createQrcode() {
-        QrcodeCreateRequest qrcodeCreateRequest = new QrcodeCreateRequest();
+        val qrcodeCreateRequest = new QrcodeCreateRequest();
         QrcodeCreateRequest.ActionInfo actionInfo = new QrcodeCreateRequest.ActionInfo();
         QrcodeCreateRequest.Scene scene = new QrcodeCreateRequest.Scene();
         scene.setScene_id("123");
@@ -114,7 +102,7 @@ public class WeixinFeignclientTestApplicationTests {
 
     @Test
     public void componentToken() {
-        ComponentTokenRequest componentTokenRequest = new ComponentTokenRequest();
+        val componentTokenRequest = new ComponentTokenRequest();
         componentTokenRequest.setComponent_appid("");
         componentTokenRequest.setComponent_appsecret("");
         componentTokenRequest.setComponent_verify_ticket("");
@@ -122,7 +110,23 @@ public class WeixinFeignclientTestApplicationTests {
     }
 
     @Test
-    public void getAuthorizeUrl() {
+    public void getToken2() {
+        val componentTokenRequest = new ComponentTokenRequest();
+        componentTokenRequest.setComponent_appid("wxe3987587f06091cf");
+        componentTokenRequest.setComponent_appsecret("10c1bde9468906b5a981302136cacf37");
+        componentTokenRequest.setComponent_verify_ticket("ticket@@@nBM6F2ykguKB41H40NOFLlrljtJRFiV-5dD2iOyI7iGGTBVwR6phGduA8-C-TJL21ZmCZas1ii88doVVHfUKdg");
+        ComponentTokenResponse token = cgibinClient.componentApiComponentToken(componentTokenRequest);
+        System.err.println(JSON.toJSONString(token, true));
+
+    }
+
+    @Test
+    public void componentApi_get_authorizer_info() {
+        val request = new ComponentApi_get_authorizer_infoRequest();
+        request.setAuthorizer_appid("wx01fa97816dcd707c");
+        request.setComponent_appid("wxe3987587f06091cf");
+        ComponentApi_get_authorizer_infoResponse response = cgibinClient.componentApi_get_authorizer_info(componentToken, request);
+        System.err.println(JSON.toJSONString(response, true));
 
     }
 

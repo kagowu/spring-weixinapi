@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 @Data
-public class BaseResponse extends HashMap {
+public class BaseResponse {
     private String errcode;
     private String errmsg;
-    private Date createTime;
+    private Date createTime = new Date();
 }

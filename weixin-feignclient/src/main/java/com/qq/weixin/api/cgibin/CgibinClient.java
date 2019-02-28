@@ -60,7 +60,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_create_preauthcode", method = RequestMethod.POST)
-    BaseResponse componentApi_create_preauthcode(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
+    ComponentApi_create_preauthcodeResponse componentApi_create_preauthcode(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_create_preauthcodeRequest componentApi_create_preauthcodeRequest);
 
     /**
      * 使用授权码换取公众号或小程序的接口调用凭据和授权信息
@@ -69,7 +69,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_query_auth", method = RequestMethod.POST)
-    BaseResponse componentApi_query_auth(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
+    ComponentApi_query_authResponse componentApi_query_auth(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_query_authRequest componentApi_query_authRequest);
 
 
     /**
@@ -79,7 +79,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_authorizer_token", method = RequestMethod.POST)
-    BaseResponse componentApi_authorizer_token(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
+    ComponentApi_authorizer_tokenResponse componentApi_authorizer_token(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_authorizer_tokenRequest componentApi_authorizer_tokenRequest);
 
 
     /**
@@ -91,7 +91,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_get_authorizer_info", method = RequestMethod.POST)
-    BaseResponse componentApi_get_authorizer_info(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
+    ComponentApi_get_authorizer_infoResponse componentApi_get_authorizer_info(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_get_authorizer_infoRequest componentApi_get_authorizer_infoRequest);
 
 
     /**
