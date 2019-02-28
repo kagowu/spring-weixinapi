@@ -315,14 +315,100 @@ public interface WxaClient {
                                     @RequestParam("out_trade_no") String out_trade_no);
 
     /**
-     * 申请使用插件接口
-     * 查询已添加的插件
-     * 删除已添加的插件
-     * 快速更新插件版本
+     * 申请使用插件接口 apply
      *
      * @param accessToken
      * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/applyPlugin.html}
+     * 查询已添加的插件 list
+     * 删除已添加的插件 unbind
+     * 快速更新插件版本
      */
     @RequestMapping(value = "/plugin", method = RequestMethod.POST)
     BaseResponse plugin(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 获取当前所有插件使用方（供插件开发者调用）
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getPluginDevApplyList.html}
+     */
+    @RequestMapping(value = "/devplugin", method = RequestMethod.POST)
+    BaseResponse devplugin(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+
+    /**
+     * 附近的小程序--添加地点
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/addNearbyPoi.html}
+     */
+    @RequestMapping(value = "/addnearbypoi", method = RequestMethod.POST)
+    BaseResponse addnearbypoi(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 附近的小程序--删除地点
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/deleteNearbyPoi.html}
+     */
+    @RequestMapping(value = "/delnearbypoi", method = RequestMethod.POST)
+    BaseResponse delnearbypoi(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 展示/取消展示附近小程序
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/setNearbyPoiShowStatus.html}
+     */
+    @RequestMapping(value = "/setnearbypoishowstatus", method = RequestMethod.POST)
+    BaseResponse setnearbypoishowstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 获取小程序码，适用于需要的码数量较少的业务场景。
+     * 通过该接口生成的小程序码，永久有效，有数量限制
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getWXACode.html}
+     */
+    @RequestMapping(value = "/getwxacode", method = RequestMethod.POST)
+    BaseResponse getwxacode(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 获取小程序码，适用于需要的码数量极多的业务场景。
+     * 通过该接口生成的小程序码，永久有效，数量暂无限制
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getWXACodeUnlimit.html}
+     */
+    @RequestMapping(value = "/getwxacodeunlimit", method = RequestMethod.POST)
+    BaseResponse getwxacodeunlimit(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+
+    /**
+     * 校验一张图片是否含有违法违规内容。
+     * FIXME
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/imgSecCheck.html}
+     */
+    @RequestMapping(value = "/img_sec_check", method = RequestMethod.POST)
+    BaseResponse img_sec_check(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 检查一段文本是否含有违法违规内容。
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/msgSecCheck.html}
+     */
+    @RequestMapping(value = "/msg_sec_check", method = RequestMethod.POST)
+    BaseResponse msg_sec_check(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 }

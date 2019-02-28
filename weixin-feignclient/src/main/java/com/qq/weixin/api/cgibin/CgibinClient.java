@@ -23,6 +23,8 @@ public interface CgibinClient {
      * @param secret
      * @return
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183}
+     * 小程序文档
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getAccessToken.html}
      */
     @RequestMapping(value = "/token?grant_type=client_credential", method = RequestMethod.GET)
     TokenResponse token(@RequestParam("appid") String appid, @RequestParam("secret") String secret);
@@ -36,6 +38,153 @@ public interface CgibinClient {
     BaseResponse clear_quota(@RequestParam("access_token") String access_token, @RequestBody BaseRequest baseRequest);
 
     /**
+     * 自定义菜单创建接口
+     *
+     * @param accessToken
+     * @param menuCreateRequest
+     * @return
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013}
+     */
+    @RequestMapping(value = "/menu/create", method = RequestMethod.POST)
+    BaseResponse menuCreate(@RequestParam("access_token") String accessToken, @RequestBody MenuCreateRequest menuCreateRequest);
+
+    /**
+     * 自定义菜单删除接口
+     *
+     * @param accessToken
+     * @return
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141015}
+     */
+    @RequestMapping(value = "/menu/delete", method = RequestMethod.GET)
+    BaseResponse menuDelete(@RequestParam("access_token") String accessToken);
+
+    /**
+     * 自定义菜单查询接口
+     *
+     * @param accessToken
+     * @return
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141014}
+     */
+    @RequestMapping(value = "/menu/get", method = RequestMethod.GET)
+    MenuGetResponse menuGet(@RequestParam("access_token") String accessToken);
+
+
+    /**
+     * 个性化菜单接口
+     *
+     * @param accessToken
+     * @param menuAddconditionalRequest
+     * @return
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296}
+     */
+    @RequestMapping(value = "/menu/addconditional", method = RequestMethod.POST)
+    BaseResponse menuAddconditional(@RequestParam("access_token") String accessToken, @RequestBody MenuAddconditionalRequest menuAddconditionalRequest);
+
+    /**
+     * 生成带参数的二维码
+     *
+     * @param accessToken
+     * @return
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542}
+     */
+    @RequestMapping(value = "/qrcode/create", method = RequestMethod.POST)
+    QrcodeCreateResponse qrcodeCreate(@RequestParam("access_token") String accessToken, @RequestBody QrcodeCreateRequest qrcodeCreateRequest);
+
+    /**
+     * JS-SDK使用权限签名算法
+     *
+     * @param accessToken
+     * @return
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115}
+     */
+    @RequestMapping(value = "/ticket/getticket?type=jsapi", method = RequestMethod.GET)
+    TicketGetticketResponse ticketGetticket(@RequestParam("access_token") String accessToken);
+
+
+    /**
+     * 下发客服当前输入状态给用户
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/customerTyping.html}
+     */
+    @RequestMapping(value = "/message/custom/typing", method = RequestMethod.POST)
+    BaseResponse messageCustomTyping(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 发送客服消息给用户
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/sendCustomerMessage.html}
+     */
+    @RequestMapping(value = "/message/custom/send", method = RequestMethod.POST)
+    BaseResponse messageCustomSend(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+
+    /**
+     * 发送模板消息
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/sendTemplateMessage.html}
+     */
+    @RequestMapping(value = "/message/wxopen/template/send", method = RequestMethod.POST)
+    BaseResponse messageWxopenTemplateSend(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 下发小程序和公众号统一的服务消息
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/sendTemplateMessage.html}
+     */
+    @RequestMapping(value = "/message/wxopen/template/uniform_send", method = RequestMethod.POST)
+    BaseResponse messageWxopenTemplateUniform_send(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 创建被分享动态消息的 activity_id
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/createActivityId.html}
+     */
+    @RequestMapping(value = "/message/wxopen/activityid/create", method = RequestMethod.POST)
+    BaseResponse messageWxopenActivityidCreate(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 修改被分享的动态消息
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/setUpdatableMsg.html}
+     */
+    @RequestMapping(value = "/message/wxopen/updatablemsg/send", method = RequestMethod.POST)
+    BaseResponse messageWxopenUpdatablesgSend(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+
+    /**
+     * 获取客服消息内的临时素材。即下载临时的多媒体文件。目前小程序仅支持下载图片文件
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getTempMedia.html}
+     */
+    @RequestMapping(value = "/media/get", method = RequestMethod.POST)
+    BaseResponse mediaGet(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 把媒体文件上传到微信服务器。目前仅支持图片。用于发送客服消息或被动回复用户消息
+     * FIXME formdata
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/uploadTempMedia.html}
+     */
+    @RequestMapping(value = "/media/upload", method = RequestMethod.POST)
+    BaseResponse mediaUpload(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
      * 第三方平台对其所有API调用次数清零（只与第三方平台相关，与公众号无关，接口如api_component_token）
      *
      * @return
@@ -44,6 +193,15 @@ public interface CgibinClient {
     BaseResponse componentClear_quota(@RequestParam("component_access_token") String component_access_token, @RequestBody BaseRequest baseRequest);
 
 
+    /**
+     * 授权流程技术说明 -- start
+     * @link https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1453779503&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=
+     * 步骤1：第三方平台方获取预授权码（pre_auth_code）
+     ** 预授权码是第三方平台方实现授权托管的必备信息，可以通过本文第3部分获取。
+     *
+     * 步骤2：引入用户进入授权页
+     ** 第三方平台方可以在自己的网站中放置“微信公众号授权”或者“小程序授权”的入口，或生成授权链接放置在移动网页中，引导公众号和小程序管理员进入授权页。
+     */
     /**
      * 获取第三方平台token
      *
@@ -61,6 +219,21 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/component/api_create_preauthcode", method = RequestMethod.POST)
     ComponentApi_create_preauthcodeResponse componentApi_create_preauthcode(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_create_preauthcodeRequest componentApi_create_preauthcodeRequest);
+
+    /**
+     * 第三方平台-引导公众号和小程序管理员进入授权页-引导页
+     * 获取到的地址，必须在和redirect_uri的域名相同的地方才能点击进入，否则报错。
+     *
+     * @param component_appid
+     * @param pre_auth_code
+     * @param redirect_uri
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    default String getComonentloginpage(String component_appid, String pre_auth_code, String redirect_uri) throws UnsupportedEncodingException {
+        return String.format("https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s",
+                component_appid, pre_auth_code, URLEncoder.encode(redirect_uri, "UTF-8"));
+    }
 
     /**
      * 授权流程-使用授权码换取公众号或小程序的接口调用凭据和授权信息
@@ -111,8 +284,21 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/component/api_set_authorizer_option", method = RequestMethod.POST)
     BaseResponse componentApi_set_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_set_authorizer_optionRequest componentApi_set_authorizer_optionRequest);
+    /**
+     * 授权流程技术说明 -- end
+     */
 
 
+    /**
+     * 快速创建小程序接口文档 --start
+     * 快速创建小程序接口优化了小程序注册认证的流程，采用法人人脸识别方式替代小额打款等认证流程，极大的减轻了小程序主体、类目资质信息收集的人力成本。第三方只需收集法人姓名、法人微信、企业名称、企业代码信息四个信息，便可以向企业法人下发一条模板消息来采集法人人脸信息，完成全部注册、认证流程。
+     * 快速创建小程序接口能帮助第三方迅速拓展线下商户，拓展商户的服务范围，占领小程序线下商业先机。
+     *
+     * 通过该接口创建小程序默认“已认证”。为降低接入小程序的成本门槛，通过该接口创建的小程序无需交<b>300</b>元认证费。
+     *
+     * 注：该接口只能创建线下类目小程序，创建线上类目小程序将被驳回，且影响第三方调用该接口的quota。
+     * @link(https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21538208049W8uwq&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=)
+     */
     /**
      * 快速创建小程序接口-创建小程序接口
      *
@@ -130,66 +316,10 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/component/fastregisterweapp?action=search", method = RequestMethod.POST)
     BaseResponse componentFastregisterweappSearch(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentFastregisterweappSearchRequest componentFastregisterweappSearchRequest);
-
-
     /**
-     * 自定义菜单创建接口
-     *
-     * @param accessToken
-     * @param menuCreateRequest
-     * @return
+     * 快速创建小程序接口文档 -- end
      */
-    @RequestMapping(value = "/menu/create", method = RequestMethod.POST)
-    BaseResponse menuCreate(@RequestParam("access_token") String accessToken, @RequestBody MenuCreateRequest menuCreateRequest);
 
-    /**
-     * 自定义菜单删除接口
-     *
-     * @param accessToken
-     * @return
-     */
-    @RequestMapping(value = "/menu/delete", method = RequestMethod.GET)
-    BaseResponse menuDelete(@RequestParam("access_token") String accessToken);
-
-    /**
-     * 自定义菜单查询接口
-     *
-     * @param accessToken
-     * @return
-     */
-    @RequestMapping(value = "/menu/get", method = RequestMethod.GET)
-    MenuGetResponse menuGet(@RequestParam("access_token") String accessToken);
-
-
-    /**
-     * 个性化菜单接口
-     *
-     * @param accessToken
-     * @param menuAddconditionalRequest
-     * @return
-     */
-    @RequestMapping(value = "/menu/addconditional", method = RequestMethod.POST)
-    BaseResponse menuAddconditional(@RequestParam("access_token") String accessToken, @RequestBody MenuAddconditionalRequest menuAddconditionalRequest);
-
-    /**
-     * 生成带参数的二维码
-     *
-     * @param accessToken
-     * @return
-     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542}
-     */
-    @RequestMapping(value = "/qrcode/create", method = RequestMethod.POST)
-    QrcodeCreateResponse qrcodeCreate(@RequestParam("access_token") String accessToken, @RequestBody QrcodeCreateRequest qrcodeCreateRequest);
-
-    /**
-     * JS-SDK使用权限签名算法
-     *
-     * @param accessToken
-     * @return
-     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115}
-     */
-    @RequestMapping(value = "/ticket/getticket?type=jsapi", method = RequestMethod.GET)
-    TicketGetticketResponse ticketGetticket(@RequestParam("access_token") String accessToken);
 
     /**
      * 2 小程序信息设置相关接口
@@ -230,6 +360,7 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/account/modifysignature", method = RequestMethod.POST)
     BaseResponse accountModifysignature(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
 
     /**复用公众号主体快速注册小程序  start---
      * @link https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21521706765hLoMO&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=
@@ -509,17 +640,116 @@ public interface CgibinClient {
 
 
     /**
-     * 第三方平台-引导公众号和小程序管理员进入授权页-引导页
-     * 获取到的地址，必须在和redirect_uri的域名相同的地方才能点击进入，否则报错。
+     * 获取小程序二维码，适用于需要的码数量较少的业务场景
+     * 通过该接口生成的小程序码，永久有效，有数量限制
      *
-     * @param component_appid
-     * @param pre_auth_code
-     * @param redirect_uri
+     * @param accessToken
      * @return
-     * @throws UnsupportedEncodingException
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/createWXAQRCode.html}
      */
-    default String getComonentloginpage(String component_appid, String pre_auth_code, String redirect_uri) throws UnsupportedEncodingException {
-        return String.format("https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s",
-                component_appid, pre_auth_code, URLEncoder.encode(redirect_uri, "UTF-8"));
-    }
+    @RequestMapping(value = "wxaapp/createwxaqrcode", method = RequestMethod.POST)
+    BaseResponse wxaappCreatewxaqrcode(@RequestParam("access_token") String accessToken, @RequestBody TemplateApi_set_industryRequest templateApi_set_industryRequest);
+
+    /**
+     * 物流助手-生成运单
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/addOrder.html}
+     */
+    @RequestMapping(value = "express/business/order/add", method = RequestMethod.POST)
+    BaseResponse expressBusinessOrderAdd(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 物流助手-取消运单
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/cancelOrder.html}
+     */
+    @RequestMapping(value = "express/business/order/cancel", method = RequestMethod.POST)
+    BaseResponse expressBusinessOrderCancel(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 物流助手-获取支持的快递公司列表
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/cancelOrder.html}
+     */
+    @RequestMapping(value = "express/business/delivery/getall", method = RequestMethod.POST)
+    BaseResponse expressBusinessDeliveryGetall(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 物流助手-获取运单数据
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getOrder.html}
+     */
+    @RequestMapping(value = "express/business/order/get", method = RequestMethod.POST)
+    BaseResponse expressBusinessOrderGet(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 物流助手-获取打印员
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getPrinter.html}
+     */
+    @RequestMapping(value = "express/business/path/getall", method = RequestMethod.POST)
+    BaseResponse expressBusinessPathGetall(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 物流助手-获取电子面单余额。仅在使用加盟类快递公司时，才可以调用
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getPrinter.html}
+     */
+    @RequestMapping(value = "express/business/quota/get", method = RequestMethod.POST)
+    BaseResponse expressBusinessQuotaGet(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+
+
+    /**
+     * 物流助手-获取面单联系人信息
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getPrinter.html}
+     */
+    @RequestMapping(value = "express/delivery/contact/get", method = RequestMethod.POST)
+    BaseResponse expressDeliveryContactGet(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 物流助手-预览面单模板。用于调试面单模板使用
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getPrinter.html}
+     */
+    @RequestMapping(value = "express/delivery/template/preview", method = RequestMethod.POST)
+    BaseResponse expressDeliveryTemplatePreview(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 物流助手-更新商户审核结果
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/updateBusiness.html}
+     */
+    @RequestMapping(value = "express/delivery/service/business/update", method = RequestMethod.POST)
+    BaseResponse expressDeliveryserviceBusinessUpdate(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 物流助手-更新运单轨迹
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/updatePath.html}
+     */
+    @RequestMapping(value = "express/delivery/path/update", method = RequestMethod.POST)
+    BaseResponse expressDeliveryPathUpdate(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
 }
