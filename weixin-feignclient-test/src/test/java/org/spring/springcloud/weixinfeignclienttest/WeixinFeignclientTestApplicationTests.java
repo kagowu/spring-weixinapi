@@ -27,9 +27,9 @@ public class WeixinFeignclientTestApplicationTests {
 
     private GlobalTokenResponse token;
 
-    @Before
+    @Test
     public void getToken() {
-        token = cgibinClient.token("wx553d4b09800ee9e9", "f7b889c5fad3599a6d88ad06d70fbd36");
+        token = cgibinClient.token("wxe57e8b54cbe75bd0", "22642be432f7849be45956de461333c8");
         System.err.println(JSON.toJSONString(token, true));
 
     }
