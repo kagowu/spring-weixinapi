@@ -7,7 +7,7 @@ import lombok.Data;
  * @author gong.hua
  */
 @Data
-public class SnsTokenResponse extends BaseResponse {
+public class Oauth2Access_tokenResponse extends BaseResponse {
     private String access_token;
     private Integer expires_in;
     private String refresh_token;

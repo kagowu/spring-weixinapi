@@ -7,7 +7,7 @@ import lombok.Data;
  * @author gong.hua
  */
 @Data
-public class UserResponse extends BaseResponse {
+public class UserinfoResponse extends BaseResponse {
     private Integer subscribe;
     private String openid;
     private String nickname;

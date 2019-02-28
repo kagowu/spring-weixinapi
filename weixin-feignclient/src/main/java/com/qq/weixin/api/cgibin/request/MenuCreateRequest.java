@@ -5,11 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class MenuButtonsRequest {
+public class MenuCreateRequest {
     /**
      * 一级菜单数组，个数应为1~3个
      */
-    private MenuButtonsRequest.Button[] button;
+    private MenuCreateRequest.Button[] button;
 
     @Data
     public static class Button {

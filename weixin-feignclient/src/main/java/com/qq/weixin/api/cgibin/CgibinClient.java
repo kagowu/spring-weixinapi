@@ -3,10 +3,7 @@ package com.qq.weixin.api.cgibin;
 
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
-import com.qq.weixin.api.cgibin.request.ApiComponentTokenRequest;
-import com.qq.weixin.api.cgibin.request.ComponentFastregisterweappRequest;
-import com.qq.weixin.api.cgibin.request.MenuButtonsRequest;
-import com.qq.weixin.api.cgibin.request.QrcodeCreateRequest;
+import com.qq.weixin.api.cgibin.request.*;
 import com.qq.weixin.api.cgibin.response.*;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,70 +25,93 @@ public interface CgibinClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183}
      */
     @RequestMapping(value = "/token?grant_type=client_credential", method = RequestMethod.GET)
-    GlobalTokenResponse token(@RequestParam("appid") String appid, @RequestParam("secret") String secret);
+    TokenResponse token(@RequestParam("appid") String appid, @RequestParam("secret") String secret);
+
+    /**
+     * 调用次数清零API的权限
+     *
+     * @return
+     */
+    @RequestMapping(value = "/clear_quota", method = RequestMethod.POST)
+    BaseResponse clear_quota(@RequestParam("access_token") String access_token, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 第三方平台对其所有API调用次数清零（只与第三方平台相关，与公众号无关，接口如api_component_token）
+     *
+     * @return
+     */
+    @RequestMapping(value = "component/clear_quota", method = RequestMethod.POST)
+    BaseResponse componentClear_quota(@RequestParam("component_access_token") String component_access_token, @RequestBody BaseRequest baseRequest);
+
 
     /**
      * 获取第三方平台token
-     * @param apiComponentTokenRequest
+     *
+     * @param componentTokenRequest
      * @return
      */
     @RequestMapping(value = "/component/api_component_token", method = RequestMethod.POST)
-    ApiComponentTokenResponse componentApiComponentToken(@RequestBody ApiComponentTokenRequest apiComponentTokenRequest);
+    ComponentTokenResponse componentApiComponentToken(@RequestBody ComponentTokenRequest componentTokenRequest);
 
     /**
      * 获取预授权码pre_auth_code
+     *
      * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/component/api_create_preauthcode", method = RequestMethod.POST)
-    BaseResponse componentApi_create_preauthcode(@RequestParam("component_access_token") String componentAccessToken,@RequestBody BaseRequest baseRequest);
+    BaseResponse componentApi_create_preauthcode(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 使用授权码换取公众号或小程序的接口调用凭据和授权信息
+     *
      * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/component/api_query_auth", method = RequestMethod.POST)
-    BaseResponse componentApi_query_auth(@RequestParam("component_access_token") String componentAccessToken,@RequestBody BaseRequest baseRequest);
-
+    BaseResponse componentApi_query_auth(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
      * 获取（刷新）授权公众号或小程序的接口调用凭据（令牌）
+     *
      * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/component/api_authorizer_token", method = RequestMethod.POST)
-    BaseResponse componentApi_authorizer_token(@RequestParam("component_access_token") String componentAccessToken,@RequestBody BaseRequest baseRequest);
+    BaseResponse componentApi_authorizer_token(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
      * 获取授权方的帐号基本信息
      * -公众号获取方法
      * -小程序获取方法如下  返回结果不同
+     *
      * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/component/api_get_authorizer_info", method = RequestMethod.POST)
-    BaseResponse componentApi_get_authorizer_info(@RequestParam("component_access_token") String componentAccessToken,@RequestBody BaseRequest baseRequest);
+    BaseResponse componentApi_get_authorizer_info(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
      * 设置授权方的选项信息
+     *
      * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/component/api_set_authorizer_option", method = RequestMethod.POST)
-    BaseResponse componentApi_set_authorizer_option(@RequestParam("component_access_token") String componentAccessToken,@RequestBody BaseRequest baseRequest);
+    BaseResponse componentApi_set_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
      * 获取授权方的选项设置信息
+     *
      * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/component/api_get_authorizer_option", method = RequestMethod.POST)
-    BaseResponse componentApi_get_authorizer_option(@RequestParam("component_access_token") String componentAccessToken,@RequestBody BaseRequest baseRequest);
+    BaseResponse componentApi_get_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
@@ -117,11 +137,11 @@ public interface CgibinClient {
      * 自定义菜单创建接口
      *
      * @param accessToken
-     * @param menuButtons
+     * @param menuCreateRequest
      * @return
      */
     @RequestMapping(value = "/menu/create", method = RequestMethod.POST)
-    BaseResponse menuCreate(@RequestParam("access_token") String accessToken, @RequestBody MenuButtonsRequest menuButtons);
+    BaseResponse menuCreate(@RequestParam("access_token") String accessToken, @RequestBody MenuCreateRequest menuCreateRequest);
 
     /**
      * 自定义菜单删除接口
@@ -160,7 +180,7 @@ public interface CgibinClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542}
      */
     @RequestMapping(value = "/qrcode/create", method = RequestMethod.POST)
-    QrcodeTicketResponse qrcodeCreate(@RequestParam("access_token") String accessToken, @RequestBody QrcodeCreateRequest qrcodeCreateRequest);
+    QrcodeCreateResponse qrcodeCreate(@RequestParam("access_token") String accessToken, @RequestBody QrcodeCreateRequest qrcodeCreateRequest);
 
     /**
      * JS-SDK使用权限签名算法
@@ -170,7 +190,7 @@ public interface CgibinClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115}
      */
     @RequestMapping(value = "/ticket/getticket?type=jsapi", method = RequestMethod.GET)
-    JsapiTicketResponse ticketGetticket(@RequestParam("access_token") String accessToken);
+    TicketGetticketResponse ticketGetticket(@RequestParam("access_token") String accessToken);
 
     /**
      * 获取帐号基本信息
@@ -445,6 +465,16 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "open/get", method = RequestMethod.POST)
     BaseResponse openGet(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 模板消息-设置所属行业
+     *
+     * @param accessToken
+     * @return
+     */
+    @RequestMapping(value = "template/api_set_industry", method = RequestMethod.POST)
+    BaseResponse templateApi_set_industry(@RequestParam("access_token") String accessToken, @RequestBody TemplateApi_set_industryRequest templateApi_set_industryRequest);
+
 
     /**
      * 第三方平台-引导公众号和小程序管理员进入授权页-引导页

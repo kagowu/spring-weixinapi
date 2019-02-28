@@ -7,7 +7,7 @@ import lombok.Data;
  * @author gong.hua
  */
 @Data
-public class JsapiTicketResponse extends BaseResponse {
-    private String ticket;
-    private Integer expires_in;
+public class ComponentTokenResponse extends BaseResponse {
+    private String component_access_token;
+    private String expires_in;
 }

@@ -3,14 +3,13 @@ package org.spring.springcloud.weixinfeignclienttest;
 import com.alibaba.fastjson.JSON;
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.cgibin.*;
-import com.qq.weixin.api.cgibin.request.ApiComponentTokenRequest;
+import com.qq.weixin.api.cgibin.request.ComponentTokenRequest;
 import com.qq.weixin.api.cgibin.request.ComponentFastregisterweappRequest;
-import com.qq.weixin.api.cgibin.request.MenuButtonsRequest;
+import com.qq.weixin.api.cgibin.request.MenuCreateRequest;
 import com.qq.weixin.api.cgibin.request.QrcodeCreateRequest;
-import com.qq.weixin.api.cgibin.response.ApiComponentTokenResponse;
-import com.qq.weixin.api.cgibin.response.GlobalTokenResponse;
+import com.qq.weixin.api.cgibin.response.ComponentTokenResponse;
+import com.qq.weixin.api.cgibin.response.TokenResponse;
 import lombok.val;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeixinFeignclientTestApplication.class)
@@ -39,18 +36,18 @@ public class WeixinFeignclientTestApplicationTests {
 
     @Test
     public void getToken() {
-        GlobalTokenResponse token = cgibinClient.token("wxe57e8b54cbe75bd0", "22642be432f7849be45956de461333c8");
+        TokenResponse token = cgibinClient.token("wxe57e8b54cbe75bd0", "22642be432f7849be45956de461333c8");
         System.err.println(JSON.toJSONString(token, true));
 
     }
 
     @Test
     public void getToken2() {
-        ApiComponentTokenRequest apiComponentTokenRequest = new ApiComponentTokenRequest();
-        apiComponentTokenRequest.setComponent_appid("wxe3987587f06091cf");
-        apiComponentTokenRequest.setComponent_appsecret("10c1bde9468906b5a981302136cacf37");
-        apiComponentTokenRequest.setComponent_verify_ticket("ticket@@@9-kjd9KQumTVIg4oSmXQcyZO85IEl8HoWEs_eThLUkWBMsabMq8-GucGUAmiwi6ljNjyccczyURYHWqcflIefg");
-        ApiComponentTokenResponse token = cgibinClient.componentApiComponentToken(apiComponentTokenRequest);
+        ComponentTokenRequest componentTokenRequest = new ComponentTokenRequest();
+        componentTokenRequest.setComponent_appid("wxe3987587f06091cf");
+        componentTokenRequest.setComponent_appsecret("10c1bde9468906b5a981302136cacf37");
+        componentTokenRequest.setComponent_verify_ticket("ticket@@@9-kjd9KQumTVIg4oSmXQcyZO85IEl8HoWEs_eThLUkWBMsabMq8-GucGUAmiwi6ljNjyccczyURYHWqcflIefg");
+        ComponentTokenResponse token = cgibinClient.componentApiComponentToken(componentTokenRequest);
         System.err.println(JSON.toJSONString(token, true));
 
     }
@@ -82,11 +79,11 @@ public class WeixinFeignclientTestApplicationTests {
 
     @Test
     public void createMuenu() {
-        MenuButtonsRequest menuButtons = new MenuButtonsRequest();
-        MenuButtonsRequest.ViewButton viewButton = new MenuButtonsRequest.ViewButton();
+        MenuCreateRequest menuButtons = new MenuCreateRequest();
+        MenuCreateRequest.ViewButton viewButton = new MenuCreateRequest.ViewButton();
         viewButton.setUrl("http://www.baidu.com");
         viewButton.setName("test");
-        menuButtons.setButton(new MenuButtonsRequest.Button[]{viewButton, viewButton, viewButton});
+        menuButtons.setButton(new MenuCreateRequest.Button[]{viewButton, viewButton, viewButton});
         System.err.println(JSON.toJSONString(menuButtons, true));
         cgibinClient.menuCreate(token, menuButtons);
     }
@@ -117,11 +114,11 @@ public class WeixinFeignclientTestApplicationTests {
 
     @Test
     public void componentToken() {
-        ApiComponentTokenRequest apiComponentTokenRequest = new ApiComponentTokenRequest();
-        apiComponentTokenRequest.setComponent_appid("");
-        apiComponentTokenRequest.setComponent_appsecret("");
-        apiComponentTokenRequest.setComponent_verify_ticket("");
-        System.err.println(JSON.toJSONString(cgibinClient.componentApiComponentToken(apiComponentTokenRequest)));
+        ComponentTokenRequest componentTokenRequest = new ComponentTokenRequest();
+        componentTokenRequest.setComponent_appid("");
+        componentTokenRequest.setComponent_appsecret("");
+        componentTokenRequest.setComponent_verify_ticket("");
+        System.err.println(JSON.toJSONString(cgibinClient.componentApiComponentToken(componentTokenRequest)));
     }
 
     @Test

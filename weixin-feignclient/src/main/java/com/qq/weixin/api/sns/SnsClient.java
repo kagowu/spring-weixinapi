@@ -2,8 +2,8 @@ package com.qq.weixin.api.sns;
 
 
 import com.qq.weixin.api.BaseResponse;
-import com.qq.weixin.api.sns.response.SnsTokenResponse;
-import com.qq.weixin.api.sns.response.UserResponse;
+import com.qq.weixin.api.sns.response.Oauth2Access_tokenResponse;
+import com.qq.weixin.api.sns.response.UserinfoResponse;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +23,7 @@ public interface SnsClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
     @RequestMapping(value = "/oauth2/access_token?grant_type=authorization_code", method = RequestMethod.GET)
-    SnsTokenResponse oauth2Access_token(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code);
+    Oauth2Access_tokenResponse oauth2Access_token(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code);
 
     /**
      * 第三方平台-通过code换取网页授权access_token
@@ -34,8 +34,8 @@ public interface SnsClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
     @RequestMapping(value = "/oauth2/component/access_token?grant_type=authorization_code", method = RequestMethod.GET)
-    SnsTokenResponse oauth2ComponetAccess_token(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code,
-                                                @RequestParam("component_appid") String component_appid, @RequestParam("component_access_token") String component_access_token);
+    Oauth2Access_tokenResponse oauth2ComponetAccess_token(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code,
+                                                          @RequestParam("component_appid") String component_appid, @RequestParam("component_access_token") String component_access_token);
 
 
     /**
@@ -47,7 +47,7 @@ public interface SnsClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
     @RequestMapping(value = "/oauth2/refresh_token?grant_type=refresh_token", method = RequestMethod.GET)
-    SnsTokenResponse oauth2Refresh_token(@RequestParam("appid") String appid, @RequestParam("refresh_token") String refreshToken);
+    Oauth2Access_tokenResponse oauth2Refresh_token(@RequestParam("appid") String appid, @RequestParam("refresh_token") String refreshToken);
 
     /**
      * 第三方平台-刷新access_token（如果需要）
@@ -58,9 +58,9 @@ public interface SnsClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
     @RequestMapping(value = "/oauth2/component/refresh_token?grant_type=refresh_token", method = RequestMethod.GET)
-    SnsTokenResponse oauth2ComponentRefresh_token(@RequestParam("appid") String appid,
-                                                  @RequestParam("component_appid") String component_appid, @RequestParam("component_access_token") String component_access_token,
-                                                  @RequestParam("refresh_token") String refreshToken);
+    Oauth2Access_tokenResponse oauth2ComponentRefresh_token(@RequestParam("appid") String appid,
+                                                            @RequestParam("component_appid") String component_appid, @RequestParam("component_access_token") String component_access_token,
+                                                            @RequestParam("refresh_token") String refreshToken);
 
     /**
      * 检验授权凭证（access_token）是否有效
@@ -83,7 +83,7 @@ public interface SnsClient {
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
     @RequestMapping(value = "/userinfo?lang=zh_CN", method = RequestMethod.GET)
-    UserResponse userInfo(@RequestParam("openid") String openid, @RequestParam("access_token") String accessToken);
+    UserinfoResponse userInfo(@RequestParam("openid") String openid, @RequestParam("access_token") String accessToken);
 
     /**
      * code2Session

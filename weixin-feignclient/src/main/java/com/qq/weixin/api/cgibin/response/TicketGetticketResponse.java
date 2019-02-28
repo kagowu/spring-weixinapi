@@ -7,8 +7,7 @@ import lombok.Data;
  * @author gong.hua
  */
 @Data
-public class QrcodeTicketResponse extends BaseResponse {
+public class TicketGetticketResponse extends BaseResponse {
     private String ticket;
-    private Integer expire_seconds;
-    private String url;
+    private Integer expires_in;
 }

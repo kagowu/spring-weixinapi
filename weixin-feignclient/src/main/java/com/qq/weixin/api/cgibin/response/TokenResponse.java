@@ -7,7 +7,7 @@ import lombok.Data;
  * @author gong.hua
  */
 @Data
-public class ApiComponentTokenResponse extends BaseResponse {
-    private String component_access_token;
-    private String expires_in;
+public class TokenResponse extends BaseResponse {
+    private String access_token;
+    private int expires_in;
 }
