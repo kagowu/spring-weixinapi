@@ -43,7 +43,7 @@ public class WeixinFeignclientTestApplicationTests {
     @Test
     public void componentFastregisterweappSearch() {
         val val = cgibinClient.componentFastregisterweappSearch(componentToken,
-                ComponentFastregisterweappRequest.builder().code("123").component_phone("123").build());
+                null);
         System.err.println(JSON.toJSONString(val, true));
 
     }

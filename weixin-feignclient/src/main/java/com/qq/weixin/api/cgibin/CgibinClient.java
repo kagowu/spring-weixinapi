@@ -63,7 +63,7 @@ public interface CgibinClient {
     ComponentApi_create_preauthcodeResponse componentApi_create_preauthcode(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_create_preauthcodeRequest componentApi_create_preauthcodeRequest);
 
     /**
-     * 使用授权码换取公众号或小程序的接口调用凭据和授权信息
+     * 授权流程-使用授权码换取公众号或小程序的接口调用凭据和授权信息
      *
      * @param componentAccessToken
      * @return
@@ -73,7 +73,7 @@ public interface CgibinClient {
 
 
     /**
-     * 获取（刷新）授权公众号或小程序的接口调用凭据（令牌）
+     * 授权流程-获取（刷新）授权公众号或小程序的接口调用凭据（令牌）
      *
      * @param componentAccessToken
      * @return
@@ -83,7 +83,7 @@ public interface CgibinClient {
 
 
     /**
-     * 获取授权方的帐号基本信息
+     * 授权流程-获取授权方的帐号基本信息
      * -公众号获取方法
      * -小程序获取方法如下  返回结果不同
      *
@@ -93,6 +93,15 @@ public interface CgibinClient {
     @RequestMapping(value = "/component/api_get_authorizer_info", method = RequestMethod.POST)
     ComponentApi_get_authorizer_infoResponse componentApi_get_authorizer_info(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_get_authorizer_infoRequest componentApi_get_authorizer_infoRequest);
 
+    /**
+     * 授权流程-获取授权方的选项设置信息
+     *
+     * @param componentAccessToken
+     * @return
+     */
+    @RequestMapping(value = "/component/api_get_authorizer_option", method = RequestMethod.POST)
+    ComponentApi_get_authorizer_optionResponse componentApi_get_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_get_authorizer_optionRequest componentApi_get_authorizer_optionRequest);
+
 
     /**
      * 设置授权方的选项信息
@@ -101,36 +110,26 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_set_authorizer_option", method = RequestMethod.POST)
-    BaseResponse componentApi_set_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse componentApi_set_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_set_authorizer_optionRequest componentApi_set_authorizer_optionRequest);
 
 
     /**
-     * 获取授权方的选项设置信息
+     * 快速创建小程序接口-创建小程序接口
      *
-     * @param componentAccessToken
-     * @return
-     */
-    @RequestMapping(value = "/component/api_get_authorizer_option", method = RequestMethod.POST)
-    BaseResponse componentApi_get_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
-
-
-    /**
-     * 创建小程序接口
-     *
-     * @param componentFastregisterweappRequest
+     * @param componentFastregisterweappCreateRequest
      * @return
      */
     @RequestMapping(value = "/component/fastregisterweapp?action=create", method = RequestMethod.POST)
-    BaseResponse componentFastregisterweappCreate(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentFastregisterweappRequest componentFastregisterweappRequest);
+    BaseResponse componentFastregisterweappCreate(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentFastregisterweappCreateRequest componentFastregisterweappCreateRequest);
 
     /**
-     * 查询创建任务状态
+     * 快速创建小程序接口-查询创建任务状态
      *
-     * @param componentFastregisterweappRequest
+     * @param componentFastregisterweappSearchRequest
      * @return
      */
     @RequestMapping(value = "/component/fastregisterweapp?action=search", method = RequestMethod.POST)
-    BaseResponse componentFastregisterweappSearch(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentFastregisterweappRequest componentFastregisterweappRequest);
+    BaseResponse componentFastregisterweappSearch(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentFastregisterweappSearchRequest componentFastregisterweappSearchRequest);
 
 
     /**
@@ -193,7 +192,9 @@ public interface CgibinClient {
     TicketGetticketResponse ticketGetticket(@RequestParam("access_token") String accessToken);
 
     /**
-     * 获取帐号基本信息
+     * 2 小程序信息设置相关接口
+     * 2.1 获取帐号基本信息
+     * FIXME
      *
      * @param accessToken
      * @return
@@ -203,6 +204,7 @@ public interface CgibinClient {
 
     /**
      * 修改头像
+     * FIXME
      *
      * @param accessToken
      * @return
@@ -211,13 +213,13 @@ public interface CgibinClient {
     BaseResponse accountModifyheadimage(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
-     * 跳转至第三方平台，第三方平台调用快速注册API完成管理员换绑。
+     * 换绑小程序管理员接口-跳转至第三方平台，第三方平台调用快速注册API完成管理员换绑。
      *
      * @param accessToken
      * @return
      */
     @RequestMapping(value = "/account/componentrebindadmin", method = RequestMethod.POST)
-    BaseResponse accountComponentrebindadmin(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse accountComponentrebindadmin(@RequestParam("access_token") String accessToken, @RequestBody AccountComponentrebindadminRequest accountComponentrebindadminRequest);
 
 
     /**
@@ -229,14 +231,44 @@ public interface CgibinClient {
     @RequestMapping(value = "/account/modifysignature", method = RequestMethod.POST)
     BaseResponse accountModifysignature(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
+    /**复用公众号主体快速注册小程序  start---
+     * @link https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21521706765hLoMO&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=
+     */
+
     /**
-     * 跳转至第三方平台，第三方平台调用快速注册API完成注册
+     * 1.1 从第三方平台跳转至微信公众平台授权注册页面
+     *
+     * @param appid
+     * @param component_appid
+     * @param redirect_uri
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    default String getFastregisterauthUrl(String appid, String component_appid, String redirect_uri) throws UnsupportedEncodingException {
+        return String.format("https://mp.weixin.qq.com/cgi-bin/fastregisterauth?appid=%s&component_appid=%s&copy_wx_verify=1&redirect_uri=%s",
+                appid, component_appid, URLEncoder.encode(redirect_uri, "UTF-8"));
+    }
+
+    /**
+     * 1.2 公众号管理员扫码确认授权注册，并跳转回第三方平台
+     * 公众号管理员扫码后在手机端完成授权确认。
+     * 跳转回第三方平台，会在上述 redirect_uri后拼接 ticket=*
+     * 跳转回第三方平台举例:
+     * https://www.qq.com/auth/callback?from=mp&ticket=b25519093b1e97239eff9d2bfc07e08e
+     */
+
+    /**
+     * 1.3 跳转至第三方平台，第三方平台调用快速注册API完成注册
      *
      * @param accessToken
      * @return
      */
     @RequestMapping(value = "/account/fastregister", method = RequestMethod.POST)
     BaseResponse accountFastregister(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    /**复用公众号主体快速注册小程序  end---
+     *
+     */
+
 
     /**
      * 微信认证名称检测

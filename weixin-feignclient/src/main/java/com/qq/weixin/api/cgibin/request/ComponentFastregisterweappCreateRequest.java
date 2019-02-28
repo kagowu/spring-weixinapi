@@ -1,14 +1,12 @@
 package com.qq.weixin.api.cgibin.request;
 
-import lombok.Builder;
 import lombok.Data;
 
 /**
  * @author gong.hua
  */
 @Data
-@Builder(toBuilder = true)
-public class ComponentFastregisterweappRequest {
+public class ComponentFastregisterweappCreateRequest {
     /**
      * 企业名
      */
