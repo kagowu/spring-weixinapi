@@ -1,5 +1,6 @@
 package com.qq.weixin.api.wxa;
 
+import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
 import com.qq.weixin.api.wxa.request.ModifyDomainRequest;
 import com.qq.weixin.api.wxa.request.WebviewdomainRequest;
@@ -43,7 +44,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/setnickname", method = RequestMethod.POST)
-    BaseResponse setnickname(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse setnickname(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 小程序改名审核状态查询
@@ -52,7 +53,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/api_wxa_querynickname", method = RequestMethod.POST)
-    BaseResponse api_wxa_querynickname(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse api_wxa_querynickname(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
@@ -62,7 +63,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/changewxasearchstatus", method = RequestMethod.POST)
-    BaseResponse changewxasearchstatus(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse changewxasearchstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 查询小程序当前隐私设置（是否可被搜索）
@@ -71,7 +72,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/getwxasearchstatus", method = RequestMethod.POST)
-    BaseResponse getwxasearchstatus(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse getwxasearchstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 获取展示的公众号信息
@@ -90,7 +91,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/updateshowwxaitem", method = RequestMethod.POST)
-    BaseResponse updateshowwxaitem(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse updateshowwxaitem(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
@@ -100,7 +101,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/getwxamplinkforshow", method = RequestMethod.POST)
-    BaseResponse getwxamplinkforshow(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse getwxamplinkforshow(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 绑定微信用户为小程序体验者
@@ -109,7 +110,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/bind_tester", method = RequestMethod.POST)
-    BaseResponse bind_tester(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse bind_tester(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 解除绑定小程序的体验者
@@ -118,7 +119,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/unbind_tester", method = RequestMethod.POST)
-    BaseResponse unbind_tester(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse unbind_tester(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 获取体验者列表
@@ -127,7 +128,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/memberauth", method = RequestMethod.POST)
-    BaseResponse memberauth(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse memberauth(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
@@ -137,7 +138,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/commit", method = RequestMethod.POST)
-    BaseResponse commit(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse commit(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 获取体验小程序的体验二维码
@@ -182,7 +183,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_auditstatus", method = RequestMethod.POST)
-    BaseResponse get_auditstatus(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse get_auditstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 查询最新一次提交的审核状态（仅供第三方代小程序调用）
@@ -201,7 +202,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/release", method = RequestMethod.POST)
-    BaseResponse release(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse release(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 修改小程序线上代码的可见状态（仅供第三方代小程序调用）
@@ -210,7 +211,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/change_visitstatus", method = RequestMethod.POST)
-    BaseResponse change_visitstatus(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse change_visitstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 小程序版本回退（仅供第三方代小程序调用）
@@ -238,7 +239,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/grayrelease", method = RequestMethod.POST)
-    BaseResponse grayrelease(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse grayrelease(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 分阶段发布接口
@@ -283,7 +284,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/addtotemplate", method = RequestMethod.POST)
-    BaseResponse addtotemplate(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse addtotemplate(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 删除指定小程序代码模版
@@ -292,7 +293,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/deletetemplate", method = RequestMethod.POST)
-    BaseResponse deletetemplate(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse deletetemplate(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 支付后获取用户Unionid接口-商户订单号
@@ -325,5 +326,5 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/plugin", method = RequestMethod.POST)
-    BaseResponse plugin(@RequestParam("access_token") String accessToken, @RequestBody Map map);
+    BaseResponse plugin(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 }
