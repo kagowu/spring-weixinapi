@@ -91,6 +91,7 @@ public interface SnsClient {
      * @param appid
      * @param secret
      * @return
+     * @link {https://developers.weixin.qq.com/minigame/dev/api/code2Session.html?search-key=code2session}
      */
     @RequestMapping(value = "/jscode2session?grant_type=authorization_code", method = RequestMethod.GET)
     BaseResponse jscode2session(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("js_code") String js_code);
