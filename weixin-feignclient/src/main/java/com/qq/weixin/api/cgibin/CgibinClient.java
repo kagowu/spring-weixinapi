@@ -263,21 +263,24 @@ public interface CgibinClient {
     BaseResponse componentApi_set_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_set_authorizer_optionRequest componentApi_set_authorizer_optionRequest);
 
 
-
     /**
-     * 快速创建小程序接口文档 --start
-     * 快速创建小程序接口优化了小程序注册认证的流程，采用法人人脸识别方式替代小额打款等认证流程，极大的减轻了小程序主体、类目资质信息收集的人力成本。第三方只需收集法人姓名、法人微信、企业名称、企业代码信息四个信息，便可以向企业法人下发一条模板消息来采集法人人脸信息，完成全部注册、认证流程。
-     * 快速创建小程序接口能帮助第三方迅速拓展线下商户，拓展商户的服务范围，占领小程序线下商业先机。
-     *
-     * 通过该接口创建小程序默认“已认证”。为降低接入小程序的成本门槛，通过该接口创建的小程序无需交<b>300</b>元认证费。
-     *
-     * 注：该接口只能创建线下类目小程序，创建线上类目小程序将被驳回，且影响第三方调用该接口的quota。
+     * <pre>
+     * <h1>代小程序实现业务-快速创建小程序接口文档</h1>
      * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21538208049W8uwq&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=}
-     * @see #componentFastregisterweappCreate
-     * @see #componentFastregisterweappSearch
      *
-     * /
-    /**
+     * 1、权限集准备：第三方平台需具有以下权限集。（更新权限集后，需通过审核并全网发布后才可生效）
+     * 2、第三方收集法人微信、法人姓名、企业名称、信用代码四个商户信息外加第三方客服电话，方便商家与第三方联系（建议填写第三方客服电话）；
+     * 3、企业名称需与工商部门登记信息一致；法人姓名与绑定微信银行卡的姓名一致。信息收集时要确保四个信息的对应关系，否则接口无法成功调用。
+     * 4、通过法人&企业主体校验，平台向法人微信下发模板消息。法人需在24小时内点击消息，进行身份证信息与人脸识别信息收集；
+     *  创建小程序接口
+     * @see CgibinClient#componentFastregisterweappCreate
+     *  查询创建任务状态
+     * @see CgibinClient#componentFastregisterweappSearch
+     * 5、信息收集完毕，验证通过后，即可创建已认证的小程序。第三方平台服务器可以收到创建appid信息（通过授权登录相关-授权事件接收URL接收信息）；
+     * 6、第三方获得小程序appid后，可调用代码开发相关接口，完成后续的小程序代码开发。
+     *
+     *
+     * </pre>
      * 快速创建小程序接口-创建小程序接口
      *
      * @param componentFastregisterweappCreateRequest
@@ -294,13 +297,48 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/component/fastregisterweapp?action=search", method = RequestMethod.POST)
     BaseResponse componentFastregisterweappSearch(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentFastregisterweappSearchRequest componentFastregisterweappSearchRequest);
-    /////////////////////快速创建小程序接口文档 -- end//////////////////////////////////////////////////////////////////////////////////////
-
 
 
     /**
-     * 2.1 获取帐号基本信息
-     * FIXME
+     * <pre>
+     * <h1>小程序信息设置</h1>
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21528465979XX32V&token=&lang=zh_CN}
+     * 1 获取帐号基本信息
+     * @see #accountGetaccountbasicinfo
+     * 2 小程序名称设置及改名
+     * @see com.qq.weixin.api.wxa.WxaClient#setnickname
+     * 3 小程序改名审核状态查询
+     * @see com.qq.weixin.api.wxa.WxaClient#api_wxa_querynickname
+     * 4 微信认证名称检测
+     * @see #wxverifyCheckwxverifynickname
+     * 5 修改头像
+     * @see #accountModifyheadimage
+     * 6 修改功能介绍
+     * @see #accountModifysignature
+     * 7 换绑小程序管理员接口
+     *  流程
+     *  步骤一：从第三方平台页面发起，并跳转至微信公众平台指定换绑页面。
+     *    @see com.qq.weixin.mp.MpUrlFormatter#getComponentrebindadminUrl
+     *  步骤二：小程序原管理员扫码，并填写原管理员身份证信息确认。
+     *    点击页面提交按钮。
+     *    跳转回第三方平台，会在上述 redirect_uri 后拼接 taskid=*
+     *    跳转回第三方平台举例： https://www.qq.com/auth/callback?taskid=b25519093b1e97239eff9d2bfc07e08e
+     *  步骤三：填写新管理员信息(姓名、身份证、手机号)，使用新管理员的微信确认。
+     *  步骤四：点击提交后跳转至第三方平台页面，第三方平台回调对应 api 完成换绑流程。
+     *     @see #accountComponentrebindadmin
+     * 8 类目相关接口
+     *  8.1 获取账号可以设置的所有类目
+     *   @see #wxopenGetallcategories
+     *  8.2添加类目
+     *   @see #wxopenAddcategory
+     *  8.3删除类目
+     *   @see #wxopenDeletecategory
+     *  8.4获取账号已经设置的所有类目
+     *   @see #wxopenGetcategory
+     *  8.5修改类目
+     *   @see #wxopenModifycategory
+     * </pre>
+     * 小程序信息设置-获取帐号基本信息
      *
      * @param accessToken
      * @return
@@ -317,7 +355,6 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/account/modifyheadimage", method = RequestMethod.POST)
     BaseResponse accountModifyheadimage(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
-
 
 
     /**
@@ -496,6 +533,21 @@ public interface CgibinClient {
     BaseResponse wxopenQrcodejumppublish(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
+     * <pre>
+     * <h1>代小程序实现业务-小程序模板设置</h1>
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1500465446_j4CgR&token=&lang=zh_CN}
+     * 1.获取小程序模板库标题列表
+     *  @see #wxopenTemplateLibararyList
+     * 2.获取模板库某个模板标题下关键词库
+     *  @see #wxopenTemplateLibararyGet
+     * 3.组合模板并添加至帐号下的个人模板库
+     *   @see #wxopenTemplateLibararyAdd
+     * 4.获取帐号下已存在的模板列表
+     *   @see #wxopenTemplateList
+     * 5.删除帐号下的某个模板
+     *   @see #wxopenTemplateDel
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/template-message.html}
+     * </pre>
      * 模板消息-获取小程序模板库标题列表
      *
      * @param accessToken
@@ -541,7 +593,19 @@ public interface CgibinClient {
     BaseResponse wxopenTemplateDel(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
-     * 创建 开放平台帐号并绑定公众号/小程序
+     * <pre>
+     * <h1>代小程序实现业务-微信开放平台帐号管理</h1>
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1498704199_1bcax&token=&lang=zh_CN}
+     * 1）创建开放平台帐号并绑定公众号/小程序
+     * @see #openCreate
+     * 2）将公众号/小程序绑定到已有开放平台帐号下
+     * @see #openBind
+     * 3）将公众号/小程序从开放平台帐号下解绑
+     * @see #openUnbind
+     * 4）获取公众号/小程序所绑定的开放平台帐号
+     *  @see #openGet
+     * </pre>
+     *  创建 开放平台帐号并绑定公众号/小程序
      *
      * @param accessToken
      * @return
@@ -590,6 +654,10 @@ public interface CgibinClient {
     /**
      * 获取小程序二维码，适用于需要的码数量较少的业务场景
      * 通过该接口生成的小程序码，永久有效，有数量限制
+     * <pre>
+     * @see com.qq.weixin.api.wxa.WxaClient#getwxacode
+     * @see com.qq.weixin.api.wxa.WxaClient#getwxacodeunlimit
+     * </pre>
      *
      * @param accessToken
      * @return

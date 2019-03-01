@@ -1,5 +1,8 @@
 package com.qq.weixin.mp;
 
+import com.qq.weixin.api.BaseRequest;
+import com.qq.weixin.api.cgibin.request.*;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -7,19 +10,10 @@ import java.net.URLEncoder;
  * @author gong.hua
  */
 public class MpUrlFormatter {
-    /**
-     * 换绑小程序管理员接口-从第三方平台跳转至微信公众平台授权注册页面
-     * 流程
-     * 步骤1：从第三方平台页面发起，并跳转至微信公众平台指定换绑页面。
-     *  @see #getComponentrebindadminUrl
-     * 步骤2：小程序原管理员扫码，并填写原管理员身份证信息确认。
-     * 步骤3：填写新管理员信息(姓名、身份证、手机号)，使用新管理员的微信确认。
-     * 步骤4：点击提交后跳转至第三方平台页面，第三方平台回调对应 api 完成换绑流程。
-     * @see com.qq.weixin.api.cgibin.CgibinClient#accountComponentrebindadmin
-     */
 
     /**
      * 从第三方平台页面发起，并跳转至微信公众平台指定换绑页面
+     *
      * @param component_appid 第三方平台的appid
      * @param appid           公众号的 appid
      * @param redirect_uri    新管理员信息填写完成点击提交后，将跳转到该地址(注：1.链接需 urlencode 2.Host需和第三方平台在微信开放平台上面填写的登录授权的发起页域名一致)
@@ -31,18 +25,19 @@ public class MpUrlFormatter {
                 appid, component_appid, URLEncoder.encode(redirect_uri, "UTF-8"));
     }
 
-    //////////第三方平台授权流程技术说明 -- start//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     *
+     * <pre>
+     *     <h1>授权流程技术说明</h1>
      * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1453779503&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=}
      *
      * 步骤1：第三方平台方获取预授权码（pre_auth_code）
-     **   预授权码是第三方平台方实现授权托管的必备信息。
+     * *   预授权码是第三方平台方实现授权托管的必备信息。
      *    @see com.qq.weixin.api.cgibin.CgibinClient#componentApiComponentToken
      *    @see com.qq.weixin.api.cgibin.CgibinClient#componentApi_create_preauthcode
      *
      * 步骤2：引入用户进入授权页
-     **    第三方平台方可以在自己的网站中放置“微信公众号授权”或者“小程序授权”的入口：
+     * *    第三方平台方可以在自己的网站中放置“微信公众号授权”或者“小程序授权”的入口：
      *      @see #getComonentloginpage
      *     或生成授权链接放置在移动网页中:
      *      @see #getBindcomponent
@@ -57,9 +52,7 @@ public class MpUrlFormatter {
      *     @see com.qq.weixin.api.cgibin.CgibinClient#componentApi_get_authorizer_info
      *     @see com.qq.weixin.api.cgibin.CgibinClient#componentApi_get_authorizer_option
      *     @see com.qq.weixin.api.cgibin.CgibinClient#componentApi_set_authorizer_option
-     */
-
-    /**
+     * </pre>
      * 第三方平台-引导公众号和小程序管理员进入授权页-微信端实际访问的授权链接
      *
      * @param component_appid
@@ -89,14 +82,14 @@ public class MpUrlFormatter {
         return String.format("https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s",
                 component_appid, pre_auth_code, URLEncoder.encode(redirect_uri, "UTF-8"));
     }
-    ///////////第三方平台授权流程技术说明 -- end////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
-     * 复用公众号主体快速注册小程序  start---
+     * <pre>
+     *      <h1>复用公众号主体快速注册小程序</h1>
      *      @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21521706765hLoMO&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=}
      *   1.1 从第三方平台跳转至微信公众平台授权注册页面
-     *      @see #getFastregisterauthUrl
+     *      @see #getFastregisterauthUrl(String, String, String)
      *   1.2 公众号管理员扫码确认授权注册，并跳转回第三方平台
      *      * 公众号管理员扫码后在手机端完成授权确认。
      *      * 跳转回第三方平台，会在上述 redirect_uri后拼接 ticket=*
@@ -108,11 +101,9 @@ public class MpUrlFormatter {
      *      2.1 获取帐号基本信息
      *       @see com.qq.weixin.api.cgibin.CgibinClient#accountGetaccountbasicinfo
      *      2.2 修改头像
-     *      @see com.qq.weixin.api.cgibin.CgibinClient#accountModifyheadimage
-     */
-
-    /**
-     * 1.1 从第三方平台跳转至微信公众平台授权注册页面
+     *       @see com.qq.weixin.api.cgibin.CgibinClient#accountModifyheadimage
+     * </pre>
+     * 从第三方平台跳转至微信公众平台授权注册页面
      *
      * @param appid
      * @param component_appid

@@ -18,12 +18,7 @@ import java.io.UnsupportedEncodingException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeixinFeignclientTestApplication.class)
-public class WeixinFeignclientTestApplicationTests {
-
-    @Test
-    public void contextLoads() {
-    }
-
+public class CgibinClientTests {
 
     @Autowired
     private CgibinClient cgibinClient;

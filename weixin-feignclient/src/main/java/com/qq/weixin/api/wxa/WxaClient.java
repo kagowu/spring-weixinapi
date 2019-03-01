@@ -2,9 +2,11 @@ package com.qq.weixin.api.wxa;
 
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
+import com.qq.weixin.api.cgibin.request.TemplateApi_set_industryRequest;
 import com.qq.weixin.api.wxa.request.ModifyDomainRequest;
 import com.qq.weixin.api.wxa.request.WebviewdomainRequest;
 import com.qq.weixin.api.wxa.response.ModifyDomainResopnse;
+import com.qq.weixin.api.wxa.response.PluginResponse;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +57,21 @@ public interface WxaClient {
 
 
     /**
+     * <pre>
+     *     <h1>代小程序实现业务-基础信息设置</h1>
+     * 1. 设置小程序隐私设置（是否可被搜索）
+     *  @see #changewxasearchstatus
+     * 2. 查询小程序当前隐私设置（是否可被搜索）
+     *  @see #getwxasearchstatus
+     * 3 小程序扫码公众号关注组件
+     *   用户扫码使用小程序时，即可展示当前公众号，用户可直接关注公众号。
+     *   3.1. 获取展示的公众号信息
+     *   @see #getshowwxaitem
+     *   3.2 设置展示的公众号
+     *   @see #updateshowwxaitem
+     *   3.3 获取可以用来设置的公众号列表
+     *   @see #getwxamplinkforshow
+     * </pre>
      * 设置小程序隐私设置（是否可被搜索）
      *
      * @param accessToken
@@ -102,6 +119,16 @@ public interface WxaClient {
     BaseResponse getwxamplinkforshow(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
+     * <pre>
+     *     <h1>代小程序实现业务-成员管理</h1>
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1489140588_nVUgx&token=&lang=zh_CN}
+     * 1、绑定微信用户为小程序体验者
+     *  @see #bind_tester
+     * 2、解除绑定小程序的体验者
+     *  @see #unbind_tester
+     * 3. 获取体验者列表
+     *  @see #memberauth
+     * </pre>
      * 绑定微信用户为小程序体验者
      *
      * @param accessToken
@@ -130,6 +157,59 @@ public interface WxaClient {
 
 
     /**
+     * <pre>
+     * <h1>代小程序实现业务-代码管理</h1>
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1489140610_Uavc4&token=&lang=zh_CN}
+     * 1、为授权的小程序帐号上传小程序代码
+     * @see #commit
+     * 2、获取体验小程序的体验二维码
+     * @see #get_qrcode
+     * 3、获取授权小程序帐号已设置的类目
+     * @see #get_category
+     * 4、获取小程序的第三方提交代码的页面配置（仅供第三方开发者代小程序调用）
+     * @see #get_page
+     * 5、将第三方提交的代码包提交审核（仅供第三方开发者代小程序调用）
+     * @see #submit_audit
+     * 6、获取审核结果
+     *   当小程序有审核结果后，第三方平台将可以通过开放平台上填写的回调地址，获得审核结果通知。
+     *   除了消息通知之外，第三方平台也可通过接口查询审核状态。
+     * 7、查询某个指定版本的审核状态（仅供第三方代小程序调用）
+     * @see #get_auditstatus
+     * 8、查询最新一次提交的审核状态（仅供第三方代小程序调用）
+     * @see #get_latest_auditstatus
+     * 9、发布已通过审核的小程序（仅供第三方代小程序调用）
+     * @see #release
+     * 10、修改小程序线上代码的可见状态（仅供第三方代小程序调用）
+     * @see #change_visitstatus
+     * 11. 小程序版本回退（仅供第三方代小程序调用）
+     * @see #revertcoderelease
+     * 12. 查询当前设置的最低基础库版本及各版本用户占比（仅供第三方代小程序调用）
+     * @see com.qq.weixin.api.cgibin.CgibinClient#wxopenGetweappsupportversion
+     * 13. 设置最低基础库版本（仅供第三方代小程序调用）
+     * @see com.qq.weixin.api.cgibin.CgibinClient#wxopenSetweappsupportversion
+     * 14. 设置小程序“扫普通链接二维码打开小程序”能力
+     * @link {https://developers.weixin.qq.com/miniprogram/introduction/qrcode.html}
+     * (1)增加或修改二维码规则
+     * @see com.qq.weixin.api.cgibin.CgibinClient#wxopenQrcodejumpadd
+     * (2)获取已设置的二维码规则
+     * @see com.qq.weixin.api.cgibin.CgibinClient#wxopenQrcodejumpget
+     * (3)获取校验文件名称及内容
+     * @see com.qq.weixin.api.cgibin.CgibinClient#wxopenQrcodejumpdownload
+     * (4)删除已设置的二维码规则
+     * @see com.qq.weixin.api.cgibin.CgibinClient#wxopenQrcodejumpdelete
+     * (5)发布已设置的二维码规则
+     * @see com.qq.weixin.api.cgibin.CgibinClient#wxopenQrcodejumppublish
+     * 15. 小程序审核撤回
+     * 单个帐号每天审核撤回次数最多不超过1次，一个月不超过10次。
+     * @see #undocodeaudit
+     * 16.小程序分阶段发布
+     * （1）分阶段发布接口
+     * @see #grayrelease
+     * （2）取消分阶段发布
+     * @see #revertgrayrelease
+     * （3）查询当前分阶段发布详情
+     * @see #getgrayreleaseplan
+     * </pre>
      * 为授权的小程序帐号上传小程序代码
      *
      * @param accessToken
@@ -258,6 +338,18 @@ public interface WxaClient {
     BaseResponse getgrayreleaseplan(@RequestParam("access_token") String accessToken);
 
     /**
+     * <pre>
+     * <h1>代小程序实现业务-小程序代码模版库管理</h1>
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1506504150_nMMh6&token=&lang=zh_CN}
+     * 1、获取草稿箱内的所有临时代码草稿
+     *  @see #gettemplatedraftlist
+     * 2、获取代码模版库中的所有小程序代码模版
+     *  @see #gettemplatelist
+     * 3、将草稿箱的草稿选为小程序代码模版
+     *  @see #addtotemplate
+     * 4、删除指定小程序代码模版
+     *  @see #deletetemplate
+     * </pre>
      * 获取草稿箱内的所有临时代码草稿
      *
      * @param accessToken
@@ -315,17 +407,83 @@ public interface WxaClient {
                                     @RequestParam("out_trade_no") String out_trade_no);
 
     /**
-     * 申请使用插件接口 apply
+     * <pre>
+     * <h1>代小程序实现业务-小程序插件管理权限集</h1>
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21521637082Sqi4M&token=&lang=zh_CN}
+     * 1.申请使用插件
+     * @see #pluginApply
+     * 2.查询已添加的插件
+     * @see #pluginList
+     * 3.删除已添加的插件
+     * @see #pluginUnbind
+     * 4.快速更新插件版本号
+     * @see #pluginUpdate
+     * </pre>
+     * 申请使用插件接口
      *
      * @param accessToken
      * @return
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/applyPlugin.html}
-     * 查询已添加的插件 list
-     * 删除已添加的插件 unbind
-     * 快速更新插件版本
      */
     @RequestMapping(value = "/plugin", method = RequestMethod.POST)
-    BaseResponse plugin(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    PluginResponse plugin(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    /**
+     * 申请使用插件接口
+     *
+     * @param accessToken
+     * @param pluginAppid
+     * @return
+     */
+    default BaseResponse pluginApply(String accessToken, String pluginAppid) {
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.put("action", "apply");
+        baseRequest.put("plugin_appid", pluginAppid);
+        return plugin(accessToken, baseRequest);
+    }
+
+    /**
+     * 查询已添加的插件
+     *
+     * @param accessToken
+     * @return
+     */
+    default PluginResponse pluginList(String accessToken) {
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.put("action", "list");
+        return plugin(accessToken, baseRequest);
+    }
+
+    /**
+     * 删除已添加的插件
+     *
+     * @param accessToken
+     * @param pluginAppid
+     * @return
+     */
+    default BaseResponse pluginUnbind(String accessToken, String pluginAppid) {
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.put("action", "unbind");
+        baseRequest.put("plugin_appid", pluginAppid);
+        return plugin(accessToken, baseRequest);
+    }
+
+
+    /**
+     * 快速更新插件版本号
+     *
+     * @param accessToken
+     * @param pluginAppid
+     * @param userVersion
+     * @return
+     */
+    default BaseResponse pluginUpdate(String accessToken, String pluginAppid, String userVersion) {
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.put("action", "update");
+        baseRequest.put("user_version", userVersion);
+        baseRequest.put("plugin_appid", pluginAppid);
+        return plugin(accessToken, baseRequest);
+    }
 
     /**
      * 获取当前所有插件使用方（供插件开发者调用）
@@ -371,6 +529,10 @@ public interface WxaClient {
     /**
      * 获取小程序码，适用于需要的码数量较少的业务场景。
      * 通过该接口生成的小程序码，永久有效，有数量限制
+     * <pre>
+     * @see #getwxacodeunlimit
+     * @see com.qq.weixin.api.cgibin.CgibinClient#wxaappCreatewxaqrcode
+     * </pre>
      *
      * @param accessToken
      * @return

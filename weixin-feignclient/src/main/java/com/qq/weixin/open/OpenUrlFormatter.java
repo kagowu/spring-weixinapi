@@ -23,6 +23,16 @@ public class OpenUrlFormatter {
     }
 
     /**
+     * * <pre>
+     *  1、引导用户进入授权页面同意授权，获取code
+     *   @see #getConnectOauth2AuthorizeUrl
+     *  2、通过code换取网页授权access_token（与基础支持中的access_token不同）
+     *   @see com.qq.weixin.api.sns.SnsClient#oauth2Access_token(String, String, String)
+     *  3、如果需要，开发者可以刷新网页授权access_token，避免过期
+     *   @see com.qq.weixin.api.sns.SnsClient#oauth2Refresh_token(String, String)
+     *  4、通过网页授权access_token和openid获取用户基本信息（支持UnionID机制）
+     *   @see   com.qq.weixin.api.sns.SnsClient#userInfo(String, String)
+     *  </pre>
      * 获取authorizeUrl
      *
      * @param appid
