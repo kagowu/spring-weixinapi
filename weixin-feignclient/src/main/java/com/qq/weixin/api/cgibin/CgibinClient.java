@@ -194,15 +194,6 @@ public interface CgibinClient {
 
 
     /**
-     * 授权流程技术说明 -- start
-     * @link https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1453779503&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=
-     * 步骤1：第三方平台方获取预授权码（pre_auth_code）
-     ** 预授权码是第三方平台方实现授权托管的必备信息，可以通过本文第3部分获取。
-     *
-     * 步骤2：引入用户进入授权页
-     ** 第三方平台方可以在自己的网站中放置“微信公众号授权”或者“小程序授权”的入口，或生成授权链接放置在移动网页中，引导公众号和小程序管理员进入授权页。
-     */
-    /**
      * 获取第三方平台token
      *
      * @param componentTokenRequest
@@ -212,7 +203,7 @@ public interface CgibinClient {
     ComponentTokenResponse componentApiComponentToken(@RequestBody ComponentTokenRequest componentTokenRequest);
 
     /**
-     * 获取预授权码pre_auth_code
+     * 授权流程-获取预授权码pre_auth_code
      *
      * @param componentAccessToken
      * @return
@@ -220,20 +211,6 @@ public interface CgibinClient {
     @RequestMapping(value = "/component/api_create_preauthcode", method = RequestMethod.POST)
     ComponentApi_create_preauthcodeResponse componentApi_create_preauthcode(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_create_preauthcodeRequest componentApi_create_preauthcodeRequest);
 
-    /**
-     * 第三方平台-引导公众号和小程序管理员进入授权页-引导页
-     * 获取到的地址，必须在和redirect_uri的域名相同的地方才能点击进入，否则报错。
-     *
-     * @param component_appid
-     * @param pre_auth_code
-     * @param redirect_uri
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    default String getComonentloginpage(String component_appid, String pre_auth_code, String redirect_uri) throws UnsupportedEncodingException {
-        return String.format("https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s",
-                component_appid, pre_auth_code, URLEncoder.encode(redirect_uri, "UTF-8"));
-    }
 
     /**
      * 授权流程-使用授权码换取公众号或小程序的接口调用凭据和授权信息
@@ -284,9 +261,7 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/component/api_set_authorizer_option", method = RequestMethod.POST)
     BaseResponse componentApi_set_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_set_authorizer_optionRequest componentApi_set_authorizer_optionRequest);
-    /**
-     * 授权流程技术说明 -- end
-     */
+
 
 
     /**
@@ -297,8 +272,11 @@ public interface CgibinClient {
      * 通过该接口创建小程序默认“已认证”。为降低接入小程序的成本门槛，通过该接口创建的小程序无需交<b>300</b>元认证费。
      *
      * 注：该接口只能创建线下类目小程序，创建线上类目小程序将被驳回，且影响第三方调用该接口的quota。
-     * @link(https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21538208049W8uwq&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=)
-     */
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21538208049W8uwq&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=}
+     * @see #componentFastregisterweappCreate
+     * @see #componentFastregisterweappSearch
+     *
+     * /
     /**
      * 快速创建小程序接口-创建小程序接口
      *
@@ -316,13 +294,11 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/component/fastregisterweapp?action=search", method = RequestMethod.POST)
     BaseResponse componentFastregisterweappSearch(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentFastregisterweappSearchRequest componentFastregisterweappSearchRequest);
-    /**
-     * 快速创建小程序接口文档 -- end
-     */
+    /////////////////////快速创建小程序接口文档 -- end//////////////////////////////////////////////////////////////////////////////////////
 
 
+
     /**
-     * 2 小程序信息设置相关接口
      * 2.1 获取帐号基本信息
      * FIXME
      *
@@ -341,6 +317,8 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "/account/modifyheadimage", method = RequestMethod.POST)
     BaseResponse accountModifyheadimage(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+
 
     /**
      * 换绑小程序管理员接口-跳转至第三方平台，第三方平台调用快速注册API完成管理员换绑。
@@ -362,44 +340,14 @@ public interface CgibinClient {
     BaseResponse accountModifysignature(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
 
-    /**复用公众号主体快速注册小程序  start---
-     * @link https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=21521706765hLoMO&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=
-     */
-
     /**
-     * 1.1 从第三方平台跳转至微信公众平台授权注册页面
-     *
-     * @param appid
-     * @param component_appid
-     * @param redirect_uri
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    default String getFastregisterauthUrl(String appid, String component_appid, String redirect_uri) throws UnsupportedEncodingException {
-        return String.format("https://mp.weixin.qq.com/cgi-bin/fastregisterauth?appid=%s&component_appid=%s&copy_wx_verify=1&redirect_uri=%s",
-                appid, component_appid, URLEncoder.encode(redirect_uri, "UTF-8"));
-    }
-
-    /**
-     * 1.2 公众号管理员扫码确认授权注册，并跳转回第三方平台
-     * 公众号管理员扫码后在手机端完成授权确认。
-     * 跳转回第三方平台，会在上述 redirect_uri后拼接 ticket=*
-     * 跳转回第三方平台举例:
-     * https://www.qq.com/auth/callback?from=mp&ticket=b25519093b1e97239eff9d2bfc07e08e
-     */
-
-    /**
-     * 1.3 跳转至第三方平台，第三方平台调用快速注册API完成注册
+     * 跳转至第三方平台，第三方平台调用快速注册API完成注册
      *
      * @param accessToken
      * @return
      */
     @RequestMapping(value = "/account/fastregister", method = RequestMethod.POST)
     BaseResponse accountFastregister(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
-    /**复用公众号主体快速注册小程序  end---
-     *
-     */
-
 
     /**
      * 微信认证名称检测
@@ -709,7 +657,6 @@ public interface CgibinClient {
      */
     @RequestMapping(value = "express/business/quota/get", method = RequestMethod.POST)
     BaseResponse expressBusinessQuotaGet(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
-
 
 
     /**

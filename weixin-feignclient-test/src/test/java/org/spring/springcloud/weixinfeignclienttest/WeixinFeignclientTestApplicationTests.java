@@ -6,6 +6,7 @@ import com.qq.weixin.api.cgibin.CgibinClient;
 import com.qq.weixin.api.cgibin.request.*;
 import com.qq.weixin.api.cgibin.response.ComponentApi_get_authorizer_infoResponse;
 import com.qq.weixin.api.cgibin.response.ComponentTokenResponse;
+import com.qq.weixin.mp.MpUrlFormatter;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +61,7 @@ public class WeixinFeignclientTestApplicationTests {
 
     @Test
     public void getComonentloginpage() throws UnsupportedEncodingException {
-        val val = cgibinClient.getComonentloginpage("wxe3987587f06091cf", pre_auth_code, "http://wmd.dev.zhongjieyun.cn/wxopen/api/auth/jump");
+        val val = MpUrlFormatter.getComonentloginpage("wxe3987587f06091cf", pre_auth_code, "http://wmd.dev.zhongjieyun.cn/wxopen/api/auth/jump");
         System.err.println(JSON.toJSONString(val, true));
 
     }
