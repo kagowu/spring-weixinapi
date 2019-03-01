@@ -1,8 +1,5 @@
 package com.qq.weixin.mp;
 
-import com.qq.weixin.api.BaseRequest;
-import com.qq.weixin.api.cgibin.request.*;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 

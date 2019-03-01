@@ -35,8 +35,8 @@ package com.qq.weixin.cipher;
 
 import com.qq.weixin.cipher.aes.PKCS7Encoder;
 import com.qq.weixin.cipher.sha1.SHA1;
-import com.qq.weixin.cipher.util.CipherException;
 import com.qq.weixin.cipher.util.ByteGroup;
+import com.qq.weixin.cipher.util.CipherException;
 import com.qq.weixin.cipher.util.XMLParse;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -2,7 +2,6 @@ package com.qq.weixin.api.wxa;
 
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
-import com.qq.weixin.api.cgibin.request.TemplateApi_set_industryRequest;
 import com.qq.weixin.api.wxa.request.ModifyDomainRequest;
 import com.qq.weixin.api.wxa.request.WebviewdomainRequest;
 import com.qq.weixin.api.wxa.response.ModifyDomainResopnse;
