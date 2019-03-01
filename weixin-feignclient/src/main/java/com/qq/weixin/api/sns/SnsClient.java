@@ -102,7 +102,7 @@ public interface SnsClient {
      * @param js_code
      * @return
      */
-    @RequestMapping(value = "component/jscode2session??grant_type=authorization_code", method = RequestMethod.GET)
+    @RequestMapping(value = "component/jscode2session?grant_type=authorization_code", method = RequestMethod.GET)
     BaseResponse componetJscode2session(@RequestParam("appid") String appid, @RequestParam("js_code") String js_code, @RequestParam("component_appid") String component_appid,
                                         @RequestParam("component_access_token") String component_access_token);
 
