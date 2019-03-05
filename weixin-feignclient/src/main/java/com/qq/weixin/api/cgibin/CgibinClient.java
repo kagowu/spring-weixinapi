@@ -204,7 +204,7 @@ public interface CgibinClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getTempMedia.html}
      */
     @RequestMapping(value = "/media/get", method = RequestMethod.POST)
-    BaseResponse mediaGet(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse mediaGet(@RequestParam("access_token") String accessToken, @RequestParam("media_id") String media_id);
 
     /**
      * 把媒体文件上传到微信服务器。目前仅支持图片。用于发送客服消息或被动回复用户消息
@@ -377,7 +377,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/account/getaccountbasicinfo", method = RequestMethod.POST)
-    BaseResponse accountGetaccountbasicinfo(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse accountGetaccountbasicinfo(@RequestParam("access_token") String accessToken);
 
     /**
      * 修改头像
