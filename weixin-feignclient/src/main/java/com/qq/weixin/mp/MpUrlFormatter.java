@@ -9,6 +9,17 @@ import java.net.URLEncoder;
 public class MpUrlFormatter {
 
     /**
+     * 通过ticket换取二维码
+     *
+     * 获取二维码ticket后，开发者可用ticket换取二维码图片。请注意，本接口无须登录态即可调用。
+     * @param ticket
+     * @return
+     */
+    public static String showqrcode(String ticket) {
+        return String.format("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s",
+                ticket);
+    }
+    /**
      * 从第三方平台页面发起，并跳转至微信公众平台指定换绑页面
      *
      * @param component_appid 第三方平台的appid

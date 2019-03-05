@@ -88,6 +88,42 @@ public interface CgibinClient {
     QrcodeCreateResponse qrcodeCreate(@RequestParam("access_token") String accessToken, @RequestBody QrcodeCreateRequest qrcodeCreateRequest);
 
     /**
+     * 临时二维码请求说明
+     * @param accessToken
+     * @param expire_seconds
+     * @param scene_id
+     * @return
+     */
+    default QrcodeCreateResponse qrcodeCreateTemp(String accessToken, int expire_seconds,int scene_id){
+        QrcodeCreateRequest qrcodeCreateRequest = new QrcodeCreateRequest();
+        qrcodeCreateRequest.setExpire_seconds(expire_seconds);
+        qrcodeCreateRequest.setAction_name("QR_SCENE");
+        QrcodeCreateRequest.ActionInfo actionInfo = new QrcodeCreateRequest.ActionInfo();
+        QrcodeCreateRequest.Scene scene = new QrcodeCreateRequest.Scene();
+        scene.setScene_id(scene_id);
+        actionInfo.setScene(scene);
+        qrcodeCreateRequest.setAction_info(actionInfo);
+        return qrcodeCreate(accessToken,qrcodeCreateRequest);
+    }
+
+    /**
+     * 永久二维码请求说明
+     * @param accessToken
+     * @param scene_str
+     * @return
+     */
+    default QrcodeCreateResponse qrcodeCreateForever(String accessToken, String scene_str){
+        QrcodeCreateRequest qrcodeCreateRequest = new QrcodeCreateRequest();
+        qrcodeCreateRequest.setAction_name("QR_LIMIT_STR_SCENE");
+        QrcodeCreateRequest.ActionInfo actionInfo = new QrcodeCreateRequest.ActionInfo();
+        QrcodeCreateRequest.Scene scene = new QrcodeCreateRequest.Scene();
+        scene.setScene_str(scene_str);
+        actionInfo.setScene(scene);
+        qrcodeCreateRequest.setAction_info(actionInfo);
+        return qrcodeCreate(accessToken,qrcodeCreateRequest);
+    }
+
+    /**
      * JS-SDK使用权限签名算法
      *
      * @param accessToken

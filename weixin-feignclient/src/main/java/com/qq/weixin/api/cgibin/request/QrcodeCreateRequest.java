@@ -21,7 +21,8 @@ public class QrcodeCreateRequest {
 
     @Data
     public static class Scene {
-        private String scene_id;
+        private int scene_id;
+        private String scene_str;
 
     }
 }

@@ -1,12 +1,8 @@
 package org.spring.springcloud.weixinfeignclienttest;
 
 import com.alibaba.fastjson.JSON;
-import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.cgibin.CgibinClient;
 import com.qq.weixin.api.cgibin.request.*;
-import com.qq.weixin.api.cgibin.response.ComponentApi_get_authorizer_infoResponse;
-import com.qq.weixin.api.cgibin.response.ComponentTokenResponse;
-import com.qq.weixin.mp.MpUrlFormatter;
 import lombok.val;
 import org.junit.After;
 import org.junit.Before;
@@ -15,8 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.UnsupportedEncodingException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeixinFeignclientTestApplication.class)
@@ -34,6 +28,7 @@ public class CgibinClientTests {
 
     @Before
     public void before() {
+
 
     }
 
@@ -84,7 +79,7 @@ public class CgibinClientTests {
         val request = new ComponentApi_get_authorizer_infoRequest();
         request.setAuthorizer_appid("wx01fa97816dcd707c");
         request.setComponent_appid("wxe3987587f06091cf");
-        ComponentApi_get_authorizer_infoResponse response = cgibinClient.componentApi_get_authorizer_info(componentToken, request);
+        response = cgibinClient.componentApi_get_authorizer_info(componentToken, request);
         req = request;
     }
 
@@ -239,14 +234,7 @@ public class CgibinClientTests {
     @Test
     public void qrcodeCreate() {
         val qrcodeCreateRequest = new QrcodeCreateRequest();
-        QrcodeCreateRequest.ActionInfo actionInfo = new QrcodeCreateRequest.ActionInfo();
-        QrcodeCreateRequest.Scene scene = new QrcodeCreateRequest.Scene();
-        scene.setScene_id("123");
-        actionInfo.setScene(scene);
-        qrcodeCreateRequest.setAction_info(actionInfo);
-        qrcodeCreateRequest.setAction_name("QR_SCENE");
-        qrcodeCreateRequest.setExpire_seconds(864000);
-        cgibinClient.qrcodeCreate(token, qrcodeCreateRequest);
+        cgibinClient.qrcodeCreateTemp(token, 864000,123);
         req = qrcodeCreateRequest;
     }
 
