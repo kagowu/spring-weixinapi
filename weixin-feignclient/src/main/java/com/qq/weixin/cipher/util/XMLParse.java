@@ -30,8 +30,8 @@ public class XMLParse {
      * @param xmltext 待提取的xml字符串
      * @return 提取出的加密消息字符串
      */
-    public static Object[] extract(String xmltext) throws CipherException {
-        Object[] result = new Object[3];
+    public static String[] extractChild(String xmltext, String... args) throws CipherException {
+        String[] result = new String[args.length];
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -40,11 +40,9 @@ public class XMLParse {
             Document document = db.parse(is);
 
             Element root = document.getDocumentElement();
-            NodeList nodelist1 = root.getElementsByTagName("Encrypt");
-            NodeList nodelist2 = root.getElementsByTagName("ToUserName");
-            result[0] = 0;
-            result[1] = nodelist1.item(0).getTextContent();
-            result[2] = nodelist2.item(0).getTextContent();
+            for (int i = 0; i < args.length; i++) {
+                result[i] = root.getElementsByTagName(args[0]).item(0).getTextContent();
+            }
             return result;
         } catch (Exception e) {
             e.printStackTrace();

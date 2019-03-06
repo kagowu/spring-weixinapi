@@ -291,10 +291,10 @@ public class MpBizMsgCrypt {
 
         // 密钥，公众账号的app secret
         // 提取密文
-        Object[] encrypt = XMLParse.extract(postData);
+        String[] encrypt = XMLParse.extractChild(postData,"Encrypt");
 
         // 验证安全签名
-        String signature = SHA1.getSHA1(token, timeStamp, nonce, encrypt[1].toString());
+        String signature = SHA1.getSHA1(token, timeStamp, nonce, encrypt[0]);
 
         // 和URL中的签名比较是否相等
         // System.out.println("第三方收到URL中的签名：" + msg_sign);
@@ -304,7 +304,7 @@ public class MpBizMsgCrypt {
         }
 
         // 解密
-        String result = decrypt(encrypt[1].toString());
+        String result = decrypt(encrypt[0]);
         return result;
     }
 
