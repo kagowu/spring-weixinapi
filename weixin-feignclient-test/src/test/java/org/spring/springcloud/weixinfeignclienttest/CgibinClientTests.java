@@ -3,6 +3,7 @@ package org.spring.springcloud.weixinfeignclienttest;
 import com.alibaba.fastjson.JSON;
 import com.qq.weixin.api.cgibin.CgibinClient;
 import com.qq.weixin.api.cgibin.request.*;
+import com.qq.weixin.api.cgibin.response.ComponentApi_query_authResponse;
 import lombok.val;
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +21,7 @@ public class CgibinClientTests {
     private CgibinClient cgibinClient;
 
     private String token = "19_g62tFf2xqOG1gDR1MZZhguyMxtXNYp1iUe8hNq-lKT6pcvAFiPTp6oDYZunRaG2ke45pNiuxHv26b3OjkR62MF8hqELSL7TkRIcvZZb3MKJ4ygbuSUnxDaKdoMIZVAgAIASOT";
-    private String componentToken = "19_VHEwZ6q1TtcR9zJqBU7h0YsF5ovIuyOVRJOoSUG2RO9ca9pH86m1LJ-1CFXmIqow2NCxp1910KLdrNl9sYJKM6X8ZNOUh8I3T6DjZ3v-A1PnH9veXyYd_eebCRmIRGI0l_qS575caGemcFdeQVOhAHADIB";
+    private String componentToken = "19_Mepz8ZhKUchyY9cAlxLcwV-5XH6JQSrU5HsFj6fEpvKYPRFpXk35kQ_3O12shswlPBbqvpLBfkZGoZmYlcEumPKWym9WyDYK3vOptmQAlvuIdRu89eqbEqzz4psJFnLiuBTAM2znKs28JL4_GNZcAGACJV";
 
 
     private Object response;
@@ -89,6 +90,12 @@ public class CgibinClientTests {
 
     @Test
     public void componentApi_query_auth() {
+        ComponentApi_query_authRequest componentApi_query_authRequest = new ComponentApi_query_authRequest();
+        componentApi_query_authRequest.setComponent_appid("wxb5520b267480440f");
+        componentApi_query_authRequest.setAuthorization_code("queryauthcode@@@Ih2aJaVvoZaCSpgaJkef-XFcwyAJ0zDWJri8t-Vft0pw-2XfCqcutzbO-crp7cjau2RTlH-Ia2-Mxrl8_CCVTw");
+        response = cgibinClient.componentApi_query_auth(componentToken, componentApi_query_authRequest);
+        req = componentApi_query_authRequest;
+
     }
 
     @Test

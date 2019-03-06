@@ -21,8 +21,20 @@ public class ComponentApi_query_authResponse extends BaseResponse {
 
     @Data
     public static class Func_info {
-        private String[] funcscope_category;
+        private Funcscope_category funcscope_category;
+        private Confirm_info confirm_info;
     }
 
+    @Data
+    public static class Funcscope_category{
+        private Integer id;
+    }
+
+    @Data
+    public static class Confirm_info{
+        private Integer need_confirm;
+        private Integer already_confirm;
+        private Integer can_confirm;
+    }
 
 }
