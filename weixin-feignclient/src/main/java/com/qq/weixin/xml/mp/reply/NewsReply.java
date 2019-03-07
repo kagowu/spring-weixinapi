@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * 回复图文消息
@@ -37,7 +38,7 @@ public class NewsReply extends BaseReplyMsg {
          * 消息标题
          */
         @XmlElement(name = "item")
-        private Item[] items;
+        private List<Item> items;
     }
 
     @Data

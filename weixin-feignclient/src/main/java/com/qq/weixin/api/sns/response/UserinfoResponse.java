@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qq.weixin.api.BaseResponse;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author gong.hua
  */
@@ -22,6 +24,6 @@ public class UserinfoResponse extends BaseResponse {
     @JSONField(name = "subscribe_time")
     @JsonProperty("subscribe_time")
     private Integer subscribeTime;
-    private String[] privilege;
+    private List<String> privilege;
     private String unionid;
 }

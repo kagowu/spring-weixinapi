@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeixinFeignclientTestApplication.class)
@@ -141,8 +142,8 @@ public class CgibinClientTests {
         viewButton2.setUrl("http://www.baidu.com");
         viewButton2.setName("test2");
         viewButton2.setKey("key2");
-        viewButton.setSubButtons(new MenuCreateRequest.Button[]{viewButton1, viewButton2});
-        request.setButton(new MenuCreateRequest.Button[]{viewButton});
+        viewButton.setSubButtons(Arrays.asList(new MenuCreateRequest.Button[]{viewButton1, viewButton2}));
+        request.setButton(Arrays.asList(new MenuCreateRequest.Button[]{viewButton}));
         System.err.println(JSON.toJSONString(request, true));
         response = cgibinClient.menuCreate(accessToken, request);
         System.err.println(JSON.toJSONString(request, true));

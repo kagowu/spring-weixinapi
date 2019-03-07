@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qq.weixin.api.BaseResponse;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author gong.hua
  */
@@ -12,7 +14,7 @@ import lombok.Data;
 public class PluginResponse extends BaseResponse {
     @JSONField(name = "plugin_list")
     @JsonProperty("plugin_list")
-    private Plugin[] plugins;
+    private List<Plugin> plugins;
 
     @Data
     public static class Plugin {

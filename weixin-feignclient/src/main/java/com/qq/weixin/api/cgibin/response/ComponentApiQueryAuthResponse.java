@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qq.weixin.api.BaseResponse;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author gong.hua
  */
@@ -34,7 +36,7 @@ public class ComponentApiQueryAuthResponse extends BaseResponse {
 
         @JSONField(name = "func_info")
         @JsonProperty("func_info")
-        private FuncInfo[] funcInfos;
+        private List<FuncInfo> funcInfos;
     }
 
     @Data

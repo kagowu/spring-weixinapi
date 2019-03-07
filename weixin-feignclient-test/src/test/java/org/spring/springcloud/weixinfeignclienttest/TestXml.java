@@ -11,6 +11,8 @@ import com.qq.weixin.xml.util.JAXBUtils;
 import lombok.val;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -72,7 +74,7 @@ public class TestXml {
         item1.setDescription("description");
         NewsReply.Item[] items = new NewsReply.Item[]{item, item1};
         NewsReply.Articles articles = new NewsReply.Articles();
-        articles.setItems(items);
+        articles.setItems(Arrays.asList(items));
         val.setArticles(articles);
         val.setCreateTime(123);
 

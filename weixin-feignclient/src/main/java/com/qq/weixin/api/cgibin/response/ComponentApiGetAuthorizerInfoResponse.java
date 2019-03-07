@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qq.weixin.api.BaseResponse;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author gong.hua
  */
@@ -120,20 +122,20 @@ public class ComponentApiGetAuthorizerInfoResponse extends BaseResponse {
 
         @JSONField(name = "func_info")
         @JsonProperty("func_info")
-        private FuncInfo[] funcInfos;
+        private List<FuncInfo> funcInfos;
     }
 
     @Data
     public static class FuncInfo {
         @JSONField(name = "funcscope_category")
         @JsonProperty("funcscope_category")
-        private String[] funcscopeCategory;
+        private List<String> funcscopeCategory;
     }
 
     @Data
     public static class MiniProgramInfo {
         private Network network;
-        private Categorie[] categories;
+        private List<Categorie> categories;
 
         @JSONField(name = "visit_status")
         @JsonProperty("visit_status")
@@ -145,19 +147,19 @@ public class ComponentApiGetAuthorizerInfoResponse extends BaseResponse {
     public static class Network {
         @JSONField(name = "RequestDomain")
         @JsonProperty("RequestDomain")
-        private String[] requestDomain;
+        private List<String> requestDomain;
 
         @JSONField(name = "WsRequestDomain")
         @JsonProperty("WsRequestDomain")
-        private String[] wsRequestDomain;
+        private List<String> wsRequestDomain;
 
         @JSONField(name = "UploadDomain")
         @JsonProperty("UploadDomain")
-        private String[] uploadDomain;
+        private List<String> uploadDomain;
 
         @JSONField(name = "DownloadDomain")
         @JsonProperty("DownloadDomain")
-        private String[] downloadDomain;
+        private List<String> downloadDomain;
 
 
     }

@@ -13,7 +13,7 @@ public class MenuCreateRequest {
     /**
      * 一级菜单数组，个数应为1~3个
      */
-    private Button[] button;
+    private List<Button> button;
 
     @Data
     @NoArgsConstructor
@@ -36,7 +36,7 @@ public class MenuCreateRequest {
          */
         @JSONField(name = "sub_button")
         @JsonProperty("sub_button")
-        private Button[] subButtons;
+        private List<Button> subButtons;
 
         /**
          * view、miniprogram类型必须
