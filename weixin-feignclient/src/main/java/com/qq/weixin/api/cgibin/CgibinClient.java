@@ -35,6 +35,9 @@ public interface CgibinClient {
     @RequestMapping(value = "/clear_quota", method = RequestMethod.POST)
     BaseResponse clearQuota(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
+
+    @RequestMapping(value = "/cgi-bin/user/info?lang=zh_CN", method = RequestMethod.GET)
+    UnionUserInfoResponse userInfo(@RequestParam("access_token") String accessToken, @RequestParam("openid") String openId);
     /**
      * 自定义菜单创建接口
      *
