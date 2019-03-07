@@ -1,17 +1,22 @@
 package com.qq.weixin.api.cgibin.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class MenuCreateRequest {
     /**
      * 一级菜单数组，个数应为1~3个
      */
-    private MenuCreateRequest.Button[] button;
+    private Button[] button;
 
     @Data
+    @NoArgsConstructor
     public static class Button {
 
         /**
@@ -29,7 +34,9 @@ public class MenuCreateRequest {
         /**
          * 二级菜单数组，个数应为1~5个
          */
-        private List<Button> sub_button;
+        @JSONField(name = "sub_button")
+        @JsonProperty("sub_button")
+        private Button[] subButtons;
 
         /**
          * view、miniprogram类型必须
@@ -58,54 +65,54 @@ public class MenuCreateRequest {
          * media_id类型和view_limited类型必须
          * 调用新增永久素材接口返回的合法media_id
          */
-        private String media_id;
+        @JSONField(name = "media_id")
+        @JsonProperty("media_id")
+        private String mediaId;
+
+        protected Button(String type) {
+            this.type = type;
+        }
 
     }
 
     @Data
     public static class ViewButton extends Button {
 
-        @Override
-        public String getType() {
-            return "view";
+        public ViewButton() {
+            super("view");
         }
+
     }
 
     @Data
-    public static class MiniprogramButton extends ViewButton {
-        @Override
-        public String getType() {
-            return "miniprogram";
+    public static class MiniprogramButton extends Button {
+        public MiniprogramButton() {
+            super("miniprogram");
         }
-
 
     }
 
     @Data
     public static class ClickButton extends Button {
-        @Override
-        public String getType() {
-            return "click";
+        public ClickButton() {
+            super("click");
         }
-
 
     }
 
     @Data
     public static class MediaIdButton extends Button {
-        @Override
-        public String getType() {
-            return "media_id";
+        public MediaIdButton() {
+            super("media_id");
         }
 
 
     }
 
     @Data
-    public static class ViewLimitedButton extends MediaIdButton {
-        @Override
-        public String getType() {
-            return "view_limited";
+    public static class ViewLimitedButton extends Button {
+        public ViewLimitedButton() {
+            super("view_limited");
         }
     }
 }

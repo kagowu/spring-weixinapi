@@ -1,5 +1,7 @@
 package com.qq.weixin.api.cgibin.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -8,11 +10,17 @@ import lombok.Data;
 @Data
 public class QrcodeCreateRequest {
 
-    private int expire_seconds;
+    @JSONField(name = "expire_seconds")
+    @JsonProperty("expire_seconds")
+    private int expireSeconds;
 
-    private String action_name;
+    @JSONField(name = "action_name")
+    @JsonProperty("action_name")
+    private String actionName;
 
-    private ActionInfo action_info;
+    @JSONField(name = "action_info")
+    @JsonProperty("action_info")
+    private ActionInfo actionInfo;
 
     @Data
     public static class ActionInfo {
@@ -21,8 +29,13 @@ public class QrcodeCreateRequest {
 
     @Data
     public static class Scene {
-        private int scene_id;
-        private String scene_str;
+        @JSONField(name = "scene_id")
+        @JsonProperty("scene_id")
+        private int sceneId;
+
+        @JSONField(name = "scene_str")
+        @JsonProperty("scene_str")
+        private String sceneStr;
 
     }
 }

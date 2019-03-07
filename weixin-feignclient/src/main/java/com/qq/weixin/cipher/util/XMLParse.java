@@ -10,7 +10,6 @@ package com.qq.weixin.cipher.util;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -46,7 +45,7 @@ public class XMLParse {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new CipherException(CipherException.ParseXmlError);
+            throw new CipherException(CipherException.PARSE_XML_ERROR);
         }
     }
 

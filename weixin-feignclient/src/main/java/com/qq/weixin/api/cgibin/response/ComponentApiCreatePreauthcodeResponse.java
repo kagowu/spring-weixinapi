@@ -9,8 +9,10 @@ import lombok.Data;
  * @author gong.hua
  */
 @Data
-public class TicketGetticketResponse extends BaseResponse {
-    private String ticket;
+public class ComponentApiCreatePreauthcodeResponse extends BaseResponse {
+    @JSONField(name = "pre_auth_code")
+    @JsonProperty("pre_auth_code")
+    private String preAuthCode;
 
     @JSONField(name = "expires_in")
     @JsonProperty("expires_in")

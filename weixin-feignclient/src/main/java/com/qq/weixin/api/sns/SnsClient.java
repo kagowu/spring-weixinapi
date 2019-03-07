@@ -3,7 +3,7 @@ package com.qq.weixin.api.sns;
 
 import com.qq.weixin.api.BaseResponse;
 import com.qq.weixin.api.sns.response.Jscode2sessionResponse;
-import com.qq.weixin.api.sns.response.Oauth2Access_tokenResponse;
+import com.qq.weixin.api.sns.response.Oauth2AccessTokenResponse;
 import com.qq.weixin.api.sns.response.UserinfoResponse;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ public interface SnsClient {
      * @see com.qq.weixin.open.OpenUrlFormatter#getConnectOauth2AuthorizeUrl(String, String, String, String)
      */
     @RequestMapping(value = "/oauth2/access_token?grant_type=authorization_code", method = RequestMethod.GET)
-    Oauth2Access_tokenResponse oauth2Access_token(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code);
+    Oauth2AccessTokenResponse oauth2AccessToken(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code);
 
     /**
      * 第三方平台-通过code换取网页授权access_token
@@ -37,8 +37,8 @@ public interface SnsClient {
      * @see com.qq.weixin.open.OpenUrlFormatter#getConnectOauth2AuthorizeUrl4Component(String, String, String, String, String)
      */
     @RequestMapping(value = "/oauth2/component/access_token?grant_type=authorization_code", method = RequestMethod.GET)
-    Oauth2Access_tokenResponse oauth2ComponetAccess_token(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code,
-                                                          @RequestParam("component_appid") String component_appid, @RequestParam("component_access_token") String component_access_token);
+    Oauth2AccessTokenResponse oauth2ComponentAccessToken(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("code") String code,
+                                                        @RequestParam("component_appid") String componentAppid, @RequestParam("component_access_token") String componentAccessToken);
 
 
     /**
@@ -48,10 +48,10 @@ public interface SnsClient {
      * @param refreshToken
      * @return
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
-     * @see #oauth2ComponentRefresh_token
+     * @see #oauth2ComponentRefreshToken
      */
     @RequestMapping(value = "/oauth2/refresh_token?grant_type=refresh_token", method = RequestMethod.GET)
-    Oauth2Access_tokenResponse oauth2Refresh_token(@RequestParam("appid") String appid, @RequestParam("refresh_token") String refreshToken);
+    Oauth2AccessTokenResponse oauth2RefreshToken(@RequestParam("appid") String appid, @RequestParam("refresh_token") String refreshToken);
 
     /**
      * 第三方平台-刷新access_token（如果需要）
@@ -60,23 +60,23 @@ public interface SnsClient {
      * @param refreshToken
      * @return
      * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419318590&token=&lang=zh_CN}
-     * @see #oauth2Refresh_token
+     * @see #oauth2RefreshToken
      */
     @RequestMapping(value = "/oauth2/component/refresh_token?grant_type=refresh_token", method = RequestMethod.GET)
-    Oauth2Access_tokenResponse oauth2ComponentRefresh_token(@RequestParam("appid") String appid,
-                                                            @RequestParam("component_appid") String component_appid, @RequestParam("component_access_token") String component_access_token,
-                                                            @RequestParam("refresh_token") String refreshToken);
+    Oauth2AccessTokenResponse oauth2ComponentRefreshToken(@RequestParam("appid") String appid,
+                                                          @RequestParam("component_appid") String componentAppid, @RequestParam("component_access_token") String componentAccessToken,
+                                                          @RequestParam("refresh_token") String refreshToken);
 
     /**
      * 检验授权凭证（access_token）是否有效
      *
      * @param openid
-     * @param access_token
+     * @param accessToken
      * @return
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842}
      */
     @RequestMapping(value = "/oauth2/check_token?grant_type=refresh_token", method = RequestMethod.GET)
-    BaseResponse oauth2Check_token(@RequestParam("openid") String openid, @RequestParam("access_token") String access_token);
+    BaseResponse oauth2CheckToken(@RequestParam("openid") String openid, @RequestParam("access_token") String accessToken);
 
 
     /**
@@ -102,18 +102,18 @@ public interface SnsClient {
      * @see #componetJscode2session
      */
     @RequestMapping(value = "/jscode2session?grant_type=authorization_code", method = RequestMethod.GET)
-    Jscode2sessionResponse jscode2session(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("js_code") String js_code);
+    Jscode2sessionResponse jscode2session(@RequestParam("appid") String appid, @RequestParam("secret") String secret, @RequestParam("js_code") String jsCode);
 
     /**
      * component-code2Session
      *
      * @param appid
-     * @param js_code
+     * @param jsCode
      * @return
      * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1492585163_FtTNA&token=&lang=zh_CN}
      * @see #jscode2session
      */
     @RequestMapping(value = "component/jscode2session?grant_type=authorization_code", method = RequestMethod.GET)
-    Jscode2sessionResponse componetJscode2session(@RequestParam("appid") String appid, @RequestParam("js_code") String js_code, @RequestParam("component_appid") String component_appid,
-                                                  @RequestParam("component_access_token") String component_access_token);
+    Jscode2sessionResponse componetJscode2session(@RequestParam("appid") String appid, @RequestParam("js_code") String jsCode, @RequestParam("component_appid") String componentAppid,
+                                                  @RequestParam("component_access_token") String componentAccessToken);
 }

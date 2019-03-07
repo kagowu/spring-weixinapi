@@ -1,5 +1,7 @@
 package com.qq.weixin.api.sns.response;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qq.weixin.api.BaseResponse;
 import lombok.Data;
 
@@ -17,7 +19,9 @@ public class UserinfoResponse extends BaseResponse {
     private String province;
     private String country;
     private String headimgurl;
-    private Integer subscribe_time;
+    @JSONField(name = "subscribe_time")
+    @JsonProperty("subscribe_time")
+    private Integer subscribeTime;
     private String[] privilege;
     private String unionid;
 }

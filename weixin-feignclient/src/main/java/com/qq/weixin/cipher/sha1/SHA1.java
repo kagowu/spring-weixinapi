@@ -55,7 +55,7 @@ public class SHA1 {
             return hexstr.toString();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new CipherException(CipherException.ComputeSignatureError);
+            throw new CipherException(CipherException.COMPUTE_SIGNATURE_ERROR);
         }
     }
 }

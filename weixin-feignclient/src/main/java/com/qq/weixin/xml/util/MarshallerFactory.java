@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class MarshallerFactory {
 
-    private final static Map<Class, Unmarshaller> unmarshallerCache = Maps.newHashMap();
-    private final static Map<Class, Marshaller> marshallerCache = Maps.newHashMap();
+    private final static Map<Class, Unmarshaller> UNMARSHALLER_HASH_MAP = Maps.newHashMap();
+    private final static Map<Class, Marshaller> MARSHALLER_HASH_MAP = Maps.newHashMap();
 
     private MarshallerFactory() {
     }
@@ -27,25 +27,25 @@ public class MarshallerFactory {
 
     public static Marshaller getMarshaller(Class clazz) throws JAXBException {
         Preconditions.checkNotNull(clazz);
-        Marshaller marshaller = marshallerCache.get(clazz);
+        Marshaller marshaller = MARSHALLER_HASH_MAP.get(clazz);
         if (marshaller != null) {
             return marshaller;
         }
         JAXBContext jc = JAXBContext.newInstance(clazz);
         marshaller = jc.createMarshaller();
-        marshallerCache.put(clazz, marshaller);
+        MARSHALLER_HASH_MAP.put(clazz, marshaller);
 
         return marshaller;
     }
 
     public static Unmarshaller getUnmarshaller(Class clazz) throws JAXBException {
-        Unmarshaller unmarshaller = unmarshallerCache.get(clazz);
+        Unmarshaller unmarshaller = UNMARSHALLER_HASH_MAP.get(clazz);
         if (unmarshaller != null) {
             return unmarshaller;
         }
         JAXBContext jc = JAXBContext.newInstance(clazz);
         unmarshaller = jc.createUnmarshaller();
-        unmarshallerCache.put(clazz, unmarshaller);
+        UNMARSHALLER_HASH_MAP.put(clazz, unmarshaller);
 
         return unmarshaller;
     }

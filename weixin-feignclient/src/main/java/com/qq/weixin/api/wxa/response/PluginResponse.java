@@ -1,5 +1,7 @@
 package com.qq.weixin.api.wxa.response;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qq.weixin.api.BaseResponse;
 import lombok.Data;
 
@@ -8,7 +10,9 @@ import lombok.Data;
  */
 @Data
 public class PluginResponse extends BaseResponse {
-    private Plugin[] plugin_list;
+    @JSONField(name = "plugin_list")
+    @JsonProperty("plugin_list")
+    private Plugin[] plugins;
 
     @Data
     public static class Plugin {

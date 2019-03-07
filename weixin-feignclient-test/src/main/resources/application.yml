@@ -10,3 +10,25 @@ hystrix:
 feign:
   hystrix:
     enabled: false
+spring:
+  redis:
+    timeout: 6000
+    cluster:
+      nodes:
+         - 192.168.2.39:7000
+         - 192.168.2.39:7001
+         - 192.168.2.39:7002
+         - 192.168.2.39:7003
+         - 192.168.2.39:7004
+         - 192.168.2.39:7005
+    pool:
+      max-active: 300
+      max-wait: -1
+      max-idle: 100
+      min-idle: 20
+    database: 0
+debug: false
+logging:
+  level:
+    root: error
+    org: error

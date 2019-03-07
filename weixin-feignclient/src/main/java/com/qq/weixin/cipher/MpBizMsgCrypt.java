@@ -88,7 +88,7 @@ public class MpBizMsgCrypt {
      */
     public MpBizMsgCrypt(String token, String encodingAesKey, String appId) throws CipherException {
         if (encodingAesKey.length() != 43) {
-            throw new CipherException(CipherException.IllegalAesKey);
+            throw new CipherException(CipherException.ILLEGAL_AES_KEY);
         }
 
         this.token = token;
@@ -182,7 +182,7 @@ public class MpBizMsgCrypt {
             return base64Encrypted;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new CipherException(CipherException.EncryptAESError);
+            throw new CipherException(CipherException.ENCRYPT_AES_ERROR);
         }
     }
 
@@ -198,9 +198,9 @@ public class MpBizMsgCrypt {
         try {
             // 设置解密模式为AES的CBC模式
             Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-            SecretKeySpec key_spec = new SecretKeySpec(aesKey, "AES");
+            SecretKeySpec keySpec = new SecretKeySpec(aesKey, "AES");
             IvParameterSpec iv = new IvParameterSpec(Arrays.copyOfRange(aesKey, 0, 16));
-            cipher.init(Cipher.DECRYPT_MODE, key_spec, iv);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, iv);
 
             // 使用BASE64对密文进行解码
             byte[] encrypted = Base64.getDecoder().decode(text);
@@ -209,10 +209,10 @@ public class MpBizMsgCrypt {
             original = cipher.doFinal(encrypted);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new CipherException(CipherException.DecryptAESError);
+            throw new CipherException(CipherException.DECRYPT_AES_ERROR);
         }
 
-        String xmlContent, from_appid;
+        String xmlContent, fromAppid;
         try {
             // 去除补位字符
             byte[] bytes = PKCS7Encoder.decode(original);
@@ -223,16 +223,16 @@ public class MpBizMsgCrypt {
             int xmlLength = recoverNetworkBytesOrder(networkOrder);
 
             xmlContent = new String(Arrays.copyOfRange(bytes, 20, 20 + xmlLength), CHARSET);
-            from_appid = new String(Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length),
+            fromAppid = new String(Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length),
                     CHARSET);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new CipherException(CipherException.IllegalBuffer);
+            throw new CipherException(CipherException.ILLEGAL_BUFFER);
         }
 
         // appid不相同的情况
-        if (!from_appid.equals(appId)) {
-            throw new CipherException(CipherException.ValidateAppidError);
+        if (!fromAppid.equals(appId)) {
+            throw new CipherException(CipherException.VALIDATE_APPID_ERROR);
         }
         return xmlContent;
 
@@ -264,7 +264,6 @@ public class MpBizMsgCrypt {
 
         String signature = SHA1.getSHA1(token, timeStamp, nonce, encrypt);
 
-        // System.out.println("发送给平台的签名是: " + signature[1].toString());
         // 生成发送的xml
         String result = XMLParse.generate(encrypt, signature, timeStamp, nonce);
         return result;
@@ -297,10 +296,9 @@ public class MpBizMsgCrypt {
         String signature = SHA1.getSHA1(token, timeStamp, nonce, encrypt[0]);
 
         // 和URL中的签名比较是否相等
-        // System.out.println("第三方收到URL中的签名：" + msg_sign);
-        // System.out.println("第三方校验签名：" + signature);
+
         if (!signature.equals(msgSignature)) {
-            throw new CipherException(CipherException.ValidateSignatureError);
+            throw new CipherException(CipherException.VALIDATE_SIGNATURE_ERROR);
         }
 
         // 解密
@@ -323,7 +321,7 @@ public class MpBizMsgCrypt {
         String signature = SHA1.getSHA1(token, timeStamp, nonce, echoStr);
 
         if (!signature.equals(msgSignature)) {
-            throw new CipherException(CipherException.ValidateSignatureError);
+            throw new CipherException(CipherException.VALIDATE_SIGNATURE_ERROR);
         }
 
         String result = decrypt(echoStr);

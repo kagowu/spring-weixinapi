@@ -1,8 +1,8 @@
 package com.qq.weixin.cipher;
 
-import com.qq.weixin.cipher.aes.AES_CBC;
+import com.alibaba.fastjson.JSONObject;
+import com.qq.weixin.cipher.aes.AESCBC;
 import com.qq.weixin.cipher.aes.PKCS7Encoder;
-import net.sf.json.JSONObject;
 import sun.misc.BASE64Decoder;
 
 
@@ -24,11 +24,11 @@ public class WxaDecrypt {
     public static String decrypt(String appId, String encryptedData, String sessionKey, String iv) {
         String result = "";
         try {
-            AES_CBC aes = new AES_CBC();
+            AESCBC aes = new AESCBC();
             byte[] resultByte = aes.decrypt(new BASE64Decoder().decodeBuffer(encryptedData), new BASE64Decoder().decodeBuffer(sessionKey), new BASE64Decoder().decodeBuffer(iv));
             if (null != resultByte && resultByte.length > 0) {
                 result = new String(PKCS7Encoder.decode(resultByte));
-                JSONObject jsonObject = JSONObject.fromObject(result);
+                JSONObject jsonObject = JSONObject.parseObject(result);
                 String decryptAppid = jsonObject.getJSONObject(WATERMARK).getString(APPID);
                 if (!appId.equals(decryptAppid)) {
                     result = "";

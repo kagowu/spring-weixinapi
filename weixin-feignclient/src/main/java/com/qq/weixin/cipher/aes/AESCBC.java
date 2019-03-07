@@ -14,7 +14,7 @@ import java.security.Security;
  *
  * @link {http://www.cnblogs.com/happyhippy/archive/2006/12/23/601353.html}
  */
-public class AES_CBC {
+public class AESCBC {
 
     static {
         Security.addProvider(new BouncyCastleProvider());

@@ -25,6 +25,6 @@ public class AuthorizedAuthorizationEvent extends BaseAuthorizationEvent {
     private String preAuthCode;
 
     public AuthorizedAuthorizationEvent() {
-        super(BaseAuthorizationEvent.authorized);
+        super(BaseAuthorizationEvent.AUTHORIZED);
     }
 }

@@ -32,7 +32,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/clear_quota", method = RequestMethod.POST)
-    BaseResponse clear_quota(@RequestParam("access_token") String access_token, @RequestBody BaseRequest baseRequest);
+    BaseResponse clearQuota(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 自定义菜单创建接口
@@ -90,36 +90,36 @@ public interface CgibinClient {
     /**
      * 临时二维码请求说明
      * @param accessToken
-     * @param expire_seconds
-     * @param scene_id
+     * @param expireSeconds
+     * @param sceneId
      * @return
      */
-    default QrcodeCreateResponse qrcodeCreateTemp(String accessToken, int expire_seconds,int scene_id){
+    default QrcodeCreateResponse qrcodeCreateTemp(String accessToken, int expireSeconds,int sceneId){
         QrcodeCreateRequest qrcodeCreateRequest = new QrcodeCreateRequest();
-        qrcodeCreateRequest.setExpire_seconds(expire_seconds);
-        qrcodeCreateRequest.setAction_name("QR_SCENE");
+        qrcodeCreateRequest.setExpireSeconds(expireSeconds);
+        qrcodeCreateRequest.setActionName("QR_SCENE");
         QrcodeCreateRequest.ActionInfo actionInfo = new QrcodeCreateRequest.ActionInfo();
         QrcodeCreateRequest.Scene scene = new QrcodeCreateRequest.Scene();
-        scene.setScene_id(scene_id);
+        scene.setSceneId(sceneId);
         actionInfo.setScene(scene);
-        qrcodeCreateRequest.setAction_info(actionInfo);
+        qrcodeCreateRequest.setActionInfo(actionInfo);
         return qrcodeCreate(accessToken,qrcodeCreateRequest);
     }
 
     /**
      * 永久二维码请求说明
      * @param accessToken
-     * @param scene_str
+     * @param sceneStr
      * @return
      */
-    default QrcodeCreateResponse qrcodeCreateForever(String accessToken, String scene_str){
+    default QrcodeCreateResponse qrcodeCreateForever(String accessToken, String sceneStr){
         QrcodeCreateRequest qrcodeCreateRequest = new QrcodeCreateRequest();
-        qrcodeCreateRequest.setAction_name("QR_LIMIT_STR_SCENE");
+        qrcodeCreateRequest.setActionName("QR_LIMIT_STR_SCENE");
         QrcodeCreateRequest.ActionInfo actionInfo = new QrcodeCreateRequest.ActionInfo();
         QrcodeCreateRequest.Scene scene = new QrcodeCreateRequest.Scene();
-        scene.setScene_str(scene_str);
+        scene.setSceneStr(sceneStr);
         actionInfo.setScene(scene);
-        qrcodeCreateRequest.setAction_info(actionInfo);
+        qrcodeCreateRequest.setActionInfo(actionInfo);
         return qrcodeCreate(accessToken,qrcodeCreateRequest);
     }
 
@@ -173,7 +173,7 @@ public interface CgibinClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/sendTemplateMessage.html}
      */
     @RequestMapping(value = "/message/wxopen/template/uniform_send", method = RequestMethod.POST)
-    BaseResponse messageWxopenTemplateUniform_send(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse messageWxopenTemplateUniformSend(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 创建被分享动态消息的 activity_id
@@ -204,7 +204,7 @@ public interface CgibinClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getTempMedia.html}
      */
     @RequestMapping(value = "/media/get", method = RequestMethod.POST)
-    BaseResponse mediaGet(@RequestParam("access_token") String accessToken, @RequestParam("media_id") String media_id);
+    BaseResponse mediaGet(@RequestParam("access_token") String accessToken, @RequestParam("media_id") String mediaId);
 
     /**
      * 把媒体文件上传到微信服务器。目前仅支持图片。用于发送客服消息或被动回复用户消息
@@ -223,7 +223,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "component/clear_quota", method = RequestMethod.POST)
-    BaseResponse componentClear_quota(@RequestParam("component_access_token") String component_access_token, @RequestBody BaseRequest baseRequest);
+    BaseResponse componentClearQuota(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
@@ -242,7 +242,8 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_create_preauthcode", method = RequestMethod.POST)
-    ComponentApi_create_preauthcodeResponse componentApi_create_preauthcode(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_create_preauthcodeRequest componentApi_create_preauthcodeRequest);
+    ComponentApiCreatePreauthcodeResponse componentApiCreatePreauthcode(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApiCreatePreauthcodeRequest componentApiCreatePreauthcodeRequest);
+
 
 
     /**
@@ -252,7 +253,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_query_auth", method = RequestMethod.POST)
-    ComponentApi_query_authResponse componentApi_query_auth(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_query_authRequest componentApi_query_authRequest);
+    ComponentApiQueryAuthResponse componentApiQueryAuth(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApiQueryAuthRequest componentApiQueryAuthRequest);
 
 
     /**
@@ -262,7 +263,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_authorizer_token", method = RequestMethod.POST)
-    ComponentApi_authorizer_tokenResponse componentApi_authorizer_token(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_authorizer_tokenRequest componentApi_authorizer_tokenRequest);
+    ComponentApiAuthorizerTokenResponse componentApiAuthorizerToken(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApiAuthorizerTokenRequest componentApiAuthorizerTokenRequest);
 
 
     /**
@@ -274,7 +275,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_get_authorizer_info", method = RequestMethod.POST)
-    ComponentApi_get_authorizer_infoResponse componentApi_get_authorizer_info(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_get_authorizer_infoRequest componentApi_get_authorizer_infoRequest);
+    ComponentApiGetAuthorizerInfoResponse componentApiGetAuthorizerInfo(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApiGetAuthorizerInfoRequest componentApiGetAuthorizerInfoRequest);
 
     /**
      * 授权流程-获取授权方的选项设置信息
@@ -283,7 +284,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_get_authorizer_option", method = RequestMethod.POST)
-    ComponentApi_get_authorizer_optionResponse componentApi_get_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_get_authorizer_optionRequest componentApi_get_authorizer_optionRequest);
+    ComponentApiGetAuthorizerOptionResponse componentApiGetAuthorizerOption(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApiGetAuthorizerOptionRequest componentApiGetAuthorizerOptionRequest);
 
 
     /**
@@ -293,7 +294,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/component/api_set_authorizer_option", method = RequestMethod.POST)
-    BaseResponse componentApi_set_authorizer_option(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApi_set_authorizer_optionRequest componentApi_set_authorizer_optionRequest);
+    BaseResponse componentApiSetAuthorizerOption(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ComponentApiSetAuthorizerOptionRequest componentApiSetAuthorizerOptionRequest);
 
 
     /**
@@ -341,7 +342,7 @@ public interface CgibinClient {
      * 2 小程序名称设置及改名
      * @see com.qq.weixin.api.wxa.WxaClient#setnickname
      * 3 小程序改名审核状态查询
-     * @see com.qq.weixin.api.wxa.WxaClient#api_wxa_querynickname
+     * @see com.qq.weixin.api.wxa.WxaClient#apiWxaQuerynickname
      * 4 微信认证名称检测
      * @see #wxverifyCheckwxverifynickname
      * 5 修改头像
@@ -681,7 +682,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "template/api_set_industry", method = RequestMethod.POST)
-    BaseResponse templateApi_set_industry(@RequestParam("access_token") String accessToken, @RequestBody TemplateApi_set_industryRequest templateApi_set_industryRequest);
+    BaseResponse templateApiSetIndustry(@RequestParam("access_token") String accessToken, @RequestBody TemplateApiSetIndustryRequest templateApiSetIndustryRequest);
 
 
     /**
@@ -697,7 +698,7 @@ public interface CgibinClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/createWXAQRCode.html}
      */
     @RequestMapping(value = "wxaapp/createwxaqrcode", method = RequestMethod.POST)
-    BaseResponse wxaappCreatewxaqrcode(@RequestParam("access_token") String accessToken, @RequestBody TemplateApi_set_industryRequest templateApi_set_industryRequest);
+    BaseResponse wxaappCreatewxaqrcode(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 物流助手-生成运单

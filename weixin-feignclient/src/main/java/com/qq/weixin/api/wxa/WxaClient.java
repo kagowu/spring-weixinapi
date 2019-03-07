@@ -52,7 +52,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/api_wxa_querynickname", method = RequestMethod.POST)
-    BaseResponse api_wxa_querynickname(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse apiWxaQuerynickname(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
 
     /**
@@ -122,9 +122,9 @@ public interface WxaClient {
      *     <h1>代小程序实现业务-成员管理</h1>
      * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1489140588_nVUgx&token=&lang=zh_CN}
      * 1、绑定微信用户为小程序体验者
-     *  @see #bind_tester
+     *  @see #bindTester
      * 2、解除绑定小程序的体验者
-     *  @see #unbind_tester
+     *  @see #unbindTester
      * 3. 获取体验者列表
      *  @see #memberauth
      * </pre>
@@ -134,7 +134,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/bind_tester", method = RequestMethod.POST)
-    BaseResponse bind_tester(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse bindTester(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 解除绑定小程序的体验者
@@ -143,7 +143,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/unbind_tester", method = RequestMethod.POST)
-    BaseResponse unbind_tester(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse unbindTester(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 获取体验者列表
@@ -162,24 +162,24 @@ public interface WxaClient {
      * 1、为授权的小程序帐号上传小程序代码
      * @see #commit
      * 2、获取体验小程序的体验二维码
-     * @see #get_qrcode
+     * @see #getQrcode
      * 3、获取授权小程序帐号已设置的类目
-     * @see #get_category
+     * @see #getCategory
      * 4、获取小程序的第三方提交代码的页面配置（仅供第三方开发者代小程序调用）
-     * @see #get_page
+     * @see #getPage
      * 5、将第三方提交的代码包提交审核（仅供第三方开发者代小程序调用）
-     * @see #submit_audit
+     * @see #submitAudit
      * 6、获取审核结果
      *   当小程序有审核结果后，第三方平台将可以通过开放平台上填写的回调地址，获得审核结果通知。
      *   除了消息通知之外，第三方平台也可通过接口查询审核状态。
      * 7、查询某个指定版本的审核状态（仅供第三方代小程序调用）
-     * @see #get_auditstatus
+     * @see #getAuditstatus
      * 8、查询最新一次提交的审核状态（仅供第三方代小程序调用）
-     * @see #get_latest_auditstatus
+     * @see #getLatestAuditstatus
      * 9、发布已通过审核的小程序（仅供第三方代小程序调用）
      * @see #release
      * 10、修改小程序线上代码的可见状态（仅供第三方代小程序调用）
-     * @see #change_visitstatus
+     * @see #changeVisitstatus
      * 11. 小程序版本回退（仅供第三方代小程序调用）
      * @see #revertcoderelease
      * 12. 查询当前设置的最低基础库版本及各版本用户占比（仅供第三方代小程序调用）
@@ -224,7 +224,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_qrcode", method = RequestMethod.GET)
-    BaseResponse get_qrcode(@RequestParam("access_token") String accessToken, @RequestParam("path") String path);
+    BaseResponse getQrcode(@RequestParam("access_token") String accessToken, @RequestParam("path") String path);
 
     /**
      * 获取授权小程序帐号已设置的类目
@@ -233,7 +233,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_category", method = RequestMethod.GET)
-    BaseResponse get_category(@RequestParam("access_token") String accessToken);
+    BaseResponse getCategory(@RequestParam("access_token") String accessToken);
 
     /**
      * 获取小程序的第三方提交代码的页面配置（仅供第三方开发者代小程序调用）
@@ -242,7 +242,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_page", method = RequestMethod.GET)
-    BaseResponse get_page(@RequestParam("access_token") String accessToken);
+    BaseResponse getPage(@RequestParam("access_token") String accessToken);
 
     /**
      * 将第三方提交的代码包提交审核（仅供第三方开发者代小程序调用）
@@ -251,7 +251,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/submit_audit", method = RequestMethod.GET)
-    BaseResponse submit_audit(@RequestParam("access_token") String accessToken);
+    BaseResponse submitAudit(@RequestParam("access_token") String accessToken);
 
     /**
      * 查询某个指定版本的审核状态（仅供第三方代小程序调用）
@@ -260,7 +260,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_auditstatus", method = RequestMethod.POST)
-    BaseResponse get_auditstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse getAuditstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 查询最新一次提交的审核状态（仅供第三方代小程序调用）
@@ -269,7 +269,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_latest_auditstatus", method = RequestMethod.GET)
-    BaseResponse get_latest_auditstatus(@RequestParam("access_token") String accessToken);
+    BaseResponse getLatestAuditstatus(@RequestParam("access_token") String accessToken);
 
 
     /**
@@ -288,7 +288,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/change_visitstatus", method = RequestMethod.POST)
-    BaseResponse change_visitstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse changeVisitstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 小程序版本回退（仅供第三方代小程序调用）
@@ -392,7 +392,7 @@ public interface WxaClient {
      */
     @RequestMapping(value = "/getpaidunionid", method = RequestMethod.POST)
     BaseResponse getpaidunionid4WX(@RequestParam("access_token") String accessToken, @RequestParam("openid") String openid,
-                                   @RequestParam("transaction_id") String transaction_id);
+                                   @RequestParam("transaction_id") String transactionId);
 
     /**
      * 支付后获取用户Unionid接口-微信订单号
@@ -402,8 +402,8 @@ public interface WxaClient {
      */
     @RequestMapping(value = "/getpaidunionid", method = RequestMethod.POST)
     BaseResponse getpaidunionid4Mch(@RequestParam("access_token") String accessToken, @RequestParam("openid") String openid,
-                                    @RequestParam("mch_id") String mch_id,
-                                    @RequestParam("out_trade_no") String out_trade_no);
+                                    @RequestParam("mch_id") String mchId,
+                                    @RequestParam("out_trade_no") String outTradeNo);
 
     /**
      * <pre>
@@ -561,7 +561,7 @@ public interface WxaClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/imgSecCheck.html}
      */
     @RequestMapping(value = "/img_sec_check", method = RequestMethod.POST)
-    BaseResponse img_sec_check(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse imgSecCheck(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
     /**
      * 检查一段文本是否含有违法违规内容。
@@ -571,5 +571,5 @@ public interface WxaClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/msgSecCheck.html}
      */
     @RequestMapping(value = "/msg_sec_check", method = RequestMethod.POST)
-    BaseResponse msg_sec_check(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse msgSecCheck(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 }

@@ -12,8 +12,8 @@ import javax.xml.bind.annotation.XmlElement;
 @Data
 @XmlAccessorType(XmlAccessType.NONE)
 public class BaseAuthorizationEvent {
-    public static final String authorized = "authorized";
-    public static final String component_verify_ticket = "component_verify_ticket";
+    public static final String AUTHORIZED = "authorized";
+    public static final String COMPONENT_VERIFY_TICKET = "component_verify_ticket";
 
     @XmlElement(name = "AppId")
     private String appId;

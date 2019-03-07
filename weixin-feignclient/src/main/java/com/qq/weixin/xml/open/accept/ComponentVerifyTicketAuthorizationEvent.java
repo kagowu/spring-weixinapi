@@ -19,6 +19,6 @@ public class ComponentVerifyTicketAuthorizationEvent extends BaseAuthorizationEv
     private String componentVerifyTicket;
 
     public ComponentVerifyTicketAuthorizationEvent() {
-        super(BaseAuthorizationEvent.component_verify_ticket);
+        super(BaseAuthorizationEvent.COMPONENT_VERIFY_TICKET);
     }
 }
