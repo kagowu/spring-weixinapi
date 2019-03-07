@@ -153,7 +153,7 @@ public interface CgibinClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/sendCustomerMessage.html}
      */
     @RequestMapping(value = "/message/custom/send", method = RequestMethod.POST)
-    BaseResponse messageCustomSend(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse messageCustomSend(@RequestParam("access_token") String accessToken, @RequestBody String json);
 
 
     /**
