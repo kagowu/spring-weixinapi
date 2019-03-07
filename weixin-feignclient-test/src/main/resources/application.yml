@@ -30,5 +30,8 @@ spring:
 debug: false
 logging:
   level:
-    root: error
-    org: error
+    root: info
+    com.qq.weixin.api.cgibin.CgibinClient: debug
+    com.qq.weixin.api.datacube.DataCubeClient: debug
+    com.qq.weixin.api.sns.SnsClient: debug
+    com.qq.weixin.api.wxa.WxaClient: debug

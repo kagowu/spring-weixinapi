@@ -2,6 +2,7 @@ package com.qq.weixin.api.datacube;
 
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
+import com.qq.weixin.api.FeignConfiguration;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @author gong.hua
  */
-@FeignClient(name = "datacube", url = "https://api.weixin.qq.com/datacube/")
+@FeignClient(name = "datacube", url = "https://api.weixin.qq.com/datacube/", configuration = FeignConfiguration.class)
 public interface DataCubeClient {
     /**
      * 获取用户访问小程序日留存

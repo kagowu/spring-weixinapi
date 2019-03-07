@@ -2,6 +2,7 @@ package com.qq.weixin.api.sns;
 
 
 import com.qq.weixin.api.BaseResponse;
+import com.qq.weixin.api.FeignConfiguration;
 import com.qq.weixin.api.sns.response.Jscode2sessionResponse;
 import com.qq.weixin.api.sns.response.Oauth2AccessTokenResponse;
 import com.qq.weixin.api.sns.response.UserinfoResponse;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * sns相关服务
  */
-@FeignClient(name = "sns", url = "https://api.weixin.qq.com/sns/")
+@FeignClient(name = "sns", url = "https://api.weixin.qq.com/sns/", configuration = FeignConfiguration.class)
 public interface SnsClient {
     /**
      * 通过code换取网页授权access_token

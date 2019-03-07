@@ -3,6 +3,7 @@ package com.qq.weixin.api.cgibin;
 
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
+import com.qq.weixin.api.FeignConfiguration;
 import com.qq.weixin.api.cgibin.request.*;
 import com.qq.weixin.api.cgibin.response.*;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "cgi-bin", url = "https://api.weixin.qq.com/cgi-bin/")
+@FeignClient(name = "cgi-bin", url = "https://api.weixin.qq.com/cgi-bin/", configuration = FeignConfiguration.class)
 public interface CgibinClient {
     /**
      * 获取全局AccessToken接口

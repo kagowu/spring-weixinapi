@@ -2,6 +2,7 @@ package com.qq.weixin.api.wxa;
 
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
+import com.qq.weixin.api.FeignConfiguration;
 import com.qq.weixin.api.wxa.request.ModifyDomainRequest;
 import com.qq.weixin.api.wxa.request.WebviewdomainRequest;
 import com.qq.weixin.api.wxa.response.ModifyDomainResopnse;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @author gong.hua
  */
-@FeignClient(name = "wxa", url = "https://api.weixin.qq.com/wxa/")
+@FeignClient(name = "wxa", url = "https://api.weixin.qq.com/wxa/", configuration = FeignConfiguration.class)
 public interface WxaClient {
     /**
      * 设置小程序服务器域名
