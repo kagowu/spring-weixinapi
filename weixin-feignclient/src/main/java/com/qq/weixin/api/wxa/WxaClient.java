@@ -27,6 +27,22 @@ import java.util.Collection;
 @FeignClient(name = "wxa", url = "https://api.weixin.qq.com/wxa/", configuration = FeignConfiguration.class)
 public interface WxaClient {
     /**
+     * <pre>
+     *     <h1>修改服务器地址</h1>
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1489138143_WPbOO&token=95d7ef0e1ad4b63a3421a661ae1309b35e502195&lang=}
+     *1、设置小程序服务器域名
+     * 授权给第三方的小程序，其服务器域名只可以为第三方的服务器，当小程序通过第三方发布代码上线后，小程序原先自己配置的服务器域名将被删除，只保留第三方平台的域名，所以第三方平台在代替小程序发布代码之前，需要调用接口为小程序添加第三方自身的域名。
+     * 提示：需要先将域名登记到第三方平台的小程序服务器域名中，才可以调用接口进行配置。
+     * @see #modifyDomain
+     *
+     * 2、设置小程序业务域名（仅供第三方代小程序调用）
+     * 授权给第三方的小程序，其业务域名只可以为第三方的服务器，当小程序通过第三方发布代码上线后，小程序原先自己配置的业务域名将被删除，只保留第三方平台的域名，所以第三方平台在代替小程序发布代码之前，需要调用接口为小程序添加业务域名。
+     *
+     * 提示：
+     * 1、需要先将域名登记到第三方平台的小程序业务域名中，才可以调用接口进行配置。
+     * 2、为授权的小程序配置域名时支持配置子域名，例如第三方登记的业务域名如为qq.com，则可以直接将qq.com及其子域名（如xxx.qq.com）也配置到授权的小程序中。
+     * @see #setwebviewdomain
+     * </pre>
      * 设置小程序服务器域名
      *
      * @param accessToken
