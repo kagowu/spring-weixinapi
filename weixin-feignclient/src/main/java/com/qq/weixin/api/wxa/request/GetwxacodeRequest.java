@@ -21,7 +21,7 @@ public class GetwxacodeRequest {
     private LineColor lineColor;
     @JSONField(name = "is_hyaline")
     @JsonProperty("is_hyaline")
-    private boolean isHyaline;
+    private boolean hyaline;
 
     @Data
     public static class LineColor {
