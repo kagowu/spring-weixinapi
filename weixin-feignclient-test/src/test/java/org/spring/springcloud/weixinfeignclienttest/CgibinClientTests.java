@@ -40,33 +40,32 @@ public class CgibinClientTests {
     private static String preAuthCode = "";
     private static String authorizerAccessToken = "";
     private static String authorizerRefreshToken = "";
-    private static String componentAccessToken = "";
-    private static final String componentAppid = "wxe3987587f06091cf";
+    private static final String componentAppid = "wxb5520b267480440f";
     private static final String componentSecret = "10c1bde9468906b5a981302136cacf37";
     private static String componentVerifyTicket = "";
 
 
-    private Object response;
-    private Object req;
-
     @Before
     public void before() {
         accessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#accessToken");
-        componentToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#componentToken");
         preAuthCode = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#preAuthCode");
-        componentVerifyTicket = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#componentVerifyTicket");
+//        componentVerifyTicket = stringRedis.get("marketing_microshop:component_verify_ticket").replace("\"","");
+        componentToken = stringRedis.get("marketing_microshop:wx_component_access_token").replace("\"","");
         authorizerAccessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#authorizerAccessToken");
         authorizerRefreshToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#authorizerRefreshToken");
-        componentAccessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#componentAccessToken");
 
     }
 
-    @After
-    public void after() {
-        System.out.println(JSON.toJSONString(req, true));
-        System.err.println(JSON.toJSONString(response, true));
-    }
+    @Test
+    public void componentApiComponentToken() {
+        val componentTokenRequest = new ComponentTokenRequest();
+        componentTokenRequest.setComponentAppid(componentAppid);
+        componentTokenRequest.setComponentAppsecret(componentSecret);
+        componentTokenRequest.setComponentVerifyTicket(componentVerifyTicket);
+        ComponentTokenResponse response = cgibinClient.componentApiComponentToken(componentTokenRequest);
+        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#componentAccessToken", response.getComponentAccessToken());
 
+    }
 
     @Test
     public void componentApi_create_preauthcode() {
@@ -74,7 +73,6 @@ public class CgibinClientTests {
         request.setComponentAppid(componentAppid);
         ComponentApiCreatePreauthcodeResponse response = cgibinClient.componentApiCreatePreauthcode(componentToken, request);
         stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#preAuthCode", response.getPreAuthCode());
-        req = request;
     }
 
     @Test
@@ -82,9 +80,9 @@ public class CgibinClientTests {
         val request = new ComponentApiGetAuthorizerInfoRequest();
         request.setAuthorizerAppid("wx01fa97816dcd707c");
         request.setComponentAppid(componentAppid);
-        response = cgibinClient.componentApiGetAuthorizerInfo(componentToken, request);
+        cgibinClient.componentApiGetAuthorizerInfo(componentToken, request);
 
-        req = request;
+
     }
 
 
@@ -97,27 +95,13 @@ public class CgibinClientTests {
         stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#authorizerAccessToken", response.getAuthorizationInfo().getAuthorizerAccessToken());
         stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#authorizerRefreshToken", response.getAuthorizationInfo().getAuthorizerRefreshToken());
 
-        req = componentApi_query_authRequest;
 
     }
 
-
-    @Test
-    public void componentApiComponentToken() {
-        val componentTokenRequest = new ComponentTokenRequest();
-        componentTokenRequest.setComponentAppid(componentAppid);
-        componentTokenRequest.setComponentAppsecret(componentSecret);
-        componentTokenRequest.setComponentVerifyTicket(componentVerifyTicket);
-        ComponentTokenResponse response = cgibinClient.componentApiComponentToken(componentTokenRequest);
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#componentAccessToken", response.getComponentAccessToken());
-
-        req = componentTokenRequest;
-    }
 
     @Test
     public void componentFastregisterweappSearch() {
-        response = cgibinClient.componentFastregisterweappSearch(componentToken,
-                null);
+
     }
 
 
@@ -145,21 +129,19 @@ public class CgibinClientTests {
         viewButton.setSubButtons(Arrays.asList(new MenuCreateRequest.Button[]{viewButton1, viewButton2}));
         request.setButton(Arrays.asList(new MenuCreateRequest.Button[]{viewButton}));
         System.err.println(JSON.toJSONString(request, true));
-        response = cgibinClient.menuCreate(accessToken, request);
+        cgibinClient.menuCreate(accessToken, request);
         System.err.println(JSON.toJSONString(request, true));
 
     }
 
     @Test
     public void menuGet() {
-        response = cgibinClient.menuGet(accessToken);
+        cgibinClient.menuGet(accessToken);
     }
 
     @Test
     public void qrcodeCreate() {
-        val qrcodeCreateRequest = new QrcodeCreateRequest();
         cgibinClient.qrcodeCreateTemp(accessToken, 864000, 123);
-        req = qrcodeCreateRequest;
     }
 
 
@@ -177,6 +159,15 @@ public class CgibinClientTests {
 
     @Test
     public void componentFastregisterweappCreate() {
+        ComponentFastregisterweappCreateRequest componentFastregisterweappSearchRequest = new ComponentFastregisterweappCreateRequest();
+        componentFastregisterweappSearchRequest.setName("上海巧房信息科技有限公司");
+        componentFastregisterweappSearchRequest.setCode("91310115076402567D");
+        componentFastregisterweappSearchRequest.setCodeType("1");
+        componentFastregisterweappSearchRequest.setLegalPersonaName("陈志雄");
+        componentFastregisterweappSearchRequest.setLegalPersonaWechat("zxpole");
+        componentFastregisterweappSearchRequest.setComponentPhone("15216884283");
+        cgibinClient.componentFastregisterweappCreate("19_Kg4qK9GIh7Uz9BIBShsD_u7aucgXPA9YaxTg1YX9tU91zpQNsHiK5obL9-QceCRkyHVFz4mdn-rA6Vm2dtrU5tVZ6sygWLIIEk01qToCMfapjC2TMgkc2a_Biip5_fXmJEfjxZwOOd3Q2xTEXEGbABAAHJ",
+                componentFastregisterweappSearchRequest);
     }
 
 
@@ -285,7 +276,7 @@ public class CgibinClientTests {
 
     @Test
     public void ticketGetticket() {
-        response = cgibinClient.ticketGetticket(accessToken);
+        cgibinClient.ticketGetticket(accessToken);
     }
 
 

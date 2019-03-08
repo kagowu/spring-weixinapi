@@ -1,17 +1,25 @@
 package com.qq.weixin.api.wxa;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.io.BaseEncoding;
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
 import com.qq.weixin.api.FeignConfiguration;
+import com.qq.weixin.api.wxa.request.GetwxacodeRequest;
 import com.qq.weixin.api.wxa.request.ModifyDomainRequest;
 import com.qq.weixin.api.wxa.request.WebviewdomainRequest;
+import com.qq.weixin.api.wxa.response.GetwxacodeResopnse;
 import com.qq.weixin.api.wxa.response.ModifyDomainResopnse;
 import com.qq.weixin.api.wxa.response.PluginResponse;
+import feign.Response;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * @author gong.hua
@@ -539,7 +547,34 @@ public interface WxaClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getWXACode.html}
      */
     @RequestMapping(value = "/getwxacode", method = RequestMethod.POST)
-    BaseResponse getwxacode(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    Response getwxacode(@RequestParam("access_token") String accessToken, @RequestBody GetwxacodeRequest getwxacodeRequest);
+
+    /**
+     * 获取小程序码，适用于需要的码数量较少的业务场景。
+     * @see #getwxacode
+     * @param accessToken
+     * @param getwxacodeRequest
+     * @return
+     * @throws IOException
+     */
+    default GetwxacodeResopnse getwxacodeWrapper(String accessToken, GetwxacodeRequest getwxacodeRequest) throws IOException {
+        Response response = getwxacode(accessToken, getwxacodeRequest);
+        return getGetwxacodeResopnse(response);
+    }
+
+    default GetwxacodeResopnse getGetwxacodeResopnse(Response response) throws IOException {
+        Collection<String> contentTypes = response.headers().get("Content-Type");
+        String contentType = contentTypes.stream().findFirst().orElse("");
+
+        if (contentType.contains("json")) {
+            return JSON.parseObject(feign.Util.toString(response.body().asReader()), GetwxacodeResopnse.class);
+        }
+
+        byte[] bytes = feign.Util.toByteArray(response.body().asInputStream());
+        GetwxacodeResopnse codeResponse = new GetwxacodeResopnse();
+        codeResponse.setDataUrl(String.format("data:%s;base64,%s", contentType, BaseEncoding.base64().encode(bytes)));
+        return codeResponse;
+    }
 
     /**
      * 获取小程序码，适用于需要的码数量极多的业务场景。
@@ -550,9 +585,21 @@ public interface WxaClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getWXACodeUnlimit.html}
      */
     @RequestMapping(value = "/getwxacodeunlimit", method = RequestMethod.POST)
-    BaseResponse getwxacodeunlimit(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    Response getwxacodeunlimit(@RequestParam("access_token") String accessToken, @RequestBody GetwxacodeRequest getwxacodeRequest);
 
 
+    /**
+     * 获取小程序码，适用于需要的码数量极多的业务场景。
+     * @see #getwxacodeunlimit
+     * @param accessToken
+     * @param getwxacodeRequest
+     * @return
+     * @throws IOException
+     */
+    default GetwxacodeResopnse getwxacodeunlimitWrapper(String accessToken, GetwxacodeRequest getwxacodeRequest) throws IOException {
+        Response response = getwxacodeunlimit(accessToken, getwxacodeRequest);
+        return getGetwxacodeResopnse(response);
+    }
     /**
      * 校验一张图片是否含有违法违规内容。
      * FIXME
