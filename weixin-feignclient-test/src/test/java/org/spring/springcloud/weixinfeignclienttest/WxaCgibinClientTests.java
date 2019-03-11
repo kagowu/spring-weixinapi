@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeixinFeignclientTestApplication.class)
-public class CgibinClientTests {
+public class WxaCgibinClientTests {
     @Autowired
     StringRedisTemplate redisTemplate;
 
@@ -43,16 +43,17 @@ public class CgibinClientTests {
     private static final String componentAppid = "wxb5520b267480440f";
     private static final String componentSecret = "10c1bde9468906b5a981302136cacf37";
     private static String componentVerifyTicket = "";
+    private static final String appidMiniProgram = "wx7b4870cde75f4e5d";
+    private static final String appsecretMiniProgram = "6f2369d687e62076c8f201da680548f3";
 
 
     @Before
     public void before() {
-        accessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#accessToken");
-        preAuthCode = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#preAuthCode");
-//        componentVerifyTicket = stringRedis.get("marketing_microshop:component_verify_ticket").replace("\"","");
+        accessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#accessToken");
+        preAuthCode = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#preAuthCode");
         componentToken = stringRedis.get("marketing_microshop:wx_component_access_token").replace("\"","");
-        authorizerAccessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#authorizerAccessToken");
-        authorizerRefreshToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#authorizerRefreshToken");
+        authorizerAccessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerAccessToken");
+        authorizerRefreshToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerRefreshToken");
 
     }
 
@@ -63,7 +64,7 @@ public class CgibinClientTests {
         componentTokenRequest.setComponentAppsecret(componentSecret);
         componentTokenRequest.setComponentVerifyTicket(componentVerifyTicket);
         ComponentTokenResponse response = cgibinClient.componentApiComponentToken(componentTokenRequest);
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#componentAccessToken", response.getComponentAccessToken());
+        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#componentAccessToken", response.getComponentAccessToken());
 
     }
 
@@ -72,7 +73,7 @@ public class CgibinClientTests {
         val request = new ComponentApiCreatePreauthcodeRequest();
         request.setComponentAppid(componentAppid);
         ComponentApiCreatePreauthcodeResponse response = cgibinClient.componentApiCreatePreauthcode(componentToken, request);
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#preAuthCode", response.getPreAuthCode());
+        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#preAuthCode", response.getPreAuthCode());
     }
 
     @Test
@@ -92,57 +93,23 @@ public class CgibinClientTests {
         componentApi_query_authRequest.setComponentAppid("wxb5520b267480440f");
         componentApi_query_authRequest.setAuthorizationCode("");
         ComponentApiQueryAuthResponse response = cgibinClient.componentApiQueryAuth(componentToken, componentApi_query_authRequest);
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#authorizerAccessToken", response.getAuthorizationInfo().getAuthorizerAccessToken());
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#authorizerRefreshToken", response.getAuthorizationInfo().getAuthorizerRefreshToken());
+        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerAccessToken", response.getAuthorizationInfo().getAuthorizerAccessToken());
+        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerRefreshToken", response.getAuthorizationInfo().getAuthorizerRefreshToken());
 
 
     }
 
 
-    @Test
-    public void componentFastregisterweappSearch() {
 
-    }
 
 
     @Test
     public void token() {
         TokenResponse response = cgibinClient.token("wxe57e8b54cbe75bd0", "22642be432f7849be45956de461333c8");
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.CgibinClientTests#accessToken", response.getAccessToken());
+        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#accessToken", response.getAccessToken());
 
     }
 
-    @Test
-    public void menuCreate() {
-        val request = new MenuCreateRequest();
-        MenuCreateRequest.ViewButton viewButton = new MenuCreateRequest.ViewButton();
-        viewButton.setUrl("http://www.baidu.com");
-        viewButton.setName("test");
-        MenuCreateRequest.ClickButton viewButton1 = new MenuCreateRequest.ClickButton();
-        viewButton1.setUrl("http://www.baidu.com");
-        viewButton1.setName("test1");
-        viewButton1.setKey("key1");
-        MenuCreateRequest.ClickButton viewButton2 = new MenuCreateRequest.ClickButton();
-        viewButton2.setUrl("http://www.baidu.com");
-        viewButton2.setName("test2");
-        viewButton2.setKey("key2");
-        viewButton.setSubButtons(Arrays.asList(new MenuCreateRequest.Button[]{viewButton1, viewButton2}));
-        request.setButton(Arrays.asList(new MenuCreateRequest.Button[]{viewButton}));
-        System.err.println(JSON.toJSONString(request, true));
-        cgibinClient.menuCreate(accessToken, request);
-        System.err.println(JSON.toJSONString(request, true));
-
-    }
-
-    @Test
-    public void menuGet() {
-        cgibinClient.menuGet(accessToken);
-    }
-
-    @Test
-    public void qrcodeCreate() {
-        cgibinClient.qrcodeCreateTemp(accessToken, 864000, 123);
-    }
 
 
     @Test
@@ -157,6 +124,10 @@ public class CgibinClientTests {
     public void componentClear_quota() {
     }
 
+    @Test
+    public void componentFastregisterweappSearch() {
+
+    }
     @Test
     public void componentFastregisterweappCreate() {
         ComponentFastregisterweappCreateRequest componentFastregisterweappSearchRequest = new ComponentFastregisterweappCreateRequest();

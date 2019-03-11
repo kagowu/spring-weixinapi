@@ -54,7 +54,7 @@ public class TestXml {
     @Test
     public void test3() {
         val val = new ImageReply();
-        ImageReply.Image image = new ImageReply.Image();
+        ImageReply.Image image = new ImageReply.Image("mediaId");
         image.setMediaId("mediaId");
         val.setImage(image);
         val.setCreateTime(123);

@@ -1,16 +1,26 @@
 package com.qq.weixin.api.cgibin;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
 import com.qq.weixin.api.FeignConfiguration;
 import com.qq.weixin.api.cgibin.request.*;
 import com.qq.weixin.api.cgibin.response.*;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import java.io.*;
+import java.net.URLEncoder;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @FeignClient(name = "cgi-bin", url = "https://api.weixin.qq.com/cgi-bin/", configuration = FeignConfiguration.class)
 public interface CgibinClient {
@@ -36,7 +46,13 @@ public interface CgibinClient {
     BaseResponse clearQuota(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
 
 
-    @RequestMapping(value = "/cgi-bin/user/info?lang=zh_CN", method = RequestMethod.GET)
+    /**
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140839}
+     * @param accessToken
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value = "/user/info?lang=zh_CN", method = RequestMethod.GET)
     UnionUserInfoResponse userInfo(@RequestParam("access_token") String accessToken, @RequestParam("openid") String openId);
     /**
      * 自定义菜单创建接口
@@ -88,8 +104,8 @@ public interface CgibinClient {
      * @return
      * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542}
      */
-    @RequestMapping(value = "/qrcode/create", method = RequestMethod.POST)
-    QrcodeCreateResponse qrcodeCreate(@RequestParam("access_token") String accessToken, @RequestBody QrcodeCreateRequest qrcodeCreateRequest);
+    @RequestMapping(value = "/qrcode/create", method = RequestMethod.POST,consumes = APPLICATION_JSON_UTF8_VALUE)
+    QrcodeCreateResponse qrcodeCreate(@RequestParam("access_token") String accessToken, @RequestBody String json);
 
     /**
      * 临时二维码请求说明
@@ -107,7 +123,7 @@ public interface CgibinClient {
         scene.setSceneId(sceneId);
         actionInfo.setScene(scene);
         qrcodeCreateRequest.setActionInfo(actionInfo);
-        return qrcodeCreate(accessToken,qrcodeCreateRequest);
+        return qrcodeCreate(accessToken,JSON.toJSONString(qrcodeCreateRequest));
     }
 
     /**
@@ -124,7 +140,7 @@ public interface CgibinClient {
         scene.setSceneStr(sceneStr);
         actionInfo.setScene(scene);
         qrcodeCreateRequest.setActionInfo(actionInfo);
-        return qrcodeCreate(accessToken,qrcodeCreateRequest);
+        return qrcodeCreate(accessToken,JSON.toJSONString(qrcodeCreateRequest));
     }
 
     /**
@@ -158,6 +174,45 @@ public interface CgibinClient {
     @RequestMapping(value = "/message/custom/send", method = RequestMethod.POST)
     BaseResponse messageCustomSend(@RequestParam("access_token") String accessToken, @RequestBody String json);
 
+    /**
+     * 发送客服消息给用户-文本消息
+     * @param accessToken
+     * @param textMessage
+     * @return
+     */
+    default BaseResponse messageCustomSend(String accessToken,MessageCustomSendBaseRequest.TextMessage textMessage){
+        return  messageCustomSend(accessToken, JSONArray.toJSONString(textMessage));
+    }
+
+    /**
+     * 发送客服消息给用户-图片消息
+     * @param accessToken
+     * @param imageMessage
+     * @return
+     */
+    default BaseResponse messageCustomSend(String accessToken,MessageCustomSendBaseRequest.ImageMessage imageMessage){
+        return  messageCustomSend(accessToken, JSONArray.toJSONString(imageMessage));
+    }
+
+    /**
+     * 发送客服消息给用户-图文链接消息
+     * @param accessToken
+     * @param linkMessage
+     * @return
+     */
+    default BaseResponse messageCustomSend(String accessToken,MessageCustomSendBaseRequest.NewsMessage newsMessage){
+        return  messageCustomSend(accessToken, JSONArray.toJSONString(newsMessage));
+    }
+
+    /**
+     * 发送客服消息给用户-小程序卡片消息
+     * @param accessToken
+     * @param miniprogrampageMessage
+     * @return
+     */
+    default BaseResponse messageCustomSend(String accessToken,MessageCustomSendBaseRequest.MiniprogrampageMessage miniprogrampageMessage){
+        return  messageCustomSend(accessToken, JSONArray.toJSONString(miniprogrampageMessage));
+    }
 
     /**
      * 发送模板消息
@@ -201,25 +256,57 @@ public interface CgibinClient {
 
 
     /**
-     * 获取客服消息内的临时素材。即下载临时的多媒体文件。目前小程序仅支持下载图片文件
+     * 获取临时素材
      *
      * @param accessToken
      * @return
-     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getTempMedia.html}
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738727}
      */
     @RequestMapping(value = "/media/get", method = RequestMethod.POST)
     BaseResponse mediaGet(@RequestParam("access_token") String accessToken, @RequestParam("media_id") String mediaId);
 
     /**
-     * 把媒体文件上传到微信服务器。目前仅支持图片。用于发送客服消息或被动回复用户消息
-     * FIXME formdata
+     * 新增临时素材
      *
      * @param accessToken
+     * @param type 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb）
      * @return
-     * @link {https://developers.weixin.qq.com/miniprogram/dev/api/uploadTempMedia.html}
+     * @link {https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726}
      */
-    @RequestMapping(value = "/media/upload", method = RequestMethod.POST)
-    BaseResponse mediaUpload(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    @RequestMapping(value = "/media/upload", method = RequestMethod.POST, produces = APPLICATION_JSON_UTF8_VALUE,consumes = MULTIPART_FORM_DATA_VALUE)
+    String mediaUpload(@RequestParam("access_token") String accessToken, @RequestParam("type") String type, @RequestPart(value = "file") MultipartFile file);
+
+    /**
+     *
+     * 上传文件
+     * @param accessToken
+     * @param type 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb）
+     * @param file
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    default BaseResponse mediaUpload(String accessToken, String type, File file) throws UnsupportedEncodingException {
+        FileItemFactory factory = new DiskFileItemFactory(16, null);
+        String textFieldName = "file";
+        FileItem fileItem = factory.createItem(textFieldName, "multipart/form-data", true,
+                URLEncoder.encode(file.getName(), "utf-8"));
+        int bytesRead;
+        int len = 8192;
+        byte[] buffer = new byte[len];
+        try (FileInputStream fis = new FileInputStream(file)) {
+            OutputStream os = fileItem.getOutputStream();
+            while ((bytesRead = fis.read(buffer, 0, len))
+                    != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+        return JSON.parseObject(mediaUpload(accessToken, type, multipartFile), BaseResponse.class);
+    }
+
 
     /**
      * 第三方平台对其所有API调用次数清零（只与第三方平台相关，与公众号无关，接口如api_component_token）

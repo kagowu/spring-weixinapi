@@ -10,7 +10,6 @@
     <name>spring-weixinapi</name>
     <modules>
         <module>weixin-feignclient</module>
-        <module>weixin-xmlmessage</module>
         <module>weixin-feignclient-test</module>
     </modules>
 </project>

@@ -1,6 +1,7 @@
 package com.qq.weixin.xml.mp.reply;
 
 import com.qq.weixin.xml.mp.BaseReplyMsg;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class MusicReply extends BaseReplyMsg {
     @Data
     @XmlRootElement(name = "Music")
     @XmlAccessorType(XmlAccessType.NONE)
+    @AllArgsConstructor
     public static class Music {
         /**
          * 音乐标题

@@ -2,6 +2,7 @@ package com.qq.weixin.xml.mp.reply;
 
 import com.qq.weixin.xml.mp.BaseReplyMsg;
 import com.qq.weixin.xml.util.JAXBUtils;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class ImageReply extends BaseReplyMsg {
     @Data
     @XmlRootElement(name = "Image")
     @XmlAccessorType(XmlAccessType.NONE)
+    @AllArgsConstructor
     public static class Image {
         /**
          * 通过素材管理中的接口上传多媒体文件，得到的id。
