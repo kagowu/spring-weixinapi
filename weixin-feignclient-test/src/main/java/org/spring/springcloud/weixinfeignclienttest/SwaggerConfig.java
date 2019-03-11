@@ -19,14 +19,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-
-    @Bean
-    @Primary
-    @Scope("prototype")
-    public Encoder multipartFormEncoder() {
-        return new SpringFormEncoder();
-    }
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

@@ -51,7 +51,10 @@ public class WxaCgibinClientTests {
     public void before() {
         accessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#accessToken");
         preAuthCode = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#preAuthCode");
-        componentToken = stringRedis.get("marketing_microshop:wx_component_access_token").replace("\"","");
+        componentToken = stringRedis.get("marketing_microshop:wx_component_access_token");
+        if (componentToken != null) {
+            componentToken = componentToken.replace("\"", "");
+        }
         authorizerAccessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerAccessToken");
         authorizerRefreshToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerRefreshToken");
 
@@ -69,7 +72,7 @@ public class WxaCgibinClientTests {
     }
 
     @Test
-    public void componentApi_create_preauthcode() {
+    public void componentApiCreatePreauthcode() {
         val request = new ComponentApiCreatePreauthcodeRequest();
         request.setComponentAppid(componentAppid);
         ComponentApiCreatePreauthcodeResponse response = cgibinClient.componentApiCreatePreauthcode(componentToken, request);
@@ -77,7 +80,7 @@ public class WxaCgibinClientTests {
     }
 
     @Test
-    public void componentApi_get_authorizer_info() {
+    public void componentApiGetAuthorizerInfo() {
         val request = new ComponentApiGetAuthorizerInfoRequest();
         request.setAuthorizerAppid("wx01fa97816dcd707c");
         request.setComponentAppid(componentAppid);
@@ -88,28 +91,33 @@ public class WxaCgibinClientTests {
 
 
     @Test
-    public void componentApi_query_auth() {
+    public void componentApiQueryAuth() {
         ComponentApiQueryAuthRequest componentApi_query_authRequest = new ComponentApiQueryAuthRequest();
-        componentApi_query_authRequest.setComponentAppid("wxb5520b267480440f");
+        componentApi_query_authRequest.setComponentAppid(componentAppid);
         componentApi_query_authRequest.setAuthorizationCode("");
         ComponentApiQueryAuthResponse response = cgibinClient.componentApiQueryAuth(componentToken, componentApi_query_authRequest);
         stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerAccessToken", response.getAuthorizationInfo().getAuthorizerAccessToken());
         stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerRefreshToken", response.getAuthorizationInfo().getAuthorizerRefreshToken());
 
-
     }
 
+    @Test
+    public void componentApiAuthorizerToken() {
+        ComponentApiAuthorizerTokenRequest componentApiAuthorizerTokenRequest = new ComponentApiAuthorizerTokenRequest();
+        componentApiAuthorizerTokenRequest.setAuthorizerAppid(appidMiniProgram);
+        componentApiAuthorizerTokenRequest.setAuthorizerRefreshToken(stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerRefreshToken"));
+        componentApiAuthorizerTokenRequest.setComponentAppid(componentAppid);
+        cgibinClient.componentApiAuthorizerToken(componentToken, componentApiAuthorizerTokenRequest);
 
-
+    }
 
 
     @Test
     public void token() {
-        TokenResponse response = cgibinClient.token("wxe57e8b54cbe75bd0", "22642be432f7849be45956de461333c8");
+        TokenResponse response = cgibinClient.token(appidMiniProgram, appsecretMiniProgram);
         stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#accessToken", response.getAccessToken());
 
     }
-
 
 
     @Test
@@ -128,6 +136,7 @@ public class WxaCgibinClientTests {
     public void componentFastregisterweappSearch() {
 
     }
+
     @Test
     public void componentFastregisterweappCreate() {
         ComponentFastregisterweappCreateRequest componentFastregisterweappSearchRequest = new ComponentFastregisterweappCreateRequest();

@@ -1,6 +1,7 @@
 package org.spring.springcloud.weixinfeignclienttest;
 
 import com.alibaba.fastjson.JSON;
+import com.qq.weixin.api.BaseResponse;
 import com.qq.weixin.api.cgibin.CgibinClient;
 import com.qq.weixin.api.cgibin.request.*;
 import com.qq.weixin.api.cgibin.response.ComponentApiCreatePreauthcodeResponse;
@@ -8,8 +9,10 @@ import com.qq.weixin.api.cgibin.response.ComponentApiQueryAuthResponse;
 import com.qq.weixin.api.cgibin.response.ComponentTokenResponse;
 import com.qq.weixin.api.cgibin.response.TokenResponse;
 import lombok.val;
+import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
@@ -68,47 +71,9 @@ public class MpCgibinClientTests {
 
     }
 
-    @Test
-    public void componentApiComponentToken() {
-        val componentTokenRequest = new ComponentTokenRequest();
-        componentTokenRequest.setComponentAppid(componentAppid);
-        componentTokenRequest.setComponentAppsecret(componentSecret);
-        componentTokenRequest.setComponentVerifyTicket(componentVerifyTicket);
-        ComponentTokenResponse response = cgibinClient.componentApiComponentToken(componentTokenRequest);
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.MpCgibinClientTests#componentAccessToken", response.getComponentAccessToken());
-
-    }
-
-    @Test
-    public void componentApi_create_preauthcode() {
-        val request = new ComponentApiCreatePreauthcodeRequest();
-        request.setComponentAppid(componentAppid);
-        ComponentApiCreatePreauthcodeResponse response = cgibinClient.componentApiCreatePreauthcode(componentToken, request);
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.MpCgibinClientTests#preAuthCode", response.getPreAuthCode());
-    }
-
-    @Test
-    public void componentApi_get_authorizer_info() {
-        val request = new ComponentApiGetAuthorizerInfoRequest();
-        request.setAuthorizerAppid("wx01fa97816dcd707c");
-        request.setComponentAppid(componentAppid);
-        cgibinClient.componentApiGetAuthorizerInfo(componentToken, request);
 
 
-    }
 
-
-    @Test
-    public void componentApi_query_auth() {
-        ComponentApiQueryAuthRequest componentApi_query_authRequest = new ComponentApiQueryAuthRequest();
-        componentApi_query_authRequest.setComponentAppid("wxb5520b267480440f");
-        componentApi_query_authRequest.setAuthorizationCode("");
-        ComponentApiQueryAuthResponse response = cgibinClient.componentApiQueryAuth(componentToken, componentApi_query_authRequest);
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.MpCgibinClientTests#authorizerAccessToken", response.getAuthorizationInfo().getAuthorizerAccessToken());
-        stringRedis.set("org.spring.springcloud.weixinfeignclienttest.MpCgibinClientTests#authorizerRefreshToken", response.getAuthorizationInfo().getAuthorizerRefreshToken());
-
-
-    }
 
 
     @Test
@@ -193,14 +158,44 @@ public class MpCgibinClientTests {
         cgibinClient.messageCustomSend(accessToken, newsMessage);
     }
 
-    @Test
-    public void mediaUpload() throws IOException {
-
-        val val = cgibinClient.mediaUpload(accessToken, "image", new File("D:\\sources\\spring-weixinapi\\weixin-feignclient-test\\src\\main\\java\\org\\spring\\springcloud\\weixinfeignclienttest\\0.jpg"));
-
-        System.out.println(JSON.toJSONString(val));
-
-    }
+//    /**
+//     *
+//     * 上传文件
+//     * @param accessToken
+//     * @param type 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb）
+//     * @param file
+//     * @return
+//     * @throws UnsupportedEncodingException
+//     */
+//    default BaseResponse mediaUpload(String accessToken, String type, File file) throws UnsupportedEncodingException {
+//        FileItemFactory factory = new DiskFileItemFactory(16, null);
+//        String textFieldName = "file";
+//        FileItem fileItem = factory.createItem(textFieldName, "multipart/form-data", true,
+//                URLEncoder.encode(file.getName(), "utf-8"));
+//        int bytesRead;
+//        int len = 8192;
+//        byte[] buffer = new byte[len];
+//        try (FileInputStream fis = new FileInputStream(file)) {
+//            OutputStream os = fileItem.getOutputStream();
+//            while ((bytesRead = fis.read(buffer, 0, len))
+//                    != -1) {
+//                os.write(buffer, 0, bytesRead);
+//            }
+//            os.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+//        return JSON.parseObject(mediaUpload(accessToken, type, multipartFile), BaseResponse.class);
+//    }
+//    @Test
+//    public void mediaUpload() throws IOException {
+//
+//        val val = cgibinClient.mediaUpload(accessToken, "image", new File("D:\\sources\\spring-weixinapi\\weixin-feignclient-test\\src\\main\\java\\org\\spring\\springcloud\\weixinfeignclienttest\\0.jpg"));
+//
+//        System.out.println(JSON.toJSONString(val));
+//
+//    }
 
     @Test
     public void userInfo() {

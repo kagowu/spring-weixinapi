@@ -71,6 +71,16 @@
             <artifactId>spring-boot-starter-redis</artifactId>
             <version>1.4.2.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.openfeign.form</groupId>
+            <artifactId>feign-form</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign.form</groupId>
+            <artifactId>feign-form-spring</artifactId>
+            <version>3.3.0</version>
+        </dependency>
     </dependencies>
 
     <build>
