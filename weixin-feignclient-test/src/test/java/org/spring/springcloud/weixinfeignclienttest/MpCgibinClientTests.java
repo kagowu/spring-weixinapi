@@ -159,6 +159,8 @@ public class MpCgibinClientTests {
     }
 
 
+
+
     @Test
     public void mediaUpload() throws IOException {
 
@@ -171,6 +173,11 @@ public class MpCgibinClientTests {
     @Test
     public void userInfo() {
         cgibinClient.userInfo(accessToken, "o1i3qs2kVNHty34G2reV1CRs5mds");
+    }
+
+    @Test
+    public void ticketGetticket(){
+        cgibinClient.ticketGetticket(accessToken);
     }
 
 

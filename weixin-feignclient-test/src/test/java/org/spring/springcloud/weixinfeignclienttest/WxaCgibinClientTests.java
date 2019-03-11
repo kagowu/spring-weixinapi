@@ -121,6 +121,13 @@ public class WxaCgibinClientTests {
 
 
     @Test
+    public void messageCustomSendMiniprogrampage() {
+        MessageCustomSendBaseRequest.MiniprogrampageMessage miniprogrampageMessage = new MessageCustomSendBaseRequest.MiniprogrampageMessage();
+        miniprogrampageMessage.setMiniprogrampage(new MessageCustomSendBaseRequest.Miniprogrampage("hello","/page/","https://developers.weixin.qq.com/sandbox?tab=miniprogram&hl=zh","2Rb8kLek2RbW8-dBWSAPnL1zHoq5B7zWYeyb1FSo_U4n_-TxPcAzSlQgqWeJ8ULP"));
+        miniprogrampageMessage.setTouser("o1i3qs2kVNHty34G2reV1CRs5mds");
+        cgibinClient.messageCustomSend(accessToken, miniprogrampageMessage);
+    }
+    @Test
     public void componentApi_set_authorizer_option() {
     }
 
@@ -134,6 +141,11 @@ public class WxaCgibinClientTests {
 
     @Test
     public void componentFastregisterweappSearch() {
+        ComponentFastregisterweappSearchRequest request =new ComponentFastregisterweappSearchRequest();
+        request.setLegalPersonaName("陈志雄");
+        request.setLegalPersonaWechat("zxpole");
+        request.setName("上海巧房信息科技有限公司");
+        cgibinClient.componentFastregisterweappSearch("19_1zJlyOCShI7uvslE9EuOvrbTK44TGviCmgEBvfMPhwEEaWu0YY1bEiV82DcE0rFuB1133ko9hjxipJlW08hIrEvf-5x1jSFkV8USWXIQ6vDS9rwKW-_3ynNNf_lPfdeElcVQzXaDJ9jPGPMwNBQgAJAZNC",request);
 
     }
 
@@ -146,7 +158,7 @@ public class WxaCgibinClientTests {
         componentFastregisterweappSearchRequest.setLegalPersonaName("陈志雄");
         componentFastregisterweappSearchRequest.setLegalPersonaWechat("zxpole");
         componentFastregisterweappSearchRequest.setComponentPhone("15216884283");
-        cgibinClient.componentFastregisterweappCreate("19_Kg4qK9GIh7Uz9BIBShsD_u7aucgXPA9YaxTg1YX9tU91zpQNsHiK5obL9-QceCRkyHVFz4mdn-rA6Vm2dtrU5tVZ6sygWLIIEk01qToCMfapjC2TMgkc2a_Biip5_fXmJEfjxZwOOd3Q2xTEXEGbABAAHJ",
+        cgibinClient.componentFastregisterweappCreate("19_1zJlyOCShI7uvslE9EuOvrbTK44TGviCmgEBvfMPhwEEaWu0YY1bEiV82DcE0rFuB1133ko9hjxipJlW08hIrEvf-5x1jSFkV8USWXIQ6vDS9rwKW-_3ynNNf_lPfdeElcVQzXaDJ9jPGPMwNBQgAJAZNC",
                 componentFastregisterweappSearchRequest);
     }
 
@@ -359,6 +371,7 @@ public class WxaCgibinClientTests {
 
     @Test
     public void accountGetaccountbasicinfo() {
+        cgibinClient.accountGetaccountbasicinfo(accessToken);
     }
 
     @Test
