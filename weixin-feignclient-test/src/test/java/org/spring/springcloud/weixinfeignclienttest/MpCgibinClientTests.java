@@ -168,6 +168,13 @@ public class MpCgibinClientTests {
     }
 
     @Test
+    public void messageCustomTyping() {
+
+        cgibinClient.messageCustomTyping(accessToken, "o1i3qs2kVNHty34G2reV1CRs5mds","Typing");
+
+    }
+
+    @Test
     public void messageCustomSendImage() {
         MessageCustomSendBaseRequest.ImageMessage imageMessage = new MessageCustomSendBaseRequest.ImageMessage();
         imageMessage.setImage(new MessageCustomSendBaseRequest.Image("2Rb8kLek2RbW8-dBWSAPnL1zHoq5B7zWYeyb1FSo_U4n_-TxPcAzSlQgqWeJ8ULP"));

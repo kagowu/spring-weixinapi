@@ -18,6 +18,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
@@ -162,7 +164,21 @@ public interface CgibinClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/customerTyping.html}
      */
     @RequestMapping(value = "/message/custom/typing", method = RequestMethod.POST)
-    BaseResponse messageCustomTyping(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse messageCustomTyping(@RequestParam("access_token") String accessToken, @RequestBody String json);
+
+    /**
+     * 下发客服当前输入状态给用户
+     * @param accessToken
+     * @param touser
+     * @param command
+     * @return
+     */
+    default BaseResponse messageCustomTyping(String accessToken, String touser, String command) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("touser", touser);
+        map.put("command", command);
+        return messageCustomTyping(accessToken, JSON.toJSONString(map));
+    }
 
     /**
      * 发送客服消息给用户
@@ -197,7 +213,7 @@ public interface CgibinClient {
     /**
      * 发送客服消息给用户-图文链接消息
      * @param accessToken
-     * @param linkMessage
+     * @param newsMessage
      * @return
      */
     default BaseResponse messageCustomSend(String accessToken,MessageCustomSendBaseRequest.NewsMessage newsMessage){

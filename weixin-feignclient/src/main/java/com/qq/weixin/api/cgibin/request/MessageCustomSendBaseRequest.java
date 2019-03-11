@@ -25,7 +25,7 @@ public class MessageCustomSendBaseRequest {
         this.msgtype = msgtype;
     }
 
-    protected void setMsgtype(String msgtype) {
+    void setMsgtype(String msgtype) {
         this.msgtype = msgtype;
     }
 
