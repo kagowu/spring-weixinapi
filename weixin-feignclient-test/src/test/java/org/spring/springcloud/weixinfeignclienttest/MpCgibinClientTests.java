@@ -158,44 +158,15 @@ public class MpCgibinClientTests {
         cgibinClient.messageCustomSend(accessToken, newsMessage);
     }
 
-//    /**
-//     *
-//     * 上传文件
-//     * @param accessToken
-//     * @param type 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb）
-//     * @param file
-//     * @return
-//     * @throws UnsupportedEncodingException
-//     */
-//    default BaseResponse mediaUpload(String accessToken, String type, File file) throws UnsupportedEncodingException {
-//        FileItemFactory factory = new DiskFileItemFactory(16, null);
-//        String textFieldName = "file";
-//        FileItem fileItem = factory.createItem(textFieldName, "multipart/form-data", true,
-//                URLEncoder.encode(file.getName(), "utf-8"));
-//        int bytesRead;
-//        int len = 8192;
-//        byte[] buffer = new byte[len];
-//        try (FileInputStream fis = new FileInputStream(file)) {
-//            OutputStream os = fileItem.getOutputStream();
-//            while ((bytesRead = fis.read(buffer, 0, len))
-//                    != -1) {
-//                os.write(buffer, 0, bytesRead);
-//            }
-//            os.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
-//        return JSON.parseObject(mediaUpload(accessToken, type, multipartFile), BaseResponse.class);
-//    }
-//    @Test
-//    public void mediaUpload() throws IOException {
-//
-//        val val = cgibinClient.mediaUpload(accessToken, "image", new File("D:\\sources\\spring-weixinapi\\weixin-feignclient-test\\src\\main\\java\\org\\spring\\springcloud\\weixinfeignclienttest\\0.jpg"));
-//
-//        System.out.println(JSON.toJSONString(val));
-//
-//    }
+
+    @Test
+    public void mediaUpload() throws IOException {
+
+        val val = cgibinClient.mediaUpload(accessToken, "image", new File("D:\\sources\\spring-weixinapi\\weixin-feignclient-test\\src\\main\\java\\org\\spring\\springcloud\\weixinfeignclienttest\\0.jpg"));
+
+        System.out.println(JSON.toJSONString(val));
+
+    }
 
     @Test
     public void userInfo() {
