@@ -12,5 +12,4 @@ public class BaseResponse {
      */
     private String errcode;
     private String errmsg;
-    private Date createTime = new Date();
 }

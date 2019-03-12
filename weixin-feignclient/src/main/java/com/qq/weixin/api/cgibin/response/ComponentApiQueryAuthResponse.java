@@ -30,8 +30,8 @@ public class ComponentApiQueryAuthResponse extends BaseResponse {
         @JsonProperty("expires_in")
         private Integer expiresIn;
 
-        @JSONField(name = "expires_in")
-        @JsonProperty("expires_in")
+        @JSONField(name = "authorizer_refresh_token")
+        @JsonProperty("authorizer_refresh_token")
         private String authorizerRefreshToken;
 
         @JSONField(name = "func_info")

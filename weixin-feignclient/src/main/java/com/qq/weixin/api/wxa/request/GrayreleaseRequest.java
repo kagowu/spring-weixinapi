@@ -1,4 +1,4 @@
-package com.qq.weixin.api.cgibin.request;
+package com.qq.weixin.api.wxa.request;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComponentApiCreatePreauthcodeRequest {
-    @JSONField(name = "component_appid")
-    @JsonProperty("component_appid")
-    private String componentAppid;
+public class GrayreleaseRequest {
+    @JSONField(name = "gray_percentage")
+    @JsonProperty("gray_percentage")
+    private Integer grayPercentage;
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class MessageCustomSendBaseRequest {
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Text {
         private String content;
     }
@@ -58,6 +60,7 @@ public class MessageCustomSendBaseRequest {
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Image {
         @JSONField(name = "media_id")
         @JsonProperty("media_id")
@@ -76,11 +79,13 @@ public class MessageCustomSendBaseRequest {
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class News{
         private List<Article> articles;
     }
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Article {
         private String title;
         private String description;
@@ -99,6 +104,7 @@ public class MessageCustomSendBaseRequest {
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Miniprogrampage {
         private String title;
         private String pagepath;

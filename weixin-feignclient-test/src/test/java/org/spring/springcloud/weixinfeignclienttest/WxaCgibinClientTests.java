@@ -40,7 +40,7 @@ public class WxaCgibinClientTests {
     private static String preAuthCode = "";
     private static String authorizerAccessToken = "";
     private static String authorizerRefreshToken = "";
-    private static final String componentAppid = "wxb5520b267480440f";
+    private static final String componentAppid = "wxe3987587f06091cf";
     private static final String componentSecret = "10c1bde9468906b5a981302136cacf37";
     private static String componentVerifyTicket = "";
     private static final String appidMiniProgram = "wx7b4870cde75f4e5d";
@@ -82,10 +82,19 @@ public class WxaCgibinClientTests {
     @Test
     public void componentApiGetAuthorizerInfo() {
         val request = new ComponentApiGetAuthorizerInfoRequest();
-        request.setAuthorizerAppid("wx01fa97816dcd707c");
+        request.setAuthorizerAppid("wxea1e46a5ed94489a");
         request.setComponentAppid(componentAppid);
         cgibinClient.componentApiGetAuthorizerInfo(componentToken, request);
 
+
+    }
+
+    @Test
+    public void apiGetAuthorizerList() {
+        val request = new ApiGetAuthorizerListRequest();
+        request.setComponentAppid(componentAppid);
+        ApiGetAuthorizerListResponse response = cgibinClient.apiGetAuthorizerList(componentToken, request);
+        System.out.println(response);
 
     }
 
@@ -123,10 +132,11 @@ public class WxaCgibinClientTests {
     @Test
     public void messageCustomSendMiniprogrampage() {
         MessageCustomSendBaseRequest.MiniprogrampageMessage miniprogrampageMessage = new MessageCustomSendBaseRequest.MiniprogrampageMessage();
-        miniprogrampageMessage.setMiniprogrampage(new MessageCustomSendBaseRequest.Miniprogrampage("hello","/page/","https://developers.weixin.qq.com/sandbox?tab=miniprogram&hl=zh","2Rb8kLek2RbW8-dBWSAPnL1zHoq5B7zWYeyb1FSo_U4n_-TxPcAzSlQgqWeJ8ULP"));
+        miniprogrampageMessage.setMiniprogrampage(new MessageCustomSendBaseRequest.Miniprogrampage("hello", "/page/", "https://developers.weixin.qq.com/sandbox?tab=miniprogram&hl=zh", "2Rb8kLek2RbW8-dBWSAPnL1zHoq5B7zWYeyb1FSo_U4n_-TxPcAzSlQgqWeJ8ULP"));
         miniprogrampageMessage.setTouser("o1i3qs2kVNHty34G2reV1CRs5mds");
         cgibinClient.messageCustomSend(accessToken, miniprogrampageMessage);
     }
+
     @Test
     public void componentApi_set_authorizer_option() {
     }
@@ -141,11 +151,11 @@ public class WxaCgibinClientTests {
 
     @Test
     public void componentFastregisterweappSearch() {
-        ComponentFastregisterweappSearchRequest request =new ComponentFastregisterweappSearchRequest();
+        ComponentFastregisterweappSearchRequest request = new ComponentFastregisterweappSearchRequest();
         request.setLegalPersonaName("陈志雄");
         request.setLegalPersonaWechat("zxpole");
         request.setName("上海巧房信息科技有限公司");
-        cgibinClient.componentFastregisterweappSearch("19_1zJlyOCShI7uvslE9EuOvrbTK44TGviCmgEBvfMPhwEEaWu0YY1bEiV82DcE0rFuB1133ko9hjxipJlW08hIrEvf-5x1jSFkV8USWXIQ6vDS9rwKW-_3ynNNf_lPfdeElcVQzXaDJ9jPGPMwNBQgAJAZNC",request);
+        cgibinClient.componentFastregisterweappSearch("19_1zJlyOCShI7uvslE9EuOvrbTK44TGviCmgEBvfMPhwEEaWu0YY1bEiV82DcE0rFuB1133ko9hjxipJlW08hIrEvf-5x1jSFkV8USWXIQ6vDS9rwKW-_3ynNNf_lPfdeElcVQzXaDJ9jPGPMwNBQgAJAZNC", request);
 
     }
 

@@ -4,12 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author gong.hua
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountComponentrebindadminRequest {
-    private String taskid;
+public class WxopenDeletecategoryRequest {
+
+    private Integer first;
+    private Integer second;
+
+
 }

@@ -174,7 +174,7 @@ public interface CgibinClient {
      * @return
      */
     default BaseResponse messageCustomTyping(String accessToken, String touser, String command) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(2);
         map.put("touser", touser);
         map.put("command", command);
         return messageCustomTyping(accessToken, JSON.toJSONString(map));
@@ -343,6 +343,17 @@ public interface CgibinClient {
     ComponentTokenResponse componentApiComponentToken(@RequestBody ComponentTokenRequest componentTokenRequest);
 
     /**
+     * 第三方平台可以使用接口拉取当前所有已授权的帐号基本信息
+     *
+     * @param componentAccessToken
+     * @return
+     */
+    @RequestMapping(value = "/component/api_get_authorizer_list", method = RequestMethod.POST)
+    ApiGetAuthorizerListResponse apiGetAuthorizerList(@RequestParam("component_access_token") String componentAccessToken, @RequestBody ApiGetAuthorizerListRequest apiGetAuthorizerListRequest);
+
+
+
+    /**
      * 授权流程-获取预授权码pre_auth_code
      *
      * @param componentAccessToken
@@ -485,7 +496,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/account/getaccountbasicinfo", method = RequestMethod.POST)
-    BaseResponse accountGetaccountbasicinfo(@RequestParam("access_token") String accessToken);
+    AccountGetaccountbasicinfoResponse accountGetaccountbasicinfo(@RequestParam("access_token") String accessToken);
 
     /**
      * 修改头像
@@ -495,7 +506,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/account/modifyheadimage", method = RequestMethod.POST)
-    BaseResponse accountModifyheadimage(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse accountModifyheadimage(@RequestParam("access_token") String accessToken, @RequestBody AccountModifyheadimageRequest accountModifyheadimageRequest);
 
 
     /**
@@ -515,7 +526,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/account/modifysignature", method = RequestMethod.POST)
-    BaseResponse accountModifysignature(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse accountModifysignature(@RequestParam("access_token") String accessToken, @RequestBody AccountModifysignatureRequest accountModifysignatureRequest);
 
 
     /**
@@ -534,7 +545,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxverify/checkwxverifynickname", method = RequestMethod.POST)
-    BaseResponse wxverifyCheckwxverifynickname(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    WxverifyCheckwxverifynicknameResponse wxverifyCheckwxverifynickname(@RequestParam("access_token") String accessToken, @RequestBody WxverifyCheckwxverifynicknameRequest wxverifyCheckwxverifynicknameRequest);
 
     /**
      * 获取账号可以设置的所有类目
@@ -543,7 +554,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/getallcategories", method = RequestMethod.GET)
-    BaseResponse wxopenGetallcategories(@RequestParam("access_token") String accessToken);
+    WxopenGetallcategoriesResponse wxopenGetallcategories(@RequestParam("access_token") String accessToken);
 
     /**
      * 添加类目
@@ -552,7 +563,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/addcategory", method = RequestMethod.POST)
-    BaseResponse wxopenAddcategory(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse wxopenAddcategory(@RequestParam("access_token") String accessToken, @RequestBody WxopenAddcategoryRequest wxopenAddcategoryRequest);
 
 
     /**
@@ -562,7 +573,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/deletecategory", method = RequestMethod.POST)
-    BaseResponse wxopenDeletecategory(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse wxopenDeletecategory(@RequestParam("access_token") String accessToken, @RequestBody WxopenDeletecategoryRequest wxopenDeletecategoryRequest);
 
     /**
      * 获取账号已经设置的所有类目
@@ -571,7 +582,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/getcategory", method = RequestMethod.POST)
-    BaseResponse wxopenGetcategory(@RequestParam("access_token") String accessToken);
+    WxopenGetcategoryResponse wxopenGetcategory(@RequestParam("access_token") String accessToken);
 
     /**
      * 修改类目
@@ -580,7 +591,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/modifycategory", method = RequestMethod.POST)
-    BaseResponse wxopenModifycategory(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse wxopenModifycategory(@RequestParam("access_token") String accessToken, @RequestBody WxopenModifycategoryRequest wxopenModifycategoryRequest);
 
     /**
      * 查询当前设置的最低基础库版本及各版本用户占比（仅供第三方代小程序调用）
@@ -589,7 +600,16 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/getweappsupportversion", method = RequestMethod.GET)
-    BaseResponse wxopenGetweappsupportversion(@RequestParam("access_token") String accessToken);
+    WxopenGetweappsupportversionResponse wxopenGetweappsupportversion(@RequestParam("access_token") String accessToken);
+
+    /**
+     * 设置最低基础库版本（仅供第三方代小程序调用）
+     *
+     * @param accessToken
+     * @return
+     */
+    @RequestMapping(value = "wxopen/setweappsupportversion", method = RequestMethod.GET)
+    WxopenSetweappsupportversionRequest wxopenSetweappsupportversion(@RequestParam("access_token") String accessToken);
 
     /**
      * 获取公众号关联的小程序
@@ -619,14 +639,6 @@ public interface CgibinClient {
     @RequestMapping(value = "wxopen/wxampunlink", method = RequestMethod.GET)
     BaseResponse wxopenWxampunlink(@RequestParam("access_token") String accessToken);
 
-    /**
-     * 设置最低基础库版本（仅供第三方代小程序调用）
-     *
-     * @param accessToken
-     * @return
-     */
-    @RequestMapping(value = "wxopen/setweappsupportversion", method = RequestMethod.GET)
-    BaseResponse wxopenSetweappsupportversion(@RequestParam("access_token") String accessToken);
 
     /**
      * 增加或修改二维码规则
@@ -635,7 +647,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/qrcodejumpadd", method = RequestMethod.POST)
-    BaseResponse wxopenQrcodejumpadd(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse wxopenQrcodejumpadd(@RequestParam("access_token") String accessToken, @RequestBody WxopenQrcodejumpaddRequest wxopenQrcodejumpaddRequest);
 
     /**
      * 增加或修改二维码规则
@@ -644,7 +656,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/qrcodejumpget", method = RequestMethod.POST)
-    BaseResponse wxopenQrcodejumpget(@RequestParam("access_token") String accessToken);
+    WxopenQrcodejumpgetResponse wxopenQrcodejumpget(@RequestParam("access_token") String accessToken);
 
     /**
      * 获取校验文件名称及内容
@@ -653,7 +665,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/qrcodejumpdownload", method = RequestMethod.POST)
-    BaseResponse wxopenQrcodejumpdownload(@RequestParam("access_token") String accessToken);
+    WxopenQrcodejumpdownloadResponse wxopenQrcodejumpdownload(@RequestParam("access_token") String accessToken);
 
     /**
      * 删除已设置的二维码规则
@@ -662,7 +674,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/qrcodejumpdelete", method = RequestMethod.POST)
-    BaseResponse wxopenQrcodejumpdelete(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse wxopenQrcodejumpdelete(@RequestParam("access_token") String accessToken, @RequestBody WxopenQrcodejumpdeleteRequest wxopenQrcodejumpdeleteRequest);
 
     /**
      * 发布已设置的二维码规则

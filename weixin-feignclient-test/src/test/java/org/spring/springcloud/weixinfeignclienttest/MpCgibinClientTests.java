@@ -51,9 +51,6 @@ public class MpCgibinClientTests {
     private static String preAuthCode = "";
     private static String authorizerAccessToken = "";
     private static String authorizerRefreshToken = "";
-    private static final String componentAppid = "wxb5520b267480440f";
-    private static final String componentSecret = "10c1bde9468906b5a981302136cacf37";
-    private static String componentVerifyTicket = "";
     private static final String appidMp = "wxe57e8b54cbe75bd0";
     private static final String appsecretMp = "22642be432f7849be45956de461333c8";
 

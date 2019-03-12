@@ -5,12 +5,8 @@ import com.google.common.io.BaseEncoding;
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.BaseResponse;
 import com.qq.weixin.api.FeignConfiguration;
-import com.qq.weixin.api.wxa.request.GetwxacodeRequest;
-import com.qq.weixin.api.wxa.request.ModifyDomainRequest;
-import com.qq.weixin.api.wxa.request.WebviewdomainRequest;
-import com.qq.weixin.api.wxa.response.GetwxacodeResopnse;
-import com.qq.weixin.api.wxa.response.ModifyDomainResopnse;
-import com.qq.weixin.api.wxa.response.PluginResponse;
+import com.qq.weixin.api.wxa.request.*;
+import com.qq.weixin.api.wxa.response.*;
 import feign.Response;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Collection;
 
 /**
@@ -68,7 +65,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/setnickname", method = RequestMethod.POST)
-    BaseResponse setnickname(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse setnickname(@RequestParam("access_token") String accessToken, @RequestBody SetnicknameRequest setnicknameRequest);
 
     /**
      * 小程序改名审核状态查询
@@ -77,7 +74,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/api_wxa_querynickname", method = RequestMethod.POST)
-    BaseResponse apiWxaQuerynickname(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    ApiWxaQuerynicknameResponse apiWxaQuerynickname(@RequestParam("access_token") String accessToken, @RequestBody ApiWxaQuerynicknameRequest apiWxaQuerynicknameRequest);
 
 
     /**
@@ -235,12 +232,35 @@ public interface WxaClient {
      * @see #getgrayreleaseplan
      * </pre>
      * 为授权的小程序帐号上传小程序代码
+     *<pre>
+     *     ext_json需为string类型，格式示例如下 ：
+     *     {
+     *     extAppid:"",
+     *     ext:{
+     *         "attr1":"value1",
+     *         "attr2":"value2",
+     *     },
+     *     extPages:{
+     *         "index":{
+     *         },
+     *         "search/index":{
+     *         },
+     *     },
+     *     pages:["index","search/index"],
+     *     "window":{
+     *     },
+     *     "networkTimeout":{
+     *     },
+     *     "tabBar":{
+     *     },
+     * }
      *
+     *</pre>
      * @param accessToken
      * @return
      */
     @RequestMapping(value = "/commit", method = RequestMethod.POST)
-    BaseResponse commit(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse commit(@RequestParam("access_token") String accessToken, @RequestBody CommitRequest commitRequest);
 
     /**
      * 获取体验小程序的体验二维码
@@ -249,7 +269,19 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_qrcode", method = RequestMethod.GET)
-    BaseResponse getQrcode(@RequestParam("access_token") String accessToken, @RequestParam("path") String path);
+    Response getQrcode(@RequestParam("access_token") String accessToken, @RequestParam("path") String path);
+
+    /**
+     * 获取体验小程序的体验二维码
+     * @param accessToken
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    default GetwxacodeResopnse getQrcodeWrapper( String accessToken, String path) throws IOException {
+        Response response = getQrcode(accessToken, URLEncoder.encode(path,"UTF-8"));
+        return getGetwxacodeResopnse(response);
+    }
 
     /**
      * 获取授权小程序帐号已设置的类目
@@ -258,7 +290,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_category", method = RequestMethod.GET)
-    BaseResponse getCategory(@RequestParam("access_token") String accessToken);
+    GetCategoryResponse getCategory(@RequestParam("access_token") String accessToken);
 
     /**
      * 获取小程序的第三方提交代码的页面配置（仅供第三方开发者代小程序调用）
@@ -267,7 +299,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_page", method = RequestMethod.GET)
-    BaseResponse getPage(@RequestParam("access_token") String accessToken);
+    GetPageResopnse getPage(@RequestParam("access_token") String accessToken);
 
     /**
      * 将第三方提交的代码包提交审核（仅供第三方开发者代小程序调用）
@@ -275,8 +307,8 @@ public interface WxaClient {
      * @param accessToken
      * @return
      */
-    @RequestMapping(value = "/submit_audit", method = RequestMethod.GET)
-    BaseResponse submitAudit(@RequestParam("access_token") String accessToken);
+    @RequestMapping(value = "/submit_audit", method = RequestMethod.POST)
+    SubmitAuditResopnse submitAudit(@RequestParam("access_token") String accessToken, @RequestBody SubmitAuditRequest submitAuditRequest);
 
     /**
      * 查询某个指定版本的审核状态（仅供第三方代小程序调用）
@@ -285,7 +317,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_auditstatus", method = RequestMethod.POST)
-    BaseResponse getAuditstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    GetAuditstatusResopnse getAuditstatus(@RequestParam("access_token") String accessToken, @RequestBody GetAuditstatusRequest getAuditstatusRequest);
 
     /**
      * 查询最新一次提交的审核状态（仅供第三方代小程序调用）
@@ -294,7 +326,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/get_latest_auditstatus", method = RequestMethod.GET)
-    BaseResponse getLatestAuditstatus(@RequestParam("access_token") String accessToken);
+    GetLatestAuditstatusResopnse getLatestAuditstatus(@RequestParam("access_token") String accessToken);
 
 
     /**
@@ -313,7 +345,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/change_visitstatus", method = RequestMethod.POST)
-    BaseResponse changeVisitstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse changeVisitstatus(@RequestParam("access_token") String accessToken, @RequestBody ChangeVisitstatusRequest changeVisitstatusRequest);
 
     /**
      * 小程序版本回退（仅供第三方代小程序调用）
@@ -341,7 +373,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/grayrelease", method = RequestMethod.POST)
-    BaseResponse grayrelease(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse grayrelease(@RequestParam("access_token") String accessToken, @RequestBody GrayreleaseRequest grayreleaseRequest);
 
     /**
      * 分阶段发布接口
@@ -359,7 +391,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/getgrayreleaseplan", method = RequestMethod.GET)
-    BaseResponse getgrayreleaseplan(@RequestParam("access_token") String accessToken);
+    GetgrayreleaseplanResopnse getgrayreleaseplan(@RequestParam("access_token") String accessToken);
 
     /**
      * <pre>
@@ -601,19 +633,19 @@ public interface WxaClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/getWXACodeUnlimit.html}
      */
     @RequestMapping(value = "/getwxacodeunlimit", method = RequestMethod.POST)
-    Response getwxacodeunlimit(@RequestParam("access_token") String accessToken, @RequestBody GetwxacodeRequest getwxacodeRequest);
+    Response getwxacodeunlimit(@RequestParam("access_token") String accessToken, @RequestBody GetwxacodeunlimitRequest getwxacodeunlimitRequest);
 
 
     /**
      * 获取小程序码，适用于需要的码数量极多的业务场景。
      * @see #getwxacodeunlimit
      * @param accessToken
-     * @param getwxacodeRequest
+     * @param getwxacodeunlimitRequest
      * @return
      * @throws IOException
      */
-    default GetwxacodeResopnse getwxacodeunlimitWrapper(String accessToken, GetwxacodeRequest getwxacodeRequest) throws IOException {
-        Response response = getwxacodeunlimit(accessToken, getwxacodeRequest);
+    default GetwxacodeResopnse getwxacodeunlimitWrapper(String accessToken, GetwxacodeunlimitRequest getwxacodeunlimitRequest) throws IOException {
+        Response response = getwxacodeunlimit(accessToken, getwxacodeunlimitRequest);
         return getGetwxacodeResopnse(response);
     }
     /**

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountComponentrebindadminRequest {
-    private String taskid;
+public class WxopenSetweappsupportversionRequest {
+    private String version;
 }

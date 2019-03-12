@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComponentApiCreatePreauthcodeRequest {
-    @JSONField(name = "component_appid")
-    @JsonProperty("component_appid")
-    private String componentAppid;
+public class WxverifyCheckwxverifynicknameRequest {
+    @JSONField(name = "nick_name")
+    @JsonProperty("nick_name")
+    private String nickName;
+
 }
