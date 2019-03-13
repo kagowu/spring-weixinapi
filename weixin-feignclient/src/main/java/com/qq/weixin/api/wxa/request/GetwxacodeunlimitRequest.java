@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class GetwxacodeunlimitRequest {
-    private Integer scene;
-    private String path;
+    private String scene;
+    private String page;
     private Integer width;
     @JSONField(name = "auto_color")
     @JsonProperty("auto_color")
