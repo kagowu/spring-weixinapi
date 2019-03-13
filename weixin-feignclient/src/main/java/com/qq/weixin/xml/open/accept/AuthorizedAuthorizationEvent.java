@@ -27,4 +27,8 @@ public class AuthorizedAuthorizationEvent extends BaseAuthorizationEvent {
     public AuthorizedAuthorizationEvent() {
         super(BaseAuthorizationEvent.AUTHORIZED);
     }
+
+    public AuthorizedAuthorizationEvent(String infoType) {
+        super(infoType);
+    }
 }
