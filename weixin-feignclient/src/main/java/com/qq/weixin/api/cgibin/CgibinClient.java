@@ -494,8 +494,9 @@ public interface CgibinClient {
      *
      * @param accessToken
      * @return
+     * @see com.qq.weixin.api.BaseResponse#_41003
      */
-    @RequestMapping(value = "/account/getaccountbasicinfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/account/getaccountbasicinfo", method = RequestMethod.GET)
     AccountGetaccountbasicinfoResponse accountGetaccountbasicinfo(@RequestParam("access_token") String accessToken);
 
     /**
@@ -543,6 +544,7 @@ public interface CgibinClient {
      *
      * @param accessToken
      * @return
+     * @see com.qq.weixin.api.BaseResponse#_41003
      */
     @RequestMapping(value = "wxverify/checkwxverifynickname", method = RequestMethod.POST)
     WxverifyCheckwxverifynicknameResponse wxverifyCheckwxverifynickname(@RequestParam("access_token") String accessToken, @RequestBody WxverifyCheckwxverifynicknameRequest wxverifyCheckwxverifynicknameRequest);
@@ -599,8 +601,8 @@ public interface CgibinClient {
      * @param accessToken
      * @return
      */
-    @RequestMapping(value = "wxopen/getweappsupportversion", method = RequestMethod.GET)
-    WxopenGetweappsupportversionResponse wxopenGetweappsupportversion(@RequestParam("access_token") String accessToken);
+    @RequestMapping(value = "wxopen/getweappsupportversion", method = RequestMethod.POST)
+    WxopenGetweappsupportversionResponse wxopenGetweappsupportversion(@RequestParam("access_token") String accessToken,@RequestBody BaseRequest baseRequest);
 
     /**
      * 设置最低基础库版本（仅供第三方代小程序调用）
@@ -609,7 +611,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/setweappsupportversion", method = RequestMethod.GET)
-    WxopenSetweappsupportversionRequest wxopenSetweappsupportversion(@RequestParam("access_token") String accessToken);
+    BaseResponse wxopenSetweappsupportversion(@RequestParam("access_token") String accessToken,WxopenSetweappsupportversionRequest wxopenSetweappsupportversionRequest);
 
     /**
      * 获取公众号关联的小程序
@@ -656,13 +658,14 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/qrcodejumpget", method = RequestMethod.POST)
-    WxopenQrcodejumpgetResponse wxopenQrcodejumpget(@RequestParam("access_token") String accessToken);
+    WxopenQrcodejumpgetResponse wxopenQrcodejumpget(@RequestParam("access_token") String accessToken,BaseRequest baseRequest);
 
     /**
      * 获取校验文件名称及内容
      *
      * @param accessToken
      * @return
+     * @see BaseResponse#_85075
      */
     @RequestMapping(value = "wxopen/qrcodejumpdownload", method = RequestMethod.POST)
     WxopenQrcodejumpdownloadResponse wxopenQrcodejumpdownload(@RequestParam("access_token") String accessToken);

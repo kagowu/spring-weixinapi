@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.qq.weixin</groupId>
             <artifactId>weixin-feignclient</artifactId>
-            <version>1.0.0.9</version>
+            <version>1.0.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

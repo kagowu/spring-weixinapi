@@ -1,9 +1,12 @@
 package org.spring.springcloud.weixinfeignclienttest;
 
 import com.alibaba.fastjson.JSON;
+import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.cgibin.CgibinClient;
 import com.qq.weixin.api.cgibin.request.*;
 import com.qq.weixin.api.cgibin.response.*;
+import com.qq.weixin.api.wxa.WxaClient;
+import com.qq.weixin.api.wxa.request.ApiWxaQuerynicknameRequest;
 import lombok.val;
 import org.junit.After;
 import org.junit.Before;
@@ -35,11 +38,13 @@ public class WxaCgibinClientTests {
     @Autowired
     private CgibinClient cgibinClient;
 
+    @Autowired
+    private WxaClient wxaClient;
+
     private static String accessToken = "";
     private static String componentToken = "";
     private static String preAuthCode = "";
-    private static String authorizerAccessToken = "";
-    private static String authorizerRefreshToken = "";
+
     private static final String componentAppid = "wxe3987587f06091cf";
     private static final String componentSecret = "10c1bde9468906b5a981302136cacf37";
     private static String componentVerifyTicket = "";
@@ -49,14 +54,15 @@ public class WxaCgibinClientTests {
 
     @Before
     public void before() {
-        accessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#accessToken");
+//        accessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#accessToken");
+        accessToken = "19_Tvqf5ABboqObWYDv0wLGv0P52XgYT4-LD88KHLYhuy6n59bY5yjGkHVraKoxxwXR-Hio-R7G-fkVoUtRJT0C8bMnQ_iVsTCibv8sQf1OLxnC3tjwUmOqlhC6_0pq89piK0MMQjk8Y6UMXMMLGHQeADDABK";
+        accessToken = "19_B8GFHwYzOkZhkF6vrmEmCwAGOzygsQtXxnZYpO2jNPJOSnpCev8YFe4lUqk0NNQirrowWpIklSbXSzNpiZ8J4PzoXBZYG9V3qycvM6-QHxWoF6eHqQAoSmOauyidZznZLzYE3EB4zgpEtZqjHEUaADDQND";
         preAuthCode = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#preAuthCode");
         componentToken = stringRedis.get("marketing_microshop:wx_component_access_token");
         if (componentToken != null) {
             componentToken = componentToken.replace("\"", "");
         }
-        authorizerAccessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerAccessToken");
-        authorizerRefreshToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#authorizerRefreshToken");
+
 
     }
 
@@ -139,6 +145,8 @@ public class WxaCgibinClientTests {
 
     @Test
     public void componentApi_set_authorizer_option() {
+        ComponentApiSetAuthorizerOptionRequest componentApiSetAuthorizerOptionRequest = new ComponentApiSetAuthorizerOptionRequest();
+        cgibinClient.componentApiSetAuthorizerOption(componentToken,componentApiSetAuthorizerOptionRequest);
     }
 
     @Test
@@ -173,211 +181,6 @@ public class WxaCgibinClientTests {
     }
 
 
-    @Test
-    public void expressBusinessDeliveryGetall() {
-    }
-
-    @Test
-    public void expressBusinessOrderAdd() {
-    }
-
-    @Test
-    public void expressBusinessOrderCancel() {
-    }
-
-    @Test
-    public void expressBusinessOrderGet() {
-    }
-
-    @Test
-    public void expressBusinessPathGetall() {
-    }
-
-    @Test
-    public void expressBusinessQuotaGet() {
-    }
-
-    @Test
-    public void expressDeliveryContactGet() {
-    }
-
-    @Test
-    public void expressDeliveryPathUpdate() {
-    }
-
-    @Test
-    public void expressDeliveryserviceBusinessUpdate() {
-    }
-
-    @Test
-    public void expressDeliveryTemplatePreview() {
-    }
-
-    @Test
-    public void mediaGet() {
-    }
-
-    @Test
-    public void mediaUpload() {
-    }
-
-    @Test
-    public void menuAddconditional() {
-    }
-
-
-    @Test
-    public void menuDelete() {
-    }
-
-
-    @Test
-    public void messageCustomSend() {
-    }
-
-    @Test
-    public void messageCustomTyping() {
-    }
-
-    @Test
-    public void messageWxopenActivityidCreate() {
-    }
-
-    @Test
-    public void messageWxopenTemplateSend() {
-    }
-
-    @Test
-    public void messageWxopenTemplateUniform_send() {
-    }
-
-    @Test
-    public void messageWxopenUpdatablesgSend() {
-    }
-
-    @Test
-    public void openBind() {
-    }
-
-    @Test
-    public void openCreate() {
-    }
-
-    @Test
-    public void openGet() {
-    }
-
-    @Test
-    public void openUnbind() {
-    }
-
-
-    @Test
-    public void templateApi_set_industry() {
-    }
-
-    @Test
-    public void ticketGetticket() {
-        cgibinClient.ticketGetticket(accessToken);
-    }
-
-
-    @Test
-    public void wxaappCreatewxaqrcode() {
-    }
-
-    @Test
-    public void wxopenAddcategory() {
-    }
-
-    @Test
-    public void wxopenDeletecategory() {
-    }
-
-    @Test
-    public void wxopenGetallcategories() {
-    }
-
-    @Test
-    public void wxopenGetcategory() {
-    }
-
-    @Test
-    public void wxopenGetweappsupportversion() {
-    }
-
-    @Test
-    public void wxopenModifycategory() {
-    }
-
-    @Test
-    public void wxopenQrcodejumpadd() {
-    }
-
-    @Test
-    public void wxopenQrcodejumpdelete() {
-    }
-
-    @Test
-    public void wxopenQrcodejumpdownload() {
-    }
-
-    @Test
-    public void wxopenQrcodejumpget() {
-    }
-
-    @Test
-    public void wxopenQrcodejumppublish() {
-    }
-
-    @Test
-    public void wxopenSetweappsupportversion() {
-    }
-
-    @Test
-    public void wxopenTemplateDel() {
-    }
-
-    @Test
-    public void wxopenTemplateLibararyAdd() {
-    }
-
-    @Test
-    public void wxopenTemplateLibararyGet() {
-    }
-
-    @Test
-    public void wxopenTemplateLibararyList() {
-    }
-
-    @Test
-    public void wxopenTemplateList() {
-    }
-
-    @Test
-    public void wxopenWxamplink() {
-    }
-
-    @Test
-    public void wxopenWxamplinkget() {
-    }
-
-    @Test
-    public void wxopenWxampunlink() {
-    }
-
-    @Test
-    public void wxverifyCheckwxverifynickname() {
-    }
-
-
-    @Test
-    public void accountComponentrebindadmin() {
-    }
-
-    @Test
-    public void accountFastregister() {
-    }
 
     @Test
     public void accountGetaccountbasicinfo() {
@@ -385,19 +188,53 @@ public class WxaCgibinClientTests {
     }
 
     @Test
-    public void accountModifyheadimage() {
+    public void wxopenGetallcategories(){
+        cgibinClient.wxopenGetallcategories(accessToken);
     }
 
     @Test
-    public void accountModifysignature() {
+    public void wxverifyCheckwxverifynickname(){
+        cgibinClient.wxverifyCheckwxverifynickname(accessToken,new WxverifyCheckwxverifynicknameRequest("123"));
     }
 
     @Test
-    public void clear_quota() {
+    public void wxopenGetweappsupportversion(){
+        cgibinClient.wxopenGetweappsupportversion(accessToken,new BaseRequest());
     }
 
     @Test
-    public void componentApi_authorizer_token() {
+    public void wxopenSetweappsupportversion(){
+        cgibinClient.wxopenSetweappsupportversion(accessToken,new WxopenSetweappsupportversionRequest("1.0.0"));
     }
+
+    @Test
+    public void wxopenQrcodejumpget(){
+        cgibinClient.wxopenQrcodejumpget(accessToken,new BaseRequest());
+    }
+
+    @Test
+    public void wxopenTemplateLibararyList(){
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.put("offset",0);
+        baseRequest.put("count",20);
+        cgibinClient.wxopenTemplateLibararyList(accessToken,baseRequest);
+    }
+
+    @Test
+    public void wxopenTemplateList(){
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.put("offset",0);
+        baseRequest.put("count",20);
+        cgibinClient.wxopenTemplateList(accessToken,baseRequest);
+    }
+
+    @Test
+    public void openUnbind(){
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.put("appid","wx01fa97816dcd707c");
+        baseRequest.put("open_appid","wxe3987587f06091cf");
+        cgibinClient.openUnbind(accessToken,baseRequest);
+    }
+
 }
 
