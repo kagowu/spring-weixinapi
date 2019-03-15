@@ -537,7 +537,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "/account/fastregister", method = RequestMethod.POST)
-    BaseResponse accountFastregister(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    AccountFastregisterResponse accountFastregister(@RequestParam("access_token") String accessToken, @RequestBody AccountFastregisterRequest accountFastregisterRequest);
 
     /**
      * 微信认证名称检测

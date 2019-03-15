@@ -1,14 +1,11 @@
 package org.spring.springcloud.weixinfeignclienttest;
 
-import com.alibaba.fastjson.JSON;
 import com.qq.weixin.api.BaseRequest;
 import com.qq.weixin.api.cgibin.CgibinClient;
 import com.qq.weixin.api.cgibin.request.*;
 import com.qq.weixin.api.cgibin.response.*;
 import com.qq.weixin.api.wxa.WxaClient;
-import com.qq.weixin.api.wxa.request.ApiWxaQuerynicknameRequest;
 import lombok.val;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +16,6 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeixinFeignclientTestApplication.class)
@@ -38,9 +34,6 @@ public class WxaCgibinClientTests {
     @Autowired
     private CgibinClient cgibinClient;
 
-    @Autowired
-    private WxaClient wxaClient;
-
     private static String accessToken = "";
     private static String componentToken = "";
     private static String preAuthCode = "";
@@ -56,7 +49,7 @@ public class WxaCgibinClientTests {
     public void before() {
 //        accessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#accessToken");
         accessToken = "19_Tvqf5ABboqObWYDv0wLGv0P52XgYT4-LD88KHLYhuy6n59bY5yjGkHVraKoxxwXR-Hio-R7G-fkVoUtRJT0C8bMnQ_iVsTCibv8sQf1OLxnC3tjwUmOqlhC6_0pq89piK0MMQjk8Y6UMXMMLGHQeADDABK";
-        accessToken = "19_B8GFHwYzOkZhkF6vrmEmCwAGOzygsQtXxnZYpO2jNPJOSnpCev8YFe4lUqk0NNQirrowWpIklSbXSzNpiZ8J4PzoXBZYG9V3qycvM6-QHxWoF6eHqQAoSmOauyidZznZLzYE3EB4zgpEtZqjHEUaADDQND";
+        accessToken = "19_NAC5fc51WwJWkLR9F1AFQ21lCwSLEbhe6iWv02Zr1Wp3vz7bqhhN3Esxp43CVlS-Ahtl2Lt7Hx11NlMmFdswQV6ARC3RiOlVFMhq7QfdiYFJ4u2R1KkcxSufHeTva5a9R5oSKMginHJXgZRKAKMbAEDUEG";
         preAuthCode = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#preAuthCode");
         componentToken = stringRedis.get("marketing_microshop:wx_component_access_token");
         if (componentToken != null) {
@@ -235,6 +228,8 @@ public class WxaCgibinClientTests {
         baseRequest.put("open_appid","wxe3987587f06091cf");
         cgibinClient.openUnbind(accessToken,baseRequest);
     }
+
+
 
 }
 

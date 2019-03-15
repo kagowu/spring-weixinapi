@@ -35,3 +35,10 @@ logging:
     com.qq.weixin.api.datacube.DataCubeClient: debug
     com.qq.weixin.api.sns.SnsClient: debug
     com.qq.weixin.api.wxa.WxaClient: debug
+wechat:
+  open:
+    componentAppId: "wxb5520b267480440f"
+    componentSecret: "f40c04b3bf49c74fc9b836b546948160"
+    componentToken: "test123"
+    componentAesKey: "1234567890a1234567890b1234567890c1234567890"
+    jumpUrl: "http://marketingwmd.dev.qiaofangyun.com/api/local-test-huagong/wxopen/auth/jump"

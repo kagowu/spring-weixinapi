@@ -408,38 +408,38 @@ public interface WxaClient {
      * </pre>
      * 获取草稿箱内的所有临时代码草稿
      *
-     * @param accessToken
+     * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/gettemplatedraftlist", method = RequestMethod.GET)
-    BaseResponse gettemplatedraftlist(@RequestParam("access_token") String accessToken);
+    GettemplatedraftlistResopnse gettemplatedraftlist(@RequestParam("access_token") String componentAccessToken);
 
     /**
      * 获取代码模版库中的所有小程序代码模版
      *
-     * @param accessToken
+     * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/gettemplatelist", method = RequestMethod.GET)
-    BaseResponse gettemplatelist(@RequestParam("access_token") String accessToken);
+    GettemplatelistResopnse gettemplatelist(@RequestParam("access_token") String componentAccessToken);
 
     /**
      * 将草稿箱的草稿选为小程序代码模版
      *
-     * @param accessToken
+     * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/addtotemplate", method = RequestMethod.POST)
-    BaseResponse addtotemplate(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse addtotemplate(@RequestParam("access_token") String componentAccessToken, @RequestBody AddtotemplateRequest addtotemplateRequest);
 
     /**
      * 删除指定小程序代码模版
      *
-     * @param accessToken
+     * @param componentAccessToken
      * @return
      */
     @RequestMapping(value = "/deletetemplate", method = RequestMethod.POST)
-    BaseResponse deletetemplate(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse deletetemplate(@RequestParam("access_token") String componentAccessToken, @RequestBody DeletetemplateRequest deletetemplateRequest);
 
     /**
      * 支付后获取用户Unionid接口-商户订单号
