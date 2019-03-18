@@ -14,8 +14,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.NONE)
 @Data
-public class UpdateauthorizedEvent extends AuthorizedAuthorizationEvent {
-
+public class UpdateauthorizedEvent extends BaseAuthorizationEvent {
+    @XmlElement(name = "AuthorizerAppid")
+    private String authorizerAppid;
+    @XmlElement(name = "AuthorizationCode")
+    private String authorizationCode;
+    @XmlElement(name = "AuthorizationCodeExpiredTime")
+    private String authorizationCodeExpiredTime;
+    @XmlElement(name = "PreAuthCode")
+    private String preAuthCode;
     public UpdateauthorizedEvent() {
         super(BaseAuthorizationEvent.UPDATEAUTHORIZED);
     }

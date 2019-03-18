@@ -68,17 +68,15 @@ public class TestController {
                 signature, encType, msgSignature, timestamp, nonce, requestBody);
         MpBizMsgCrypt crypt = new MpBizMsgCrypt(WechatOpenConfiguration.componentToken, WechatOpenConfiguration.componentAesKey, WechatOpenConfiguration.componentAppId);
         String message = crypt.decryptMsg(msgSignature, timestamp, nonce, requestBody);
+        log.info("\nauthorizationEvent 消息解密后内容为：\n{} ", message);
+
         String[] infoType = XMLParse.extractChild(message, "InfoType");
         switch (infoType[0]) {
             case BaseAuthorizationEvent.AUTHORIZED:
-                AuthorizedAuthorizationEvent authorizedAuthorizationEvent = JAXBUtils.convertToJavaBean(message, AuthorizedAuthorizationEvent.class);
-                ComponentApiQueryAuthResponse componentApiQueryAuthResponse = getQueryAuth(authorizedAuthorizationEvent.getAuthorizationCode());
-                saveAccessToken(componentApiQueryAuthResponse);
+                // 授权和跳转是重复的，这里可以不用实现。
                 break;
             case BaseAuthorizationEvent.UPDATEAUTHORIZED:
-                UpdateauthorizedEvent updateauthorizedEvent = JAXBUtils.convertToJavaBean(message, UpdateauthorizedEvent.class);
-                ComponentApiQueryAuthResponse componentApiQueryAuthResponseUpdate = getQueryAuth(updateauthorizedEvent.getAuthorizationCode());
-                saveAccessToken(componentApiQueryAuthResponseUpdate);
+                // 更新授权和跳转是重复的，这里可以不用实现。
                 break;
             case BaseAuthorizationEvent.UNAUTHORIZED:
                 UnauthorizedEvent unauthorizedEvent = JAXBUtils.convertToJavaBean(message, UnauthorizedEvent.class);
@@ -86,6 +84,7 @@ public class TestController {
                 // FIXME 取消授权之后做点什么
                 break;
             case BaseAuthorizationEvent.COMPONENT_VERIFY_TICKET:
+                // 微信推送了三遍相同的消息
                 ComponentVerifyTicketAuthorizationEvent componentVerifyTicketAuthorizationEvent = JAXBUtils.convertToJavaBean(message, ComponentVerifyTicketAuthorizationEvent.class);
                 stringRedis.set("CACHE_WX_COMPONENT_VERIFY_TICKET", componentVerifyTicketAuthorizationEvent.getComponentVerifyTicket());
                 getComponentAccessToken();
@@ -97,7 +96,6 @@ public class TestController {
             default:
                 break;
         }
-        log.info("\nauthorizationEvent 消息解密后内容为：\n{} ", message);
         return "success";
     }
 
@@ -165,22 +163,34 @@ public class TestController {
                 "</form>";
     }
 
+    @ResponseBody
+    @GetMapping("/auth/jump")
+    @ApiOperation(value = "jump", notes = "回调跳转页")
+    public Object jump(@RequestParam("auth_code") String authorizationCode, @RequestParam("companyUuid") String
+            companyUuid) {
+        log.info("auth_code :{}", authorizationCode);
+        ComponentApiQueryAuthResponse componentApiQueryAuthResponse = getQueryAuth(authorizationCode);
+        stringRedis.set("CACHE_WX_ACCESSTOKEN" + componentApiQueryAuthResponse.getAuthorizationInfo().getAuthorizerAppid(), componentApiQueryAuthResponse.getAuthorizationInfo().getAuthorizerAccessToken());
+        return componentApiQueryAuthResponse;
+
+    }
+
     @GetMapping("/auth/goto_auth_url")
     @ApiOperation(value = "goto_auth_url", notes = "引导跳转页")
     public void gotoPreAuthUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         ComponentApiCreatePreauthcodeRequest componentApiCreatePreauthcodeRequest = new ComponentApiCreatePreauthcodeRequest();
         componentApiCreatePreauthcodeRequest.setComponentAppid(WechatOpenConfiguration.componentAppId);
         ComponentApiCreatePreauthcodeResponse componentApiCreatePreauthcodeResponse = cgibinClient.componentApiCreatePreauthcode(getComponentAccessToken(), componentApiCreatePreauthcodeRequest);
         log.info("pre_auth_code:{}", componentApiCreatePreauthcodeResponse.getPreAuthCode());
-        String url = MpUrlFormatter.getComonentloginpage(WechatOpenConfiguration.componentAppId, componentApiCreatePreauthcodeResponse.getPreAuthCode(), WechatOpenConfiguration.jumpUrl + "?companyUuid=" + request.getParameter("companyUuid"));
+        String url = MpUrlFormatter.getComonentloginpage(WechatOpenConfiguration.componentAppId, componentApiCreatePreauthcodeResponse.getPreAuthCode(),
+                request.getHeader("referer").replace("goto_auth_url_show", "jump") + "?companyUuid=" + request.getParameter("companyUuid"));
         response.sendRedirect(url);
         log.info("sendRedirect url:{}", url);
 
     }
 
     @ResponseBody
-    @GetMapping("/goto_auth_url_show2")
+    @GetMapping("/auth/goto_auth_url_show2")
     @ApiOperation(value = "goto_auth_url_show2", notes = "引导页")
     public String gotofastregisterPreAuthUrlShow() {
         return "<form action='goto_auth_url2'>\n" +
@@ -190,12 +200,13 @@ public class TestController {
                 "</form>";
     }
 
-    @GetMapping("/goto_auth_url2")
+    @GetMapping("/auth/goto_auth_url2")
     @ApiOperation(value = "goto_auth_url2", notes = "引导跳转页")
     public void gotoPreAuthUrl2(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String mpAppid = request.getParameter("mpAppid");
         String mpSecret = request.getParameter("mpSecret");
-        String url = MpUrlFormatter.getFastregisterauthUrl(mpAppid, WechatOpenConfiguration.componentAppId, WechatOpenConfiguration.jumpUrl + "2?" + "mpAppid=" + mpAppid + "&mpSecret=" + mpSecret);
+        String url = MpUrlFormatter.getFastregisterauthUrl(mpAppid, WechatOpenConfiguration.componentAppId,
+                request.getHeader("referer").replace("goto_auth_url_show2", "jump2") + "?" + "mpAppid=" + mpAppid + "&mpSecret=" + mpSecret);
         response.sendRedirect(url);
         log.info("sendRedirect url:{}", url);
 
@@ -203,7 +214,7 @@ public class TestController {
 
 
     @ResponseBody
-    @GetMapping("/jump2")
+    @GetMapping("/auth/jump2")
     @ApiOperation(value = "jump2", notes = "回调跳转页")
     public Object jump2(@RequestParam("ticket") String ticket, @RequestParam("mpAppid") String
             mpAppid, @RequestParam("mpSecret") String
@@ -224,17 +235,7 @@ public class TestController {
         stringRedis.set("CACHE_WX_ACCESSTOKEN:" + componentApiQueryAuthResponse.getAuthorizationInfo().getAuthorizerAppid(), componentApiQueryAuthResponse.getAuthorizationInfo().getAuthorizerAccessToken());
     }
 
-    @ResponseBody
-    @GetMapping("/auth/jump")
-    @ApiOperation(value = "jump", notes = "回调跳转页")
-    public Object jump(@RequestParam("auth_code") String authorizationCode, @RequestParam("companyUuid") String
-            companyUuid) {
-        log.info("auth_code :{}", authorizationCode);
-        ComponentApiQueryAuthResponse componentApiQueryAuthResponse = getQueryAuth(authorizationCode);
-        stringRedis.set("CACHE_WX_ACCESSTOKEN" + componentApiQueryAuthResponse.getAuthorizationInfo().getAuthorizerAppid(), componentApiQueryAuthResponse.getAuthorizationInfo().getAuthorizerAccessToken());
-        return componentApiQueryAuthResponse;
 
-    }
 
     public String getComponentAccessToken() {
         String componentAccessToken = stringRedis.get("CACHE_WX_COMPONENT_ACCESSTOKEN");
