@@ -15,12 +15,12 @@ spring:
     timeout: 6000
     cluster:
       nodes:
-      - 192.168.2.217:7000
-      - 192.168.2.217:7001
-      - 192.168.2.218:7000
-      - 192.168.2.218:7001
-      - 192.168.2.219:7000
-      - 192.168.2.219:7001
+       - 192.168.2.39:7000
+       - 192.168.2.39:7001
+       - 192.168.2.39:7002
+       - 192.168.2.39:7003
+       - 192.168.2.39:7004
+       - 192.168.2.39:7005
     pool:
       max-active: 300
       max-wait: -1
@@ -41,4 +41,4 @@ wechat:
     componentSecret: "f40c04b3bf49c74fc9b836b546948160"
     componentToken: "test123"
     componentAesKey: "1234567890a1234567890b1234567890c1234567890"
-    jumpUrl: "http://marketingwmd.dev.qiaofangyun.com/api/local-test-huagong/wxopen/auth/jump"
+    jumpUrl: "/wxopen/auth/jump"
