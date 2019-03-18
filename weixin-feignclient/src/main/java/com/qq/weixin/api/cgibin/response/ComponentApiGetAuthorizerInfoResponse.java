@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Data
 public class ComponentApiGetAuthorizerInfoResponse extends BaseResponse {
-    @JSONField(name = "nick_name")
-    @JsonProperty("nick_name")
+    @JSONField(name = "authorizer_info")
+    @JsonProperty("authorizer_info")
     private AuthorizerInfo authorizerInfo;
 
     @Data
