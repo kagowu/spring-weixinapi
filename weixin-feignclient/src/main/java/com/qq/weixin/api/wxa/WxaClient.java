@@ -605,22 +605,33 @@ public interface WxaClient {
      * @return
      * @throws IOException
      */
-    default GetwxacodeResopnse getwxacodeWrapper(String accessToken, GetwxacodeRequest getwxacodeRequest) throws IOException {
+    default GetwxacodeResopnse getwxacodeWrapper(String accessToken, GetwxacodeRequest getwxacodeRequest) {
         Response response = getwxacode(accessToken, getwxacodeRequest);
         return getGetwxacodeResopnse(response);
     }
 
-    default GetwxacodeResopnse getGetwxacodeResopnse(Response response) throws IOException {
-        Collection<String> contentTypes = response.headers().get("Content-Type");
-        String contentType = contentTypes.stream().findFirst().orElse("");
-
-        if (contentType.contains("json")) {
-            return JSON.parseObject(feign.Util.toString(response.body().asReader()), GetwxacodeResopnse.class);
-        }
-
-        byte[] bytes = feign.Util.toByteArray(response.body().asInputStream());
+    default GetwxacodeResopnse getGetwxacodeResopnse(Response response) {
         GetwxacodeResopnse codeResponse = new GetwxacodeResopnse();
-        codeResponse.setDataUrl(String.format("data:%s;base64,%s", contentType, BaseEncoding.base64().encode(bytes)));
+
+        try {
+            Collection<String> contentTypes = response.headers().get("Content-Type");
+            String contentType = contentTypes.stream().findFirst().orElse("");
+
+            if (contentType.contains(";")) {
+                contentType = contentType.substring(0, contentType.indexOf(";"));
+            }
+
+            if (contentType.contains("/json")) {
+                return JSON.parseObject(feign.Util.toString(response.body().asReader()), GetwxacodeResopnse.class);
+            }
+
+            byte[] bytes = feign.Util.toByteArray(response.body().asInputStream());
+            //dataUrl: data:[<mediatype>][;base64],<data>
+            codeResponse.setDataUrl(String.format("data:%s;base64,%s", contentType, BaseEncoding.base64().encode(bytes)));
+
+        } catch (IOException e) {
+            codeResponse.setErrmsg(e.getMessage());
+        }
         return codeResponse;
     }
 

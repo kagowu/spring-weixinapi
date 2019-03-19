@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author gong.hua
  */
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class SubmitAuditRequest {
     @JSONField(name = "item_list")
     @JsonProperty("item_list")
-    private Item itemList;
+    private List<Item> itemList;
 
     @Data
     public static class Item {
