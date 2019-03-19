@@ -43,8 +43,8 @@ public class ComponentApiGetAuthorizerInfoResponse extends BaseResponse {
         /**
          * 公众号的主体名称:XX计算机系统有限公司
          */
-        @JSONField(name = "business_info")
-        @JsonProperty("business_info")
+        @JSONField(name = "principal_name")
+        @JsonProperty("principal_name")
         private String principalName;
 
         @JSONField(name = "business_info")
