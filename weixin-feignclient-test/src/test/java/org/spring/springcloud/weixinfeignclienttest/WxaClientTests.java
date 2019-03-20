@@ -75,7 +75,7 @@ public class WxaClientTests {
     @Test
     public void setwebviewdomain() {
         WebviewdomainRequest webviewdomainRequest = new WebviewdomainRequest();
-        webviewdomainRequest.setWebviewdomain(Arrays.asList("http://marketingwmd.dev.qiaofangyun.com"));
+        webviewdomainRequest.setWebviewdomain(Arrays.asList("http://www.baidu.com"));
         wxaClient.setwebviewdomain(accessTokenMiniProgram, webviewdomainRequest);
     }
 
