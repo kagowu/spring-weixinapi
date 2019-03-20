@@ -14,7 +14,7 @@ public class MpUrlFormatterTest {
 
     @Test
     public void test() throws UnsupportedEncodingException {
-        val val = MpUrlFormatter.getComonentloginpage("wxe3987587f06091cf", pre_auth_code, "http://wmd.dev.zhongjieyun.cn/wxopen/api/auth/jump");
+        val val = MpUrlFormatter.getComonentloginpage("wxe3987587f06091cf", pre_auth_code, "http://***/wxopen/api/auth/jump");
 
     }
 }
