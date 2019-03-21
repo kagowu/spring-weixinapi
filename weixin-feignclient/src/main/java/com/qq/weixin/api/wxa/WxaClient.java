@@ -156,7 +156,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/bind_tester", method = RequestMethod.POST)
-    BaseResponse bindTester(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BindTesterResopnse bindTester(@RequestParam("access_token") String accessToken, @RequestBody BindTesterRequest bindTesterRequest);
 
     /**
      * 解除绑定小程序的体验者
@@ -165,7 +165,7 @@ public interface WxaClient {
      * @return
      */
     @RequestMapping(value = "/unbind_tester", method = RequestMethod.POST)
-    BaseResponse unbindTester(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse unbindTester(@RequestParam("access_token") String accessToken, @RequestBody UnbindTesterRequest unbindTesterRequest);
 
     /**
      * 获取体验者列表
@@ -175,6 +175,12 @@ public interface WxaClient {
      */
     @RequestMapping(value = "/memberauth", method = RequestMethod.POST)
     BaseResponse memberauth(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+
+    default BaseResponse memberauth(String accessToken) {
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.put("action", "get_experiencer");
+        return memberauth(accessToken, baseRequest);
+    }
 
 
     /**
@@ -376,7 +382,7 @@ public interface WxaClient {
     BaseResponse grayrelease(@RequestParam("access_token") String accessToken, @RequestBody GrayreleaseRequest grayreleaseRequest);
 
     /**
-     * 分阶段发布接口
+     * 取消分阶段发布
      *
      * @param accessToken
      * @return
@@ -560,7 +566,17 @@ public interface WxaClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/addNearbyPoi.html}
      */
     @RequestMapping(value = "/addnearbypoi", method = RequestMethod.POST)
-    BaseResponse addnearbypoi(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    AddnearbypoiResopnse addnearbypoi(@RequestParam("access_token") String accessToken, @RequestBody AddnearbypoiRequest addnearbypoiRequest);
+
+    /**
+     * 查看地点列表
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api-backend/getNearbyPoiList.html}
+     */
+    @RequestMapping(value = "/getnearbypoilist", method = RequestMethod.POST)
+    GetnearbypoilistResopnse getnearbypoilist(@RequestParam("access_token") String accessToken, @RequestParam("page") String page,@RequestParam("page_rows") String pageRows);
 
     /**
      * 附近的小程序--删除地点
@@ -570,7 +586,7 @@ public interface WxaClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/deleteNearbyPoi.html}
      */
     @RequestMapping(value = "/delnearbypoi", method = RequestMethod.POST)
-    BaseResponse delnearbypoi(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse delnearbypoi(@RequestParam("access_token") String accessToken, @RequestBody DelnearbypoiRequest delnearbypoiRequest);
 
     /**
      * 展示/取消展示附近小程序
@@ -580,7 +596,7 @@ public interface WxaClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/setNearbyPoiShowStatus.html}
      */
     @RequestMapping(value = "/setnearbypoishowstatus", method = RequestMethod.POST)
-    BaseResponse setnearbypoishowstatus(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse setnearbypoishowstatus(@RequestParam("access_token") String accessToken, @RequestBody SetnearbypoishowstatusRequest setnearbypoishowstatusRequest);
 
     /**
      * 获取小程序码，适用于需要的码数量较少的业务场景。

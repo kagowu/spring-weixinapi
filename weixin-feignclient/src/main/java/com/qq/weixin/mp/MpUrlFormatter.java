@@ -64,16 +64,27 @@ public class MpUrlFormatter {
      * 第三方平台-引导公众号和小程序管理员进入授权页-微信端实际访问的授权链接
      *
      * @param componentAppid
-     * @param preAuthCode
-     * @param redirectUri
-     * @param authType
-     * @param bizAppid
+     * @param preAuthCode 预授权码
+     * @param redirectUri 回调URI
+     * @param authType 要授权的帐号类型， 1则商户扫码后，手机端仅展示公众号、2表示仅展示小程序，3表示公众号和小程序都展示。如果为未制定，则默认小程序和公众号都展示。第三方平台开发者可以使用本字段来控制授权的帐号类型。
+     * @param bizAppid 指定授权唯一的小程序或公众号
      * @return
      * @throws UnsupportedEncodingException
      */
     public static String getBindcomponent(String componentAppid, String preAuthCode, String redirectUri, String authType, String bizAppid) throws UnsupportedEncodingException {
-        return String.format("https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%S&auth_type=%s&biz_appid=%s#wechat_redirect",
-                componentAppid, preAuthCode, authType, URLEncoder.encode(redirectUri, "UTF-8"), bizAppid);
+        return String.format("https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=%s&biz_appid=%s#wechat_redirect",
+                componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"),authType, bizAppid);
+    }
+
+
+    public static String getBindcomponent(String componentAppid, String preAuthCode, String redirectUri, String authType) throws UnsupportedEncodingException {
+        return String.format("https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=%s#wechat_redirect",
+                componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"),authType);
+    }
+
+    public static String getBindcomponent(String componentAppid, String preAuthCode, String redirectUri) throws UnsupportedEncodingException {
+        return String.format("https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s#wechat_redirect",
+                componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"));
     }
 
     /**
@@ -86,11 +97,19 @@ public class MpUrlFormatter {
      * @return
      * @throws UnsupportedEncodingException
      */
+    public static String getComonentloginpage(String componentAppid, String preAuthCode, String redirectUri, String authType, String bizAppid) throws UnsupportedEncodingException {
+        return String.format("https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=%s&biz_appid=%s",
+                componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"), authType, bizAppid);
+    }
+
+    public static String getComonentloginpage(String componentAppid, String preAuthCode, String redirectUri, String authType) throws UnsupportedEncodingException {
+        return String.format("https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=%s",
+                componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"), authType);
+    }
     public static String getComonentloginpage(String componentAppid, String preAuthCode, String redirectUri) throws UnsupportedEncodingException {
         return String.format("https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s",
                 componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"));
     }
-
 
     /**
      * <pre>

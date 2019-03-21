@@ -328,6 +328,7 @@ public interface CgibinClient {
      * 第三方平台对其所有API调用次数清零（只与第三方平台相关，与公众号无关，接口如api_component_token）
      *
      * @return
+     * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419318587&token=&lang=zh_CN}
      */
     @RequestMapping(value = "component/clear_quota", method = RequestMethod.POST)
     BaseResponse componentClearQuota(@RequestParam("component_access_token") String componentAccessToken, @RequestBody BaseRequest baseRequest);
