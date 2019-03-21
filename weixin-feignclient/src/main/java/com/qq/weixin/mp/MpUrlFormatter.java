@@ -48,7 +48,7 @@ public class MpUrlFormatter {
      * *    第三方平台方可以在自己的网站中放置“微信公众号授权”或者“小程序授权”的入口：
      *      @see #getComonentloginpage
      *     或生成授权链接放置在移动网页中:
-     *      @see #getBindcomponent
+     *      @see #getBindcomponentUrl
      *     引导公众号和小程序管理员进入授权页。
      * 步骤3：用户确认并同意登录授权给第三方平台方
      *     用户进入第三方平台授权页后，需要确认并同意将自己的公众号或小程序授权给第三方平台方，完成授权流程。
@@ -71,18 +71,18 @@ public class MpUrlFormatter {
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static String getBindcomponent(String componentAppid, String preAuthCode, String redirectUri, String authType, String bizAppid) throws UnsupportedEncodingException {
+    public static String getBindcomponentUrl(String componentAppid, String preAuthCode, String redirectUri, String authType, String bizAppid) throws UnsupportedEncodingException {
         return String.format("https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=%s&biz_appid=%s#wechat_redirect",
                 componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"),authType, bizAppid);
     }
 
 
-    public static String getBindcomponent(String componentAppid, String preAuthCode, String redirectUri, String authType) throws UnsupportedEncodingException {
+    public static String getBindcomponentUrl(String componentAppid, String preAuthCode, String redirectUri, String authType) throws UnsupportedEncodingException {
         return String.format("https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s&auth_type=%s#wechat_redirect",
                 componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"),authType);
     }
 
-    public static String getBindcomponent(String componentAppid, String preAuthCode, String redirectUri) throws UnsupportedEncodingException {
+    public static String getBindcomponentUrl(String componentAppid, String preAuthCode, String redirectUri) throws UnsupportedEncodingException {
         return String.format("https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid=%s&pre_auth_code=%s&redirect_uri=%s#wechat_redirect",
                 componentAppid, preAuthCode, URLEncoder.encode(redirectUri, "UTF-8"));
     }
