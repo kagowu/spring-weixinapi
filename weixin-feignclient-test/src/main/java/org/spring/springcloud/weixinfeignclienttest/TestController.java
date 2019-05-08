@@ -46,14 +46,8 @@ public class TestController {
     private CgibinClient cgibinClient;
 
     @Autowired
-    StringRedisTemplate redisTemplate;
+    private StringRedis stringRedis;
 
-    ValueOperations<String, String> stringRedis;
-
-    @PostConstruct
-    public void init() {
-        stringRedis = redisTemplate.opsForValue();
-    }
 
     @PostMapping("/receive/authorizationEvent")
     @ApiOperation(value = "authorizationEvent", notes = "授权事件接收URL")
@@ -86,7 +80,7 @@ public class TestController {
             case BaseAuthorizationEvent.COMPONENT_VERIFY_TICKET:
                 // 微信推送了三遍相同的消息
                 ComponentVerifyTicketAuthorizationEvent componentVerifyTicketAuthorizationEvent = JAXBUtils.convertToJavaBean(message, ComponentVerifyTicketAuthorizationEvent.class);
-                stringRedis.set("CACHE_WX_COMPONENT_VERIFY_TICKET", componentVerifyTicketAuthorizationEvent.getComponentVerifyTicket());
+                stringRedis.set("marketing_microshop:component_verify_ticket", componentVerifyTicketAuthorizationEvent.getComponentVerifyTicket());
                 getComponentAccessToken();
                 break;
             case BaseAuthorizationEvent.NOTIFY_THIRD_FASTEREGISTER:
@@ -236,31 +230,26 @@ public class TestController {
     }
 
 
-
     public String getComponentAccessToken() {
-        String componentAccessToken = stringRedis.get("CACHE_WX_COMPONENT_ACCESSTOKEN");
+        String componentAccessToken = (String) stringRedis.get("marketing_microshop:wx_component_access_token");
         log.info("redis get componentAccessToken:{}", componentAccessToken);
         if (StringUtils.isBlank(componentAccessToken)) {
             ComponentTokenRequest componentTokenRequest = new ComponentTokenRequest();
             componentTokenRequest.setComponentAppid(WechatOpenConfiguration.componentAppId);
             componentTokenRequest.setComponentAppsecret(WechatOpenConfiguration.componentSecret);
-            componentTokenRequest.setComponentVerifyTicket(stringRedis.get("CACHE_WX_COMPONENT_VERIFY_TICKET"));
+            componentTokenRequest.setComponentVerifyTicket((String) stringRedis.get("marketing_microshop:component_verify_ticket"));
             ComponentTokenResponse componentTokenResponse = cgibinClient.componentApiComponentToken(componentTokenRequest);
             log.info("redis set componentAccessToken:{}", componentTokenResponse.getComponentAccessToken());
-            stringRedis.set("CACHE_WX_COMPONENT_ACCESSTOKEN", componentTokenResponse.getComponentAccessToken(), 1, TimeUnit.HOURS);
+            stringRedis.set("marketing_microshop:wx_component_access_token", componentTokenResponse.getComponentAccessToken(), 1, TimeUnit.HOURS);
             componentAccessToken = componentTokenResponse.getComponentAccessToken();
         }
         return componentAccessToken;
     }
 
     public String getAccessToken(String appId, String secret) {
-        String accessToken = stringRedis.get("CACHE_WX_ACCESSTOKEN:" + appId);
+        String accessToken = (String) stringRedis.get("CACHE_WX_ACCESSTOKEN:" + appId);
         log.info("redis get accessToken:{}", accessToken);
         if (StringUtils.isBlank(accessToken)) {
-            ComponentTokenRequest componentTokenRequest = new ComponentTokenRequest();
-            componentTokenRequest.setComponentAppid(WechatOpenConfiguration.componentAppId);
-            componentTokenRequest.setComponentAppsecret(WechatOpenConfiguration.componentSecret);
-            componentTokenRequest.setComponentVerifyTicket(stringRedis.get("CACHE_WX_COMPONENT_VERIFY_TICKET"));
             TokenResponse tokenResponse = cgibinClient.token(appId, secret);
             log.info("redis set accessToken:{}", tokenResponse.getAccessToken());
             stringRedis.set("CACHE_WX_ACCESSTOKEN:" + appId, tokenResponse.getAccessToken(), 1, TimeUnit.HOURS);
