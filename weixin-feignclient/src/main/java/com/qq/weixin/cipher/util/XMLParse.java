@@ -10,6 +10,7 @@ package com.qq.weixin.cipher.util;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -40,7 +41,12 @@ public class XMLParse {
 
             Element root = document.getDocumentElement();
             for (int i = 0; i < args.length; i++) {
-                result[i] = root.getElementsByTagName(args[0]).item(0).getTextContent();
+                NodeList nodeList = root.getElementsByTagName(args[i]);
+                if (nodeList != null && nodeList.getLength() > 0) {
+                    result[i] = nodeList.item(0).getTextContent();
+                } else {
+                    result[i] = "";
+                }
             }
             return result;
         } catch (Exception e) {

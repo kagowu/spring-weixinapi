@@ -79,6 +79,8 @@ public class TestController {
                 break;
             case BaseAuthorizationEvent.COMPONENT_VERIFY_TICKET:
                 // 微信推送了三遍相同的消息
+                String component_verify_ticket = (String) stringRedis.get("marketing_microshop:component_verify_ticket");
+                log.info("redis get component_verify_ticket:{}", component_verify_ticket);
                 ComponentVerifyTicketAuthorizationEvent componentVerifyTicketAuthorizationEvent = JAXBUtils.convertToJavaBean(message, ComponentVerifyTicketAuthorizationEvent.class);
                 stringRedis.set("marketing_microshop:component_verify_ticket", componentVerifyTicketAuthorizationEvent.getComponentVerifyTicket());
                 getComponentAccessToken();
@@ -232,14 +234,14 @@ public class TestController {
 
     public String getComponentAccessToken() {
         String componentAccessToken = (String) stringRedis.get("marketing_microshop:wx_component_access_token");
-        log.info("redis get componentAccessToken:{}", componentAccessToken);
+        log.info("redis get wx_component_access_token:{}", componentAccessToken);
         if (StringUtils.isBlank(componentAccessToken)) {
             ComponentTokenRequest componentTokenRequest = new ComponentTokenRequest();
             componentTokenRequest.setComponentAppid(WechatOpenConfiguration.componentAppId);
             componentTokenRequest.setComponentAppsecret(WechatOpenConfiguration.componentSecret);
             componentTokenRequest.setComponentVerifyTicket((String) stringRedis.get("marketing_microshop:component_verify_ticket"));
             ComponentTokenResponse componentTokenResponse = cgibinClient.componentApiComponentToken(componentTokenRequest);
-            log.info("redis set componentAccessToken:{}", componentTokenResponse.getComponentAccessToken());
+            log.info("redis set wx_component_access_token:{}", componentTokenResponse.getComponentAccessToken());
             stringRedis.set("marketing_microshop:wx_component_access_token", componentTokenResponse.getComponentAccessToken(), 1, TimeUnit.HOURS);
             componentAccessToken = componentTokenResponse.getComponentAccessToken();
         }

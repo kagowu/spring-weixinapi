@@ -9,9 +9,11 @@ import com.qq.weixin.api.cgibin.response.ComponentApiQueryAuthResponse;
 import com.qq.weixin.api.cgibin.response.ComponentTokenResponse;
 import com.qq.weixin.api.cgibin.response.TokenResponse;
 import com.qq.weixin.api.wxa.WxaClient;
+import com.qq.weixin.api.wxa.request.GetAuditstatusRequest;
 import com.qq.weixin.api.wxa.request.GetwxacodeRequest;
 import com.qq.weixin.api.wxa.request.ModifyDomainRequest;
 import com.qq.weixin.api.wxa.request.WebviewdomainRequest;
+import com.qq.weixin.api.wxa.response.GetAuditstatusResopnse;
 import lombok.val;
 import org.junit.After;
 import org.junit.Before;
@@ -94,5 +96,14 @@ public class WxaClientTests {
     public void release(){
         wxaClient.release(accessTokenMiniProgram,new BaseRequest());
     }
+
+    @Test
+    public void getAuditstatus() {
+        GetAuditstatusRequest getAuditstatusRequest = new GetAuditstatusRequest();
+        getAuditstatusRequest.setAuditid(440795332);
+        GetAuditstatusResopnse getAuditstatusResopnse = wxaClient.getAuditstatus("21_L3a5UXe8Tem9bzGW_Ghw_TEdhTlnwI9j5UvnOdbyHTYvn95hMdwNWFFzHJKMkWjFjfk2hhVKCRWqUTPNgM56_cs6wvi9rQn0uSen1wyeO-tuPYQR8EM_oKvie7NY06-5dsjPwmnYrQDUYFRIWSTaAIDMIJ", getAuditstatusRequest);
+        System.out.println(JSON.toJSONString(getAuditstatusResopnse));
+    }
+
 }
 

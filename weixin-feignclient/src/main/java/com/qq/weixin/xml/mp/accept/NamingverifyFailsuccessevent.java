@@ -2,7 +2,10 @@ package com.qq.weixin.xml.mp.accept;
 
 import lombok.Data;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 名称认证失败
@@ -10,6 +13,8 @@ import javax.xml.bind.annotation.XmlElement;
  * @author gong.hua
  */
 @Data
+@XmlRootElement(name = "xml")
+@XmlAccessorType(XmlAccessType.NONE)
 public class NamingverifyFailsuccessevent extends BasicEvent {
 
 
