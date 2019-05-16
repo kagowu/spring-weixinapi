@@ -64,7 +64,7 @@ public class WxaCgibinClientTests {
         val componentTokenRequest = new ComponentTokenRequest();
         componentTokenRequest.setComponentAppid("wxe3987587f06091cf");
         componentTokenRequest.setComponentAppsecret("10c1bde9468906b5a981302136cacf37");
-        componentTokenRequest.setComponentVerifyTicket("ticket@@@I6OER8I_JH99MsblkGDtfryEH59AmB4J_n8RKxM2IT1Bj5VrUqK3WS4BK5Os7dsfLT2SLAEQzl9Kp_H23w9Vaw");
+        componentTokenRequest.setComponentVerifyTicket("ticket@@@WkPwcltEopKz0xmKydTlack20wXv-L8EmhpSMMIBdTw1btgh-lhrYUEinYHWtB2tuIgK9hqKS6lo5M2vNyL_sg");
         ComponentTokenResponse response = cgibinClient.componentApiComponentToken(componentTokenRequest);
         stringRedis.set("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#componentAccessToken", response.getComponentAccessToken());
 
