@@ -1,11 +1,13 @@
 package org.spring.springcloud.weixinfeignclienttest;
 
 import com.qq.weixin.api.BaseRequest;
+import com.qq.weixin.api.BaseResponse;
 import com.qq.weixin.api.cgibin.CgibinClient;
 import com.qq.weixin.api.cgibin.request.*;
 import com.qq.weixin.api.cgibin.response.*;
-import com.qq.weixin.api.wxa.WxaClient;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.PostConstruct;
 
 @RunWith(SpringRunner.class)
+@Slf4j
 @SpringBootTest(classes = WeixinFeignclientTestApplication.class)
 public class WxaCgibinClientTests {
     @Autowired
@@ -48,8 +51,8 @@ public class WxaCgibinClientTests {
     @Before
     public void before() {
 //        accessToken = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#accessToken");
-        accessToken = "19_Tvqf5ABboqObWYDv0wLGv0P52XgYT4-LD88KHLYhuy6n59bY5yjGkHVraKoxxwXR-Hio-R7G-fkVoUtRJT0C8bMnQ_iVsTCibv8sQf1OLxnC3tjwUmOqlhC6_0pq89piK0MMQjk8Y6UMXMMLGHQeADDABK";
-        accessToken = "19_NAC5fc51WwJWkLR9F1AFQ21lCwSLEbhe6iWv02Zr1Wp3vz7bqhhN3Esxp43CVlS-Ahtl2Lt7Hx11NlMmFdswQV6ARC3RiOlVFMhq7QfdiYFJ4u2R1KkcxSufHeTva5a9R5oSKMginHJXgZRKAKMbAEDUEG";
+//        accessToken = "19_Tvqf5ABboqObWYDv0wLGv0P52XgYT4-LD88KHLYhuy6n59bY5yjGkHVraKoxxwXR-Hio-R7G-fkVoUtRJT0C8bMnQ_iVsTCibv8sQf1OLxnC3tjwUmOqlhC6_0pq89piK0MMQjk8Y6UMXMMLGHQeADDABK";
+        accessToken = "22_uJo_fZIoEh8jWkymSwAnFJ21ptTXaE8SJ3AVk6b5otr_zBE4J5LyXuoHA3K-5dLUNEi_B9qwaEnTOmFXO_xGdEZH6PCcw9gKj8RpdkxF4WL6tnK_BQ6r8cBTMIuocakc67oyP3H9TkLBOnHwVVTaAEDCCA";
         preAuthCode = stringRedis.get("org.spring.springcloud.weixinfeignclienttest.WxaCgibinClientTests#preAuthCode");
         componentToken = stringRedis.get("marketing_microshop:wx_component_access_token");
         if (componentToken != null) {
@@ -139,7 +142,7 @@ public class WxaCgibinClientTests {
     @Test
     public void componentApi_set_authorizer_option() {
         ComponentApiSetAuthorizerOptionRequest componentApiSetAuthorizerOptionRequest = new ComponentApiSetAuthorizerOptionRequest();
-        cgibinClient.componentApiSetAuthorizerOption(componentToken,componentApiSetAuthorizerOptionRequest);
+        cgibinClient.componentApiSetAuthorizerOption(componentToken, componentApiSetAuthorizerOptionRequest);
     }
 
     @Test
@@ -174,61 +177,83 @@ public class WxaCgibinClientTests {
     }
 
 
-
     @Test
     public void accountGetaccountbasicinfo() {
         cgibinClient.accountGetaccountbasicinfo(accessToken);
     }
 
     @Test
-    public void wxopenGetallcategories(){
+    public void wxopenGetallcategories() {
         cgibinClient.wxopenGetallcategories(accessToken);
     }
 
     @Test
-    public void wxverifyCheckwxverifynickname(){
-        cgibinClient.wxverifyCheckwxverifynickname(accessToken,new WxverifyCheckwxverifynicknameRequest("123"));
+    public void wxverifyCheckwxverifynickname() {
+        cgibinClient.wxverifyCheckwxverifynickname(accessToken, new WxverifyCheckwxverifynicknameRequest("123"));
     }
 
     @Test
-    public void wxopenGetweappsupportversion(){
-        cgibinClient.wxopenGetweappsupportversion(accessToken,new BaseRequest());
+    public void wxopenGetweappsupportversion() {
+        cgibinClient.wxopenGetweappsupportversion(accessToken, new BaseRequest());
     }
 
     @Test
-    public void wxopenSetweappsupportversion(){
-        cgibinClient.wxopenSetweappsupportversion(accessToken,new WxopenSetweappsupportversionRequest("1.0.0"));
+    public void wxopenSetweappsupportversion() {
+        cgibinClient.wxopenSetweappsupportversion(accessToken, new WxopenSetweappsupportversionRequest("1.0.0"));
     }
 
     @Test
-    public void wxopenQrcodejumpget(){
-        cgibinClient.wxopenQrcodejumpget(accessToken,new BaseRequest());
+    public void wxopenQrcodejumpget() {
+        cgibinClient.wxopenQrcodejumpget(accessToken, new BaseRequest());
     }
 
     @Test
-    public void wxopenTemplateLibararyList(){
+    public void wxopenTemplateLibararyList() {
         BaseRequest baseRequest = new BaseRequest();
-        baseRequest.put("offset",0);
-        baseRequest.put("count",20);
-        cgibinClient.wxopenTemplateLibararyList(accessToken,baseRequest);
+        baseRequest.put("offset", 0);
+        baseRequest.put("count", 20);
+        cgibinClient.wxopenTemplateLibararyList(accessToken, baseRequest);
     }
 
     @Test
-    public void wxopenTemplateList(){
-        BaseRequest baseRequest = new BaseRequest();
-        baseRequest.put("offset",0);
-        baseRequest.put("count",20);
-        cgibinClient.wxopenTemplateList(accessToken,baseRequest);
+    public void wxopenTemplateList() {
+        WxopenTemplateListRequest baseRequest = new WxopenTemplateListRequest();
+        baseRequest.setOffset(0);
+        baseRequest.setCount(20);
+        WxopenTemplateListResponse baseResponse = cgibinClient.wxopenTemplateList(accessToken, baseRequest);
     }
 
     @Test
-    public void openUnbind(){
+    public void openUnbind() {
         BaseRequest baseRequest = new BaseRequest();
-        baseRequest.put("appid","wx01fa97816dcd707c");
-        baseRequest.put("open_appid","wxe3987587f06091cf");
-        cgibinClient.openUnbind(accessToken,baseRequest);
+        baseRequest.put("appid", "wx01fa97816dcd707c");
+        baseRequest.put("open_appid", "wxe3987587f06091cf");
+        cgibinClient.openUnbind(accessToken, baseRequest);
     }
 
+
+    @Test
+    public void messageWxopenTemplateSend() {
+
+        String accessToken2 = "22_uJo_fZIoEh8jWkymSwAnFJ21ptTXaE8SJ3AVk6b5otr_zBE4J5LyXuoHA3K-5dLUNEi_B9qwaEnTOmFXO_xGdEZH6PCcw9gKj8RpdkxF4WL6tnK_BQ6r8cBTMIuocakc67oyP3H9TkLBOnHwVVTaAEDCCA";
+
+        WxopenTemplateSendRequest request = new WxopenTemplateSendRequest();
+        request.setToUser("odFs75MNbLI7CXmWvg9QrJN8UGlo");
+        request.setFormId("1111");
+        request.setTemplateId("mgS6LXRIIKKEOW-2-TBVP-jvhPYfMZgdn4GWB8UX-XE");
+        request.setPage("pages/chatList/chatDetail");
+        request.setEmphasisKeyword(null);
+        request.setData(new WxopenTemplateSendRequest.DataBean()
+                        .setKeyword1(new WxopenTemplateSendRequest.KeywordBean("111"))
+                        .setKeyword2(new WxopenTemplateSendRequest.KeywordBean("222"))
+                        .setKeyword3(new WxopenTemplateSendRequest.KeywordBean("333"))
+        );
+        BaseResponse baseResponse = cgibinClient.messageWxopenTemplateSend(accessToken2, request);
+
+        log.info("{},{}", request, baseResponse);
+
+        Assert.assertNotEquals(baseResponse.getErrcode(), "0");
+    }
 
 
 }

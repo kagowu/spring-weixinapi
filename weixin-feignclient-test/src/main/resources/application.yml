@@ -11,6 +11,9 @@ feign:
   hystrix:
     enabled: false
 spring:
+  output:
+    ansi:
+      enabled: always
   redis:
     timeout: 6000
     cluster:

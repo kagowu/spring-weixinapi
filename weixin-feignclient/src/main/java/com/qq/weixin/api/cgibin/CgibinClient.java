@@ -238,7 +238,7 @@ public interface CgibinClient {
      * @link {https://developers.weixin.qq.com/miniprogram/dev/api/sendTemplateMessage.html}
      */
     @RequestMapping(value = "/message/wxopen/template/send", method = RequestMethod.POST)
-    BaseResponse messageWxopenTemplateSend(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse messageWxopenTemplateSend(@RequestParam("access_token") String accessToken, @RequestBody WxopenTemplateSendRequest baseRequest);
 
     /**
      * 下发小程序和公众号统一的服务消息
@@ -738,7 +738,7 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/template/list", method = RequestMethod.POST)
-    BaseResponse wxopenTemplateList(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    WxopenTemplateListResponse wxopenTemplateList(@RequestParam("access_token") String accessToken, @RequestBody WxopenTemplateListRequest baseRequest);
 
     /**
      * 模板消息-删除帐号下的某个模板
@@ -747,7 +747,17 @@ public interface CgibinClient {
      * @return
      */
     @RequestMapping(value = "wxopen/template/del", method = RequestMethod.POST)
-    BaseResponse wxopenTemplateDel(@RequestParam("access_token") String accessToken, @RequestBody BaseRequest baseRequest);
+    BaseResponse wxopenTemplateDel(@RequestParam("access_token") String accessToken, @RequestBody WxopenTemplateDelRequest baseRequest);
+
+
+    /**
+     * 模板消息-添加帐号下的某个模板
+     *
+     * @param accessToken
+     * @return
+     */
+    @RequestMapping(value = "wxopen/template/add", method = RequestMethod.POST)
+    WxopenTemplateAddResponse wxopenTemplateAdd(@RequestParam("access_token") String accessToken, @RequestBody WxopenTemplateAddRequest baseRequest);
 
     /**
      * <pre>
