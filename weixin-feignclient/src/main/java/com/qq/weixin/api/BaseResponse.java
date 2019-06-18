@@ -1,34 +1,17 @@
 package com.qq.weixin.api;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 
 @Data
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class BaseResponse extends JSONObject {
+public class BaseResponse {
     /**
      * 返回码类型参考
      *
      * @link {https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419318634&token=2dc40382b1879696f2d7c35d221d8844cae685fd&lang=}
      */
-//    private String errcode;
-//    private String errmsg;
-    public String getErrcode() {
-        return this.getString("errcode");
-    }
-
-    public void setErrcode(String errcode) {
-        this.put("errcode", errcode);
-    }
-
-
-    public void setErrmsg(String errmsg) {
-        this.put("errmsg", errmsg);
-    }
+    private String errcode;
+    private String errmsg;
 
     /**
      * 错误转换
@@ -36,7 +19,7 @@ public class BaseResponse extends JSONObject {
      * @return
      */
     public String getErrmsg() {
-        return ErrorMsg.getDescByCode(getErrcode(), this.getString("errmsg"));
+        return ErrorMsg.getDescByCode(errcode, errmsg);
     }
 
     @Getter

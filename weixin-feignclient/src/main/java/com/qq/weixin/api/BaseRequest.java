@@ -1,15 +1,9 @@
 package com.qq.weixin.api;
 
-import com.alibaba.fastjson.JSONObject;
-
+import java.util.HashMap;
 
 /**
  * @author gong.hua
  */
-public class BaseRequest extends JSONObject {
-    public static BaseRequest fromJSONObject(JSONObject jsonObject) {
-        BaseRequest baseRequest = new BaseRequest();
-        baseRequest.putAll(jsonObject);
-        return baseRequest;
-    }
+public class BaseRequest extends HashMap {
 }
