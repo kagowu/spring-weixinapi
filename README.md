@@ -1,17 +1,39 @@
-## **2.创建小程序**
-### 2.1复用公众号资质快速注册小程序
-#### 2.1.1 需要公众号授权给第三方平台
-#### 2.1.2 其次调用复用公众号创建小程序流程去创建
-#### 2.1.3 创建的小程序没有登录账号密码，需要托管在第三方平台来API调用
-#### 2.1.4 个人公众号无法走上述流程，必须是企业资质的
+##1.功能介绍
+weixin-feignclient 包含的功能如下：
+####1.1 主动调用微信公众号平台、小程序、开放平台的接口API
+####1.2 需要做redirect的参数拼接
+####1.3 被微信回调的API的bean（包括公众平台、开放平台）
+####1.4 微信回调的加密签名方式
 
-### 2.2 快速创建小程序-法人上传头像
-#### 2.2.1 第三方平台需要处于全网发布状态
-#### 2.2.2 最终获取账号是通过异步回调的
+##2.主动使用方式
+引入jar
+```xml
+<dependency>
+    <groupId>com.qq.weixin</groupId>
+    <artifactId>weixin-feignclient</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.2.2</version>
+</dependency>
+```
+加入feign依赖
+```java_holder_method_tree
+@EnableFeignClients(value = {"com.qq.weixin.api"})
 
-### 2.3 一般的小程序
-#### 2.3.1 部分的API接口是无法调用的，比如一些账号管理的
- 
+
+```
+具体调用地方
+```java_holder_method_tree
+    @Autowired
+    private WxaClient wxaClient;
+    @Test
+    public void getAuditstatus() {
+        GetAuditstatusRequest getAuditstatusRequest = new GetAuditstatusRequest();
+        getAuditstatusRequest.setAuditid(440795332);
+        GetAuditstatusResopnse getAuditstatusResopnse = wxaClient.getAuditstatus("21_L3a5UXe8Tem9bzGW_Ghw_TEdhTlnwI9j5UvnOdbyHTYvn95hMdwNWFFzHJKMkWjFjfk2hhVKCRWqUTPNgM56_cs6wvi9rQn0uSen1wyeO-tuPYQR8EM_oKvie7NY06-5dsjPwmnYrQDUYFRIWSTaAIDMIJ", getAuditstatusRequest);
+        System.out.println(JSON.toJSONString(getAuditstatusResopnse));
+    }
+```
+
 
 
 
