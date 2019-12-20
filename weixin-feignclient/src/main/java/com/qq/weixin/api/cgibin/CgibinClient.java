@@ -241,6 +241,16 @@ public interface CgibinClient {
     BaseResponse messageWxopenTemplateSend(@RequestParam("access_token") String accessToken, @RequestBody WxopenTemplateSendRequest baseRequest);
 
     /**
+     * 发送订阅消息
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.send.html}
+     */
+    @RequestMapping(value = "/message/subscribe/send", method = RequestMethod.POST)
+    BaseResponse messageSubscribeSend(@RequestParam("access_token") String accessToken, @RequestBody MessageSubscribeSendRequest baseRequest);
+
+    /**
      * 下发小程序和公众号统一的服务消息
      *
      * @param accessToken
