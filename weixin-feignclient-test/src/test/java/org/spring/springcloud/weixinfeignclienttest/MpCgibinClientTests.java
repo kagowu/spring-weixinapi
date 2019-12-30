@@ -4,10 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.qq.weixin.api.BaseResponse;
 import com.qq.weixin.api.cgibin.CgibinClient;
 import com.qq.weixin.api.cgibin.request.*;
-import com.qq.weixin.api.cgibin.response.ComponentApiCreatePreauthcodeResponse;
-import com.qq.weixin.api.cgibin.response.ComponentApiQueryAuthResponse;
-import com.qq.weixin.api.cgibin.response.ComponentTokenResponse;
-import com.qq.weixin.api.cgibin.response.TokenResponse;
+import com.qq.weixin.api.cgibin.response.*;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.tomcat.util.http.fileupload.FileItem;
@@ -29,6 +27,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.util.Arrays;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeixinFeignclientTestApplication.class)
 public class MpCgibinClientTests {
@@ -177,6 +176,17 @@ public class MpCgibinClientTests {
         cgibinClient.ticketGetticket(accessToken);
     }
 
+    @Test
+    public void shortUrl() {
+        ShortUrlRequest request = new ShortUrlRequest();
+        request.setAction("long2short");
+        request.setLongUrl("https://atool.dev.qiaofangyun.com/atool2c4h5/qrcode?scene=7fff480e18bb4a2db3a6b25c1609fe49");
+
+
+        ShortUrlResponse response = cgibinClient.shortUrl(accessToken, request);
+
+        log.info("shortUrl: {}",response);
+    }
 
 }
 

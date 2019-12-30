@@ -65,7 +65,7 @@ public class WxaApiClientTests {
 
     @Before
     public void before() {
-        accessTokenMiniProgram = "28_5msKqahYfRsYisZ0dXKkPi8gGpld6scljRvKSJ-1UYL83m_9y0gL6Rd6ZNtcyJMw_SJ4pT9uTBFmxpHaVG0gsa_ppv3wxOJ2AJV0Cq3JxJ5pjINK0cII6fZlQ54cXG_0OfwgpWCsZFpKRqYTTRCgALDAYJ";
+        accessTokenMiniProgram = "28_eyBYJW_utH0HahhXhdWSXRVJV0O7UBQn3BjK7djoL-fUxnYU5HTwbGDBVqzyXRcUhkCkcjKiqS7iChgOF05iBgjN6LOmUhc9uVqp8hulMtQxwtx3SPdR07zilQf7rFAXM4Q4qqI8k7JWTc_DTUVfAHDZAB";
     }
 
 

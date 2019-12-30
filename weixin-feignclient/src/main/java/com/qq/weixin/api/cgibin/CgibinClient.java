@@ -146,6 +146,16 @@ public interface CgibinClient {
     }
 
     /**
+     * 将一条长链接转成短链接
+     *
+     * @param accessToken
+     * @return
+     * @link {https://developers.weixin.qq.com/doc/offiaccount/Account_Management/URL_Shortener.html}
+     */
+    @RequestMapping(value = "/shorturl", method = RequestMethod.POST)
+    ShortUrlResponse shortUrl(@RequestParam("access_token") String accessToken, @RequestBody ShortUrlRequest request);
+
+    /**
      * JS-SDK使用权限签名算法
      *
      * @param accessToken
