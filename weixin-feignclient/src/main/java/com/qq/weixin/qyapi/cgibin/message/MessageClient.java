@@ -1,17 +1,16 @@
-package com.qq.weixin.qyapi.cgibin.service;
+package com.qq.weixin.qyapi.cgibin.message;
 
 import com.qq.weixin.api.FeignConfiguration;
-import com.qq.weixin.qyapi.cgibin.service.request.SendUserMiniProgramMsgRequest;
-import com.qq.weixin.qyapi.cgibin.service.request.SendUserTextCardMsgRequest;
-import com.qq.weixin.qyapi.cgibin.service.response.SendUserMessageResponse;
+import com.qq.weixin.qyapi.cgibin.message.request.*;
+import com.qq.weixin.qyapi.cgibin.message.response.*;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "SendMessageClient", url = "https://qyapi.weixin.qq.com/cgi-bin/", configuration = FeignConfiguration.class)
-public interface SendMessageClient {
+@FeignClient(name = "MessageClient", url = "https://qyapi.weixin.qq.com/cgi-bin/message/", configuration = FeignConfiguration.class)
+public interface MessageClient {
 
 
     /**
@@ -22,7 +21,7 @@ public interface SendMessageClient {
      * @return 推送结果
      * @link {https://work.weixin.qq.com/api/doc/90001/90143/90372}
      */
-    @RequestMapping(value = "message/send", method = RequestMethod.POST)
+    @RequestMapping(value = "send", method = RequestMethod.POST)
     SendUserMessageResponse sendUserTextCardMsg(@RequestParam("access_token") String accessToken, @RequestBody SendUserTextCardMsgRequest request);
 
 
@@ -34,7 +33,7 @@ public interface SendMessageClient {
      * @return 推送结果
      * @link {https://work.weixin.qq.com/api/doc/90001/90143/90372}
      */
-    @RequestMapping(value = "message/send", method = RequestMethod.POST)
+    @RequestMapping(value = "send", method = RequestMethod.POST)
     SendUserMessageResponse sendUserMiniProgramMsg(@RequestParam("access_token") String accessToken, @RequestBody SendUserMiniProgramMsgRequest request);
 
 }

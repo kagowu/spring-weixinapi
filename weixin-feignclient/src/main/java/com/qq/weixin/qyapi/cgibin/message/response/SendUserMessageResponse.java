@@ -1,4 +1,4 @@
-package com.qq.weixin.qyapi.cgibin.service.response;
+package com.qq.weixin.qyapi.cgibin.message.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
